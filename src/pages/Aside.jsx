@@ -1,7 +1,7 @@
 import React from "react";
 import SnsBar from '../components/SnsBar';
 
-export default function Setting() {
+export default function Aside() {
   
     return (
         <div>
