@@ -31,7 +31,7 @@ export default function Register() {
                     <div id='login-box' style={{ padding: '35px', }}>
 
                         {/* 로고 */}
-                        <img src="../../../img/naryLogo2.png" style={{ maxWidth: '30%', }} />
+                        <img src="../../../img/naryLogo2.png" alt="Logo" style={{ maxWidth: '30%', }} />
                         <br />
 
                         <input placeholder="닉네임 혹은 이메일"

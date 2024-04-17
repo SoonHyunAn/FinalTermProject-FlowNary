@@ -44,9 +44,8 @@ export default function Login() {
                 <div id='login-box' style={{ padding: '35px', }}>
 
                     {/* 로고 */}
-                    <img src="../../img/flownaryLoginLogo.png"
-                        style={{ maxWidth: '35%', }}
-                        />
+                    <img src="../../img/flownaryLoginLogo.png" alt="Logo" style={{ maxWidth: '35%', }}
+                    />
                     <br />
 
                     <input id="id-input" placeholder="닉네임 혹은 이메일"
