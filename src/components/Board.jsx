@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react'
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
@@ -18,8 +18,10 @@ import { Stack } from '@mui/system';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-import TextField from '@mui/material/TextField';
 import ClearIcon from '@mui/icons-material/Clear';
+
+import InputEmoji from 'react-input-emoji'
+import styled from 'styled-components'
 
 
 const style = {
@@ -33,11 +35,29 @@ const style = {
   border: '2px solid #000',
   boxShadow: 24,
 };
+const FlexContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const StyledInputEmoji = styled(InputEmoji)`
+  width: 350px;
+  height: 50px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+`;
 
 export default function Board() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [text, setText] = useState('');
+
+  function handleOnEnter(text) {
+    console.log('enter', text)
+  }
 
   return (
     <Card sx={{ width: "70%", marginTop: '20px' }}>
@@ -109,13 +129,13 @@ export default function Board() {
                       if you like.
                     </Typography>
                     <Stack direction="row" spacing={1}>
-                      <Button sx={{ padding:0, width:0 }}>
+                      <Button sx={{ padding: 0, width: 0 }}>
                         <FavoriteIcon />
                       </Button>
-                      <Button sx={{ padding:0, width:0 }}>
+                      <Button sx={{ padding: 0, width: 0 }}>
                         <ShareIcon />
                       </Button>
-                      <Button sx={{ padding:0, width:0 }}>
+                      <Button sx={{ padding: 0, width: 0 }}>
                         <BookmarkIcon />
                       </Button>
                     </Stack>
@@ -175,16 +195,20 @@ export default function Board() {
                       안순현
                     </Typography>
                   </Stack>
-
-                  <TextField
-                    id="outlined-read-only-input"
-                    label="댓글"
-                    defaultValue="댓글을 입력하세요"
-                    sx={{ width: '350px' }}
-                  />
+                  <FlexContainer>
+                    <StyledInputEmoji
+                      value={text}
+                      onChange={setText}
+                      cleanOnEnter
+                      onEnter={handleOnEnter}
+                      placeholder="입력.."
+                      fontSize={15}
+                      language='kr'
+                    />
+                  </FlexContainer>
                 </div>
               </Stack>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', paddingBottom: 3 }} ><ClearIcon onClick={handleClose} sx={{cursor: 'pointer'}}/></div>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', paddingBottom: 3 }} ><ClearIcon onClick={handleClose} sx={{ cursor: 'pointer' }} /></div>
             </Stack>
           </Box>
         </Modal>

@@ -1,0 +1,28 @@
+.styleBox {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.5);
+  border: none;
+  cursor: pointer;
+  align-items: center;
+  padding: 3px;
+  margin-bottom: 55px;
+  background-color: white;
+}
+
+.iconStyle {
+  margin-right: 32px;
+}
+
+.asideStyle {
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 3px;
+  margin-bottom: 55px;
+
+}

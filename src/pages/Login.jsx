@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { Card } from "@mui/material";
-import '../css/theme.css';
+import '../css/theme.css';  // CSS 임포트
 
-export default function Register() {
-    const [theme, setTheme] = useState('light'); // 초기 테마를 설정
+export default function Login() {
+    const [theme, setTheme] = useState('light'); // 초기 테마를 'light'로 설정
 
+    // 테마를 토글하는 함수
     const toggleTheme = () => {
-        setTheme(theme === 'light' ? 'dark' : 'light'); // 테마 전환 함수
+        setTheme(theme === 'light' ? 'dark' : 'light');
     };
 
+    // 테마에 따른 배경 이미지 경로 변경
     const backgroundImage = theme === 'light' ? '/img/flowLight.png' : '/img/flowNight.png';
     const logoImage = theme === 'light' ? '/img/LightLogo.png' : '/img/DarkLogo.png';
 
@@ -22,17 +24,13 @@ export default function Register() {
                 <div id='login-box' className="loginBox">
                     <img src={logoImage} style={{ maxWidth: '30%' }} />
                     <br />
-                    <input placeholder="닉네임 혹은 이메일" className="commonInputStyle" />
+                    <input id="id-input" placeholder="닉네임 혹은 이메일" className="commonInputStyle" />
                     <br />
-                    <input type="password" placeholder="비밀번호" className="commonInputStyle" />
+                    <input id='pwd' type="password" placeholder="비밀번호" className="commonInputStyle" />
                     <br />
-                    <input type="password" placeholder="비밀번호 확인" className="commonInputStyle" />
-                    <br />
-                    <button className="fill">가입확인</button>
-                    <hr style={{ border: '2px solid rgba(255, 255, 255, 0.4)' }} />
-                    <p style={{ color: theme === 'light' ? '#dca3e7' : '#ffffff' }}>또는</p>
-                    <button className="fill">GOOGLE <br />로그인</button>
-                    <button className="fill">FlowNary <br />로그인</button>
+                    <button className="fill">로그인</button>
+                    <p style={{ color: theme === 'light' ? '#dca3e7' : '#ffffff' }}>혹시 계정이 없으신가요?</p>
+                    <button className="fill">가입하기</button>
                     <br />
                     <button onClick={toggleTheme} className="fill">테마변경</button>
                 </div>

@@ -1,0 +1,74 @@
+/* Base styles.css */
+
+.background {        
+    display: flex;    
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.cardMain {             
+    text-align: center;
+    padding: 5%;
+    box-sizing: border-box ;        
+    height: auto;
+    border-radius: 10px;
+    background: transparent !important;
+    backdrop-filter: blur(15px) !important;
+}
+
+.loginBox {    
+    padding: 35px;
+}
+
+.commonInputStyle {
+    text-align: center;
+    width: 300px;
+    height: 32px;
+    font-size: 15px;
+    border: 0;
+    border-radius: 15px;
+    outline: none;
+    margin-bottom: 15px;
+}
+
+button, .fill {
+    width: 135px;
+    background: none;
+    border-radius: 30px;
+    border: 2px solid;
+    font: inherit;
+    line-height: 1;
+    margin: 0.5em;
+    padding: 1em 2em;
+    transition: 0.25s;
+}
+
+.fill:hover,
+.fill:focus {
+    box-shadow: inset 0 0 0 3em var(--hover);
+    width: 155px;
+    color: white;
+}
+
+/* 다크테마 */
+.dark .cardMain {
+    border: 2.5px solid rgba(255, 255, 255, 0.4);
+}
+
+.dark .fill {
+    --color: #ffffff;
+    --hover: rgb(46, 55, 76);
+    color: white;
+}
+
+/* 라이트테마 */
+.light .cardMain {    
+    border: 2.5px solid rgba(255, 255, 255, 0.4);
+}
+
+.light .fill {
+    --color: #dca3e7;
+    --hover: rgb(28, 0, 53);
+    color: #dca3e7;
+}

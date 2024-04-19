@@ -41,12 +41,11 @@ export default function Setting() {
     return (
         <>
             <SnsBar />
-            {/* <ProfileMenu /> */}
 
             <Stack direction="row" spacing={0} sx={{ height: "100vh" }}>
                 <Stack direction="column" spacing={2} sx={{ flex: 0.2 }}>
 
-                    <Stack alignItems="center" just sx={{ flexGrow: 1 }}>
+                    <Stack just sx={{ flexGrow: 1 }}>
                         <Aside />
                     </Stack>
                 </Stack>
@@ -222,10 +221,8 @@ export default function Setting() {
 
                         </Card>
                     </div>
-                    {/* 영역 1의 컨텐츠 */}
                 </Stack>
 
-                {/* 두 번째 영역 */}
             </Stack>
         </>
     );
