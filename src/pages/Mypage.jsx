@@ -4,9 +4,10 @@ import Aside from "../components/Aside";
 import Chart from 'chart.js/auto';
 import { Line } from "react-chartjs-2";
 import 'chartjs-adapter-date-fns';
-import '../css/mypage.css'
+import '../css/Search_Profile_Mypage.css'
 
-import { Box, Button, ButtonGroup, Grid, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from "@mui/material";
+import { Box, Button, ButtonGroup, Grid, Stack, Table, TableBody, TableCell, TableContainer, 
+    TableHead, TableRow, Toolbar, Typography } from "@mui/material";
 
 import FmdBadIcon from '@mui/icons-material/FmdBad';
 import GroupsIcon from '@mui/icons-material/Groups';
@@ -81,11 +82,13 @@ export default function Mypage() {
                 </Stack>
                 <Stack direction="column" spacing={2} sx={{ flex: 1.5 }}>
                     <Stack alignItems="center" just sx={{ flexGrow: 1 }}>
-                        <Stack direction="row"  justifyContent="center">
+                        <Stack direction="row" justifyContent="center">
                             <button className='msg_button' onClick={toggleStatistics} style={{
-                                backgroundColor: showStatistics ? 'rgb(115, 97, 188)' : 'rgb(88, 67, 135)'}}>통계</button>
+                                backgroundColor: showStatistics ? 'rgb(115, 97, 188)' : 'rgb(88, 67, 135)'
+                            }}>통계</button>
                             <button className='msg_button' onClick={toggleBookmarks} style={{
-                                backgroundColor: showBookmarks ? 'rgb(115, 97, 188)' : 'rgb(88, 67, 135)'}}>책갈피</button>
+                                backgroundColor: showBookmarks ? 'rgb(115, 97, 188)' : 'rgb(88, 67, 135)'
+                            }}>책갈피</button>
                         </Stack>
                         {/* 통계 Stack */}
                         <br /><br /><br />

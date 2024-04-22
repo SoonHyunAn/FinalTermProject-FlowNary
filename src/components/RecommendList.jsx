@@ -1,11 +1,6 @@
 import * as React from 'react';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import Divider from '@mui/material/Divider';
-import Typography from '@mui/material/Typography';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
-import { Button } from '@mui/material';
+import { List, ListItem, Divider, Typography, ListItemAvatar, Avatar, Button } from '@mui/material';
+
 
 
 export default function RecommendList() {

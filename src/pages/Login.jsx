@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Card } from "@mui/material";
 import { Link } from "react-router-dom";
+import { Card } from "@mui/material";
+
 import '../css/theme.css'; // CSS 임포트
 
 export default function Login() {

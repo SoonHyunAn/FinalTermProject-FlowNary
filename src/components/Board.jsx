@@ -1,30 +1,19 @@
 import React, { useState } from 'react'
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Avatar from '@mui/material/Avatar';
-import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-import Button from '@mui/material/Button';
-import BookmarkIcon from '@mui/icons-material/Bookmark';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import { Stack } from '@mui/system';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ClearIcon from '@mui/icons-material/Clear';
+import { Card, CardHeader, CardMedia, CardActions, CardContent, Avatar, Typography, 
+  ListItemAvatar, ListItem, List,  Button, Box, Modal} from '@mui/material';
+  import InputEmoji from 'react-input-emoji'
+  import { red } from '@mui/material/colors';
+  import { Stack } from '@mui/system';
+  
+  import BookmarkIcon from '@mui/icons-material/Bookmark';
+  import ClearIcon from '@mui/icons-material/Clear';
+  import FavoriteIcon from '@mui/icons-material/Favorite';
+  import ShareIcon from '@mui/icons-material/Share';
+  import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+  
+  import '../css/board.css';
 
-
-import InputEmoji from 'react-input-emoji'
-import '../css/board.css';
-
-export default function Board() {
+  export default function Board() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);

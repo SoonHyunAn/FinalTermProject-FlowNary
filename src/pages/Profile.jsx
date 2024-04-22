@@ -1,24 +1,14 @@
 import React from "react";
-import SnsBar from '../components/SnsBar';
-import Aside from "../components/Aside";
-import '../css/mypage.css'
-
 import { Avatar, Box, Button, Chip, Divider, Grid, Paper, Stack, Typography } from "@mui/material";
 
 import SubjectIcon from '@mui/icons-material/Subject';
 import AssignmentReturnedIcon from '@mui/icons-material/AssignmentReturned';
 
+import SnsBar from '../components/SnsBar';
+import Aside from "../components/Aside";
+import '../css/Search_Profile_Mypage.css';
+
 export default function Profile() {
-
-    // style 속성을 지정하는 값
-    const uploadlist = { // padding으로만 가득찬 정사각형 요소 생성
-        position: 'relative', width: '100%', paddingBottom: '100%', margin: '2px'
-    };
-    const uploaditem = { // padding으로 가득찬 요소에 내용을 넣기 위한 태그의 style 속성
-        position: 'absolute', width: '100%', height: '100%', top: '0', bottom: '0',
-        display: 'flex', justifyContent: 'center', alignItems: 'center'
-    };
-
     return (
         <>
             <SnsBar />
@@ -38,8 +28,7 @@ export default function Profile() {
 
                     ex) xs={12} 면 부모 요소(부모 요소가 없으면 창 전체)의 가로를 전부 차지 
                 */}
-                            <Grid item xs={0} lg={2}> {/* 화면 크기가 크면 좌측에 빈 공간 2/12만큼 생성 */}
-                            </Grid>
+                            <Grid item xs={0} lg={2}> </Grid>
                             <Grid item xs={12} lg={8}> {/* 내용 들어가는 공간 */}
 
                                 {/* 상단 정보 넣는 Stack 태그 */}
@@ -82,7 +71,7 @@ export default function Profile() {
                                 {/* 게시물과 태그 넣는 거 생성 */}
                                 <Stack direction="row" justifyContent="center" alignItems='center' spacing={5}>
                                     <Stack direction="row" sx={{ cursor: 'pointer' }}>
-                                        <SubjectIcon sx={{ fontSize: '15px' }} /> {/* 아이콘은 fontsize로 크기 지정 */}
+                                        <SubjectIcon sx={{ fontSize: '15px' }} /> 
                                         <Typography sx={{ fontSize: '12px' }}>게시물</Typography>
                                     </Stack>
                                     <Stack direction="row" sx={{ cursor: 'pointer' }}>
@@ -94,64 +83,64 @@ export default function Profile() {
                                 {/* 게시물 표시하는 Grid */}
                                 <Grid container>
                                     <Grid item xs={4}> {/* 1/3 만큼 가로를 차지하고 3개가 넘어가면 다음 줄에 생성 */}
-                                        <Paper elevation={3} sx={uploadlist}> {/* 스타일 속성은 위에 존재 */}
-                                            <Box sx={uploaditem}>
+                                        <Paper elevation={3} className='uploadlist'> 
+                                            <Box className='uploaditem'>
                                                 1
                                             </Box>
                                         </Paper>
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <Paper elevation={3} sx={uploadlist}>
-                                            <Box sx={uploaditem}>
+                                        <Paper elevation={3} className='uploadlist'>
+                                            <Box className='uploaditem'>
                                                 2
                                             </Box>
                                         </Paper>
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <Paper elevation={3} sx={uploadlist}>
-                                            <Box sx={uploaditem}>
+                                        <Paper elevation={3} className='uploadlist'>
+                                            <Box className='uploaditem'>
                                                 3
                                             </Box>
                                         </Paper>
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <Paper elevation={3} sx={uploadlist}>
-                                            <Box sx={uploaditem}>
+                                        <Paper elevation={3} className='uploadlist'>
+                                            <Box className='uploaditem'>
                                                 4
                                             </Box>
                                         </Paper>
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <Paper elevation={3} sx={uploadlist}>
-                                            <Box sx={uploaditem}>
+                                        <Paper elevation={3} className='uploadlist'>
+                                            <Box className='uploaditem'>
                                                 5
                                             </Box>
                                         </Paper>
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <Paper elevation={3} sx={uploadlist}>
-                                            <Box sx={uploaditem}>
+                                        <Paper elevation={3} className='uploadlist'>
+                                            <Box className='uploaditem'>
                                                 6
                                             </Box>
                                         </Paper>
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <Paper elevation={3} sx={uploadlist}>
-                                            <Box sx={uploaditem}>
+                                        <Paper elevation={3} className='uploadlist'>
+                                            <Box className='uploaditem'>
                                                 7
                                             </Box>
                                         </Paper>
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <Paper elevation={3} sx={uploadlist}>
-                                            <Box sx={uploaditem}>
+                                        <Paper elevation={3} className='uploadlist'>
+                                            <Box className='uploaditem'>
                                                 8
                                             </Box>
                                         </Paper>
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <Paper elevation={3} sx={uploadlist}>
-                                            <Box sx={uploaditem}>
+                                        <Paper elevation={3} className='uploadlist'>
+                                            <Box className='uploaditem'>
                                                 9
                                             </Box>
                                         </Paper>
@@ -159,9 +148,7 @@ export default function Profile() {
 
                                 </Grid>
                             </Grid>
-                            <Grid item xs={0} lg={2}>
-
-                            </Grid>
+                            <Grid item xs={0} lg={2}> </Grid>
                         </Grid>
                     </Box>
                 </Stack>

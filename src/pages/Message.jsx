@@ -1,10 +1,11 @@
 import React from "react";
-import Box from '@mui/material/Box'
-import { Avatar, Button, Stack, TextField, Toolbar } from "@mui/material";
-import '../css/message.css';
+import { Avatar, Box, Stack, TextField, Toolbar } from "@mui/material";
+
 import EastIcon from '@mui/icons-material/East';
+
 import SnsBar from '../components/SnsBar';
 import Aside from "../components/Aside";
+import '../css/message.css';
 
 export default function Message() {
 

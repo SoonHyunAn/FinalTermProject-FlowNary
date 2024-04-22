@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import { Box, Button, Card, TextField, Modal, InputAdornment, FormControlLabel, FormGroup, Typography, Stack } from "@mui/material";
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import Avatar from '@mui/material/Avatar';
+import { Box, Button, Card, TextField, Modal, InputAdornment, FormControlLabel, 
+    FormGroup, Typography, Stack, InputLabel, MenuItem, FormControl, Select, Avatar } from "@mui/material";
+
+
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+
 import SnsBar from "../components/SnsBar";
 import Aside from "../components/Aside";
 import '../css/setting.css'; // CSS 파일 임포트

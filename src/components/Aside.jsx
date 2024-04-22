@@ -1,12 +1,13 @@
 import * as React from 'react';
+import '../css/notice.css';
+
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import HomeIcon from '@mui/icons-material/Home';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CreateIcon from '@mui/icons-material/Create';
 import SettingsIcon from '@mui/icons-material/Settings';
-import AlertModal from './NoticeModal';
 
-import '../css/notice.css';
+import AlertModal from './NoticeModal';
 
 export default function Aside() {
 

@@ -1,21 +1,15 @@
-import { Avatar, Box, Button, Chip, Divider, Grid, Paper, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { Avatar, Box, Chip, Divider, Grid, Paper, Stack, Typography } from "@mui/material";
+
 import ImageIcon from '@mui/icons-material/Image';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
+
 import Aside from "../components/Aside";
 import SnsBar from "../components/SnsBar";
-import '../css/search.css';
-
+import '../css/Search_Profile_Mypage.css';
 
 export default function Search() {
 
-  const uploadlist = {
-    position: 'relative', width: '100%', paddingBottom: '100%', margin: '2px'
-  };
-  const uploaditem = {
-    position: 'absolute', width: '100%', height: '100%', top: '0', bottom: '0',
-    display: 'flex', justifyContent: 'center', alignItems: 'center'
-  };
   const [items, setItems] = useState([1, 2, 3, 4]); // Initial items
 
   useEffect(() => {
@@ -88,15 +82,15 @@ export default function Search() {
                   <Grid item xs={2}>
                   </Grid>
                   <Grid item xs={4}>
-                    <Paper elevation={2} sx={uploadlist}>
-                      <Box sx={uploaditem}>
+                    <Paper elevation={2} className="uploadlist">
+                      <Box className="uploaditem">
                         1
                       </Box>
                     </Paper>
                   </Grid>
                   <Grid item xs={4}>
-                    <Paper elevation={2} sx={uploadlist}>
-                      <Box sx={uploaditem}>
+                    <Paper elevation={2} className="uploadlist">
+                      <Box className="uploaditem">
                         2
                       </Box>
                     </Paper>
@@ -106,15 +100,15 @@ export default function Search() {
                   <Grid item xs={2}>
                   </Grid>
                   <Grid item xs={4}>
-                    <Paper elevation={2} sx={uploadlist}>
-                      <Box sx={uploaditem}>
+                    <Paper elevation={2} className="uploadlist">
+                      <Box className="uploaditem">
                         3
                       </Box>
                     </Paper>
                   </Grid>
                   <Grid item xs={4}>
-                    <Paper elevation={2} sx={uploadlist}>
-                      <Box sx={uploaditem}>
+                    <Paper elevation={2} className="uploadlist">
+                      <Box className="uploaditem">
                         4
                       </Box>
                     </Paper>
@@ -124,15 +118,15 @@ export default function Search() {
                   <Grid item xs={2}>
                   </Grid>
                   <Grid item xs={4}>
-                    <Paper elevation={2} sx={uploadlist}>
-                      <Box sx={uploaditem}>
+                    <Paper elevation={2} className="uploadlist">
+                      <Box className="uploaditem">
                         5
                       </Box>
                     </Paper>
                   </Grid>
                   <Grid item xs={4}>
-                    <Paper elevation={2} sx={uploadlist}>
-                      <Box sx={uploaditem}>
+                    <Paper elevation={2} className="uploadlist">
+                      <Box className="uploaditem">
                         6
                       </Box>
                     </Paper>

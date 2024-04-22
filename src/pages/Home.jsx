@@ -1,5 +1,7 @@
 import React from "react";
+
 import { Stack } from "@mui/material";
+
 import Board from "../components/Board";
 import RecommendList from "../components/RecommendList";
 import SnsBar from '../components/SnsBar';

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Card } from "@mui/material";
-import '../css/theme.css';
 import { Link } from "react-router-dom";
+import { Card } from "@mui/material";
+
+import '../css/theme.css';
 
 export default function Register() {
     const [theme, setTheme] = useState('light'); // 초기 테마를 설정

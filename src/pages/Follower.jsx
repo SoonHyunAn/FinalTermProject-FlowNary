@@ -1,7 +1,9 @@
-import { Avatar, Button, Container, FormControl, Input, InputAdornment, Stack } from "@mui/material";
 import React from "react";
+import { Avatar, Button, Container, FormControl, Input, InputAdornment, Stack } from "@mui/material";
+
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import SearchIcon from '@mui/icons-material/Search';
+
 import SnsBar from '../components/SnsBar';
 import Aside from "../components/Aside";
 
