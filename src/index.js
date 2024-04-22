@@ -8,7 +8,7 @@ import NotFound from './pages/NotFound';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Message from './pages/Message';
+import Chatting from './pages/Chatting';
 import Follower from './pages/Follower';
 import Mypage from './pages/Mypage';
 import Profile from './pages/Profile';
@@ -25,7 +25,7 @@ const router = createBrowserRouter([
       { path: 'home', element: <Home /> },
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },
-      { path: 'message', element: <Message /> },
+      { path: 'chatting', element: <Chatting /> },
       { path: 'follower', element: <Follower /> },
       { path: 'mypage', element: <Mypage /> },
       { path: 'profile', element: <Profile /> },

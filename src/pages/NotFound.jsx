@@ -4,10 +4,10 @@ import SnsBar from '../components/Important/SnsBar';
 
 export default function NotFound() {
   return (
-    <div style={{ margin: '20px' }}>
+    <div style={{ height: 'calc(100vh - 40px)'}}>
       <SnsBar />
-      <h1>Page Not Found!!!</h1>
-      <img src="/img/NotFound.png" alt="error" />
+      <img src="/img/NotFound.png" alt="error" style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto' }} />
     </div>
   )
+
 }
