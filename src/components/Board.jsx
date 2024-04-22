@@ -20,34 +20,9 @@ import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ClearIcon from '@mui/icons-material/Clear';
 
+
 import InputEmoji from 'react-input-emoji'
-import styled from 'styled-components'
-
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 1100,
-  height: 800,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-};
-const FlexContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
-const StyledInputEmoji = styled(InputEmoji)`
-  width: 350px;
-  height: 50px;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 10px;
-`;
+import '../css/board.css';
 
 export default function Board() {
   const [open, setOpen] = React.useState(false);
@@ -96,7 +71,7 @@ export default function Board() {
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <Box sx={style}>
+          <Box className='board_modal'>
 
             <Stack direction="row" sx={{ height: "100%" }}>
               <Stack direction="column" sx={{ flex: 1.3, height: "100%", }} >
@@ -129,20 +104,20 @@ export default function Board() {
                       </Button>
                     </Stack>
                     <Stack direction="row" spacing={1}>
-                    <Typography variant="body2" color="text.secondary" >
-                      This impressive paella is a perfect party dish and a fun meal to cook
-                      together with your guests. Add 1 cup of frozen peas along with the mussels,
-                      if you like.
-                      This impressive paella is a perfect party dish and a fun meal to cook
+                      <Typography variant="body2" color="text.secondary" >
+                        This impressive paella is a perfect party dish and a fun meal to cook
+                        together with your guests. Add 1 cup of frozen peas along with the mussels,
+                        if you like.
+                        This impressive paella is a perfect party dish and a fun meal to cook
 
-                       cook
+                        cook
 
-                      if you like.
-                      This impressive paella is a perfect party dish and a fun meal to cook
-                      together with your guests. Add 1 cup of frozen peas along with the mussels,
-                      if you like.
-                      
-                    </Typography>
+                        if you like.
+                        This impressive paella is a perfect party dish and a fun meal to cook
+                        together with your guests. Add 1 cup of frozen peas along with the mussels,
+                        if you like.
+
+                      </Typography>
                     </Stack>
                     <Stack direction="row" spacing={1}></Stack>
                     <Stack direction="row" spacing={1}></Stack>
@@ -155,9 +130,7 @@ export default function Board() {
                   </CardContent>
                 </Card>
               </Stack>
-
               <Stack direction="column" sx={{ flex: 0.7, height: "100%", padding: "32px 4px 32px 20px ", justifyContent: "space-between" }}>
-
                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', overflowY: 'auto', paddingRight: 3 }}>
                   <ListItem alignItems="flex" sx={{ display: 'flex', alignItems: 'center' }}>
                     <ListItemAvatar>
@@ -201,28 +174,28 @@ export default function Board() {
 
 
                 </List>
-                <div style={{ marginBottom: 50, marginTop: 40, borderTop: "1px solid lightgrey", padding: 15 }}>
-                  <Stack direction="row" alignItems="center" spacing={2} sx={{ marginBottom: 4 }}>
-                    <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                    <Typography>
-                      안순현
-                    </Typography>
-                  </Stack>
-                  <FlexContainer>
-                    <StyledInputEmoji
-                      value={text}
-                      onChange={setText}
-                      cleanOnEnter
-                      onEnter={handleOnEnter}
-                      placeholder="입력.."
-                      fontSize={15}
-                      language='kr'
-                    />
-                  </FlexContainer>
-                </div>
+                <Stack className='board_div_style_1' direction="row" alignItems="center" spacing={2}>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                  <Typography>
+                    안순현
+                  </Typography>
+                </Stack>
+                <Stack direction="row" alignItems="center" spacing={2} sx={{ marginBottom: 6 }}>
+                  <InputEmoji
+                    value={text}
+                    onChange={setText}
+                    cleanOnEnter
+                    onEnter={handleOnEnter}
+                    placeholder="입력.."
+                    fontSize={15}
+                    language='kr'
+                    className='styled-input-emoji'
+                  >
+                  </InputEmoji>
+                </Stack>
               </Stack>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', paddingBottom: 3 }} >
-                <ClearIcon onClick={handleClose} sx={{ cursor: 'pointer', fontSize: '30px', backgroundColor:'red',borderRadius:'100%',margin:'1px' }} />
+              <div className='board_div_style_2'>
+                <ClearIcon onClick={handleClose} sx={{ cursor: 'pointer', fontSize: '26px', backgroundColor: 'rgb(162, 152, 182)', borderRadius: '100%', margin: '3px' }} />
               </div>
             </Stack>
           </Box>
@@ -230,7 +203,6 @@ export default function Board() {
         <Button >
           <ShareIcon />
         </Button>
-
         <Button>
           <BookmarkIcon />
         </Button>

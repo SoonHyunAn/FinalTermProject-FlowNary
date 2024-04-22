@@ -24,5 +24,10 @@
   align-items: center;
   padding: 3px;
   margin-bottom: 55px;
+  margin-left: 20px;
 
+  background: none;
+  font: inherit;
+  line-height: 1;
+  transition: 0.25s;
 }

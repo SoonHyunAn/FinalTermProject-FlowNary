@@ -1,32 +1,38 @@
 .MainProfile {
   border: 1px solid rgb(100, 78, 193);
-  width: 80%;
+  width: 75%;
   display: flex;
-  flex-direction: column;
+  flex-direction: column;  
 }
 
 .profile {
-  margin-top: 15px;
-  margin-left: 20px;
+  padding: 6%;
+  margin: 2%;  
   display: flex;
   align-items: center;
-  width: 95%;
-  border: 1px solid rgb(100, 78, 193);
+  width: 75% ;
+  border: 5px solid rgb(100, 78, 193);  
   border-radius: 10px;
   margin-bottom: 20px;
 }
 
-.profile-edit-button {
+.profile-edit-button {  
   margin-left: auto !important;
-  margin-right: 10px !important;
+  margin-right: 10% !important;
   color: white !important;
   background: rgb(100, 78, 193) !important;
   border: 1px solid rgb(100, 78, 193) !important;
 }
 
+.nickname {
+  margin-left: 8%;
+  font-size: 125%;
+  font-weight: bolder;
+}
+
 .introduce-label,
 .another-label,
-.gender-label {
+.gender-label {  
   margin: 0;
   margin-left: 30px;
   margin-bottom: -8px;
@@ -36,8 +42,8 @@
   background: rgb(100, 78, 193);
   border: 1px solid rgb(100, 78, 193);
   border-radius: 15px;
-  text-align: center;
-  width: 100px;
+  text-align: center;  
+  width: 13%;
 }
 
 .gender-select-area {
@@ -48,23 +54,26 @@
   margin-bottom: 15px;
 }
 
-.profile-disabled {
+.profile-disabled {  
+  width: 90%;
   display: flex;
   justify-content: flex-end;
-  margin-right: 20px;
-  margin-bottom: 30px;
+  margin: 5%;    
 }
 
+
 .modal-content {
+  overflow-x: auto;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
-  padding: 20px;
+  padding: 5% 5% 0 5%;
   border-radius: 10px;
   border: 1px solid rgba(99, 78, 193, 0.356);
-  width: 55%;
+  width: 35%;  
+  height: 75%;
 }
 
 #standard-basic {

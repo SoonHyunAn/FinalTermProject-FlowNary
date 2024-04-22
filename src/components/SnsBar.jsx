@@ -6,6 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import Grid from '@mui/material/Grid';
+import { Button } from '@mui/material';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -50,7 +51,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SnsBar() {
-  const logoImage = '/img/flownary_gradation.png';
+  const logoImage = '/img/LightLogo.png';
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ background: 'linear-gradient(to right, #7B68EE, rgb(28, 0, 53))', boxShadow: 'none' }}>
@@ -75,7 +76,7 @@ export default function SnsBar() {
             <Grid item xs={1}>
             </Grid>
             <Grid item xs={1} sx={{ placeItems: 'center', display: 'grid' }}>
-              <button style={{ color: 'white', opacity: 0.7 }}>로그아웃</button>
+              <Button style={{ color: 'white', opacity: 0.7 }}>로그아웃</Button>
             </Grid>
           </Grid>
         </Toolbar>

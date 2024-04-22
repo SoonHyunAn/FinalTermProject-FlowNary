@@ -52,6 +52,10 @@
     background-color: rgb(88, 67, 135);
     border: 1px solid  rgb(162, 152, 182);
     cursor: pointer;
+    border-radius: 35px;
+    font: inherit;
+    line-height: 1;
+    padding: 1em 2em;
 }
 
 .msg_button:hover {

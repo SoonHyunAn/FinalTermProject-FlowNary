@@ -1,6 +1,7 @@
 import React from "react";
 import SnsBar from '../components/SnsBar';
 import Aside from "../components/Aside";
+import '../css/mypage.css'
 
 import { Avatar, Box, Button, Chip, Divider, Grid, Paper, Stack, Typography } from "@mui/material";
 
@@ -22,14 +23,9 @@ export default function Profile() {
         <>
             <SnsBar />
             <Stack direction="row" spacing={0} sx={{ height: "100vh" }}>
-                {/* 첫 번째 영역 */}
                 <Stack direction="column" spacing={2} sx={{ flex: 0.3, boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)' }}>
-
-                    {/* 영역 1의 컨텐츠 */}
                     <Aside />
                 </Stack>
-
-                {/* 두 번째 영역 */}
                 <Stack direction="column" spacing={2} sx={{ flex: 1.5 }}>
                     <Box sx={{ width: '100%' }}>
                         {/* 전체 화면을 그리드로 분할 */}
@@ -69,8 +65,8 @@ export default function Profile() {
                                             </Box>
                                         </Stack>
                                         <Stack direction={'row'} spacing={2}>
-                                            <Button variant="outlined" color="secondary" sx={{ width: '80px' }}>팔로우</Button>
-                                            <Button variant="outlined" color="secondary" sx={{ width: '140px' }}>메시지 보내기</Button>
+                                            <button variant="outlined" color="secondary" className='msg_button' sx={{ width: '80px' }}>팔로우</button>
+                                            <button variant="outlined" color="secondary" className='msg_button' sx={{ width: '140px' }}>메시지 보내기</button>
                                         </Stack>
                                     </Stack>
                                 </Stack>

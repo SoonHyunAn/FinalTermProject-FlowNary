@@ -38,26 +38,31 @@ export default function Setting() {
         setShowPassword(!showPassword);
     };
 
+    const handlePasswordChange = () => {
+        // 변경 확인 버튼 클릭 시 실행될 로직
+        console.log('비밀번호 변경 확인');
+    };
+
     return (
         <>
             <SnsBar />
+            {/* <ProfileMenu /> */}
 
             <Stack direction="row" spacing={0} sx={{ height: "100vh" }}>
                 <Stack direction="column" spacing={2} sx={{ flex: 0.3 }}>
 
-                    <Stack just sx={{ flexGrow: 1 }}>
+                    <Stack sx={{ flexGrow: 1 }}>
                         <Aside />
                     </Stack>
                 </Stack>
                 {/* 첫 번째 영역 */}
                 <Stack direction="column" spacing={2} sx={{ flex: 1.5, boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)' }}>
 
-
                     {/* 전체 스타일 */}
                     <div style={{
                         display: 'flex',
                         justifyContent: 'center',
-                        margin: '35px',
+                        padding: '4%',
                     }}>
 
                         {/* 메인 프로필 영역 */}
@@ -69,10 +74,12 @@ export default function Setting() {
                         }}>
 
                             {/* 프로필 사진, 닉네임, 편집 영역 */}
-                            <div id="profile" className="profile">
-                                <Avatar alt="H" src="/img/profile/profile1.jpg" style={{ marginLeft: '20px' }} />
-                                <p style={{ marginLeft: '10px' }}>닉네임</p>
-                                <Button className="profile-edit-button" onClick={openModal}>프로필 편집</Button>
+                            <div className="profile">
+                                <Avatar alt="H" src="/img/profile/profile1.jpg"
+                                    style={{ marginLeft: '20px', width: '20%', height: '100%' }} />
+                                <p className="nickname">닉네임</p>
+                                <Button className="profile-edit-button" 
+                                 onClick={openModal}>프로필 편집</Button>
                             </div>
 
                             {/* 소개 영역 */}
@@ -84,13 +91,11 @@ export default function Setting() {
                             <Box component="section" sx={{
                                 p: 2,
                                 border: 'none',
-                                marginTop: '10px',
+                                marginTop: '1%',
                                 width: '65%',
                             }}>
                                 <TextField id="outlined-basic" label="나로 말할거 같으면!" variant="outlined" fullWidth />
                             </Box>
-
-                            <hr />
 
                             {/* 성별 영역 */}
                             <div id="gender" className="gender-select-area">
@@ -105,7 +110,7 @@ export default function Setting() {
                                         value={gender}
                                         label="성별"
                                         onChange={handleChange}
-                                        style={{ width: '150px', marginLeft: '35px' }}
+                                        style={{ width: '25%', marginLeft: '3%' }}
                                     >
                                         <MenuItem value={"man"}>남자</MenuItem>
                                         <MenuItem value={"girl"}>여자</MenuItem>
@@ -116,7 +121,11 @@ export default function Setting() {
 
                             {/* 계정 비활성화(탈퇴) 영역 */}
                             <div id="profile-disabled" className="profile-disabled">
-                                <Button sx={{ backgroundColor: 'red', color: 'white', '&:hover': { backgroundColor: 'darkred' } }}>비활성화</Button>
+                                <Button sx={{
+                                    backgroundColor: 'red',
+                                    color: 'white', '&:hover':
+                                        { backgroundColor: 'darkred' }
+                                }}>계정 비활성화</Button>
                             </div>
 
                             {/* 프로필 편집 - 모달 영역 */}
@@ -179,6 +188,15 @@ export default function Setting() {
                                             ),
                                         }}
                                     />
+                                    <div style={{textAlign:'right'}}>
+                                        <Button variant="contained" color="primary"
+                                            style={{
+                                                width: '30%', marginTop: '1%'
+                                            }}>
+                                            비밀번호 변경
+                                        </Button>
+                                    </div>
+
 
                                     {/* 그 외 정보에서 도메인 구간 */}
                                     <br /><br />
@@ -188,6 +206,7 @@ export default function Setting() {
                                             marginTop: '10px',
                                             marginBottom: '8px'
                                         }}>도메인 수정</p>
+
                                     <TextField
                                         id="standard-basic"
                                         label="도메인"
@@ -215,14 +234,21 @@ export default function Setting() {
                                             <AntSwitch defaultChecked inputProps={{ 'aria-label': 'ant design' }} />
                                             <Typography>공개</Typography>
                                         </Stack>
+
+                                        <div style={{ textAlign: 'right', marginTop: '5%' }}>
+                                            <Button variant="contained" color="primary"
+                                                style={{ width: '35%' }}> 프로필 수정하기
+                                            </Button>
+                                        </div>
+
                                     </FormGroup>
                                 </div>
                             </Modal>
 
                         </Card>
-                    </div>
+                    </div>                    
                 </Stack>
-
+                
             </Stack>
         </>
     );

@@ -26,9 +26,11 @@
   background-color: rgb(88, 67, 135);
   border: 1px solid  rgb(162, 152, 182);
   cursor: pointer;
+  margin: 10px;
 }
 
 .msg_button:hover:active {
   height: '15%';
   background-color: rgb(115, 97, 188);
 }
+
