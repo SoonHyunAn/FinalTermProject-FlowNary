@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import 'chartjs-adapter-date-fns';
 import '../css/Search_Profile_Mypage.css'
 
