@@ -3,11 +3,9 @@ import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import Grid from '@mui/material/Grid';
-// import zIndex from '@mui/material/styles/zIndex';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -36,57 +34,52 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
-  width: '100%',
+  width: '120%',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     [theme.breakpoints.up('sm')]: {
-      width: '300px',
+      width: '400px',
       '&:focus': {
-        width: '300px',
+        width: '450px',
       },
     },
   },
 }));
 
 export default function SnsBar() {
-
+  const logoImage = '/img/flownary_gradation.png';
   return (
     <Box sx={{ flexGrow: 1 }}>
-    <AppBar position="static" sx={{ background: 'linear-gradient(to right, #7B68EE, rgb(28, 0, 53))', boxShadow: 'none' }}>
-      <Toolbar sx={{paddingTop: 3}}>
-        <Grid container spacing={2}>
-          <Grid item xs={4}>
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ display: 'flex', alignItems: 'center' }}
-            >
-              flownary
-            </Typography>
+      <AppBar position="static" sx={{ background: 'linear-gradient(to right, #7B68EE, rgb(28, 0, 53))', boxShadow: 'none' }}>
+        <Toolbar sx={{ padding: 1 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={2} sx={{ placeItems: 'center', display: 'grid' }}>
+                <img src={logoImage} style={{ maxWidth: '70%', display: 'flex', alignItems: 'center'  }} />
+            </Grid>
+            <Grid item xs={1}>
+            </Grid>
+            <Grid item xs={6} sx={{ placeItems: 'center', display: 'grid' }}>
+              <Search sx={{borderRadius:50}}>
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  placeholder="Search…"
+                  inputProps={{ 'aria-label': 'search' }}
+                />
+              </Search>
+            </Grid>
+            <Grid item xs={1}>
+            </Grid>
+            <Grid item xs={1} sx={{ placeItems: 'center', display: 'grid' }}>
+              <button style={{ color: 'white', opacity: 0.7 }}>로그아웃</button>
+            </Grid>
           </Grid>
-          <Grid item xs={4}>
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search…"
-                inputProps={{ 'aria-label': 'search' }}
-              />
-            </Search>
-          </Grid>
-          <Grid item xs={2}>
-          </Grid>
-          <Grid item xs={2}>
-            <button style={{color:'red', border:'1px solid red', fontSize:12}}>프로필 사진 / 닉네임</button>
-          </Grid>
-        </Grid>
-      </Toolbar>
-    </AppBar>
-  </Box >
+        </Toolbar>
+      </AppBar>
+    </Box >
   );
 }

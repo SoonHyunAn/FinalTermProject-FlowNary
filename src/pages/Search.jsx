@@ -1,11 +1,10 @@
 import { Avatar, Box, Button, Chip, Divider, Grid, Paper, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import ImageIcon from '@mui/icons-material/Image';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
-import RecommendList from '../components/RecommendList'
 import Aside from "../components/Aside";
 import SnsBar from "../components/SnsBar";
+import '../css/search.css';
 
 
 export default function Search() {
@@ -41,15 +40,10 @@ export default function Search() {
     <>
       <SnsBar />
       <Stack direction="row" spacing={0} sx={{ height: "100vh" }}>
-        {/* 첫 번째 영역 */}
-        <Stack direction="column" spacing={2} sx={{ flex: 0.4, boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)' }}>
-
-          {/* 영역 1의 컨텐츠 */}
+        <Stack direction="column" spacing={2} sx={{ flex: 0.3, boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)' }}>
           <Aside />
         </Stack>
-
-        {/* 두 번째 영역 */}
-        <Stack direction="column" spacing={2} sx={{ flex: 1.4 }}>
+        <Stack direction="column" spacing={2} sx={{ flex: 1.5 }}>
           <Box sx={{ width: '100%' }}>
             <Grid container sx={{ padding: '20px' }}>
               <Grid item xs={0} lg={2}>
@@ -62,18 +56,18 @@ export default function Search() {
                   </Avatar>
                   <Stack sx={{ padding: '20px' }} fontWeight={'bold'}>
                     <Typography variant="h4" fontWeight={'bold'}>
-                      # text
+                      # search_info
                     </Typography>
                     <Stack direction={'row'} spacing={2} sx={{ marginTop: '10px', marginBottom: '15px' }}>
                       <Box sx={{ cursor: 'pointer' }}>
                         게시물
                       </Box>
                       <Box sx={{ cursor: 'pointer' }}>
-                        OO.O 만
+                        10.2k
                       </Box>
                     </Stack>
                     <Stack direction={'row'} spacing={2}>
-                      <Button variant="contained" sx={{ width: '200' }}>팔로우</Button>
+                    <button className="msg_button" ><span style={{fontSize:'23px',fontWeight:'bolder',}}>팔로우</span></button>
                     </Stack>
                   </Stack>
                 </Stack>
@@ -146,11 +140,6 @@ export default function Search() {
 
                 </Grid>
               </Grid>
-              <Grid item xs={0} lg={2}>
-                <RecommendList />
-
-              </Grid>
-
             </Grid>
           </Box>
         </Stack>

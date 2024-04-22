@@ -1,6 +1,5 @@
 import React from "react";
 import Box from '@mui/material/Box'
-import AppBar from '@mui/material/AppBar';
 import { Avatar, Button, Stack, TextField, Toolbar } from "@mui/material";
 import '../css/message.css';
 import EastIcon from '@mui/icons-material/East';
@@ -14,44 +13,44 @@ export default function Message() {
             <SnsBar />
             <Stack direction="row" spacing={0} sx={{ height: "100vh" }}>
                 {/* 첫 번째 영역 */}
-                <Stack direction="column" spacing={2} sx={{ flex: 0.4, boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)' }}>
+                <Stack direction="column" spacing={2} sx={{ flex: 0.3, boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)' }}>
 
                     {/* 영역 1의 컨텐츠 */}
                     <Aside />
                 </Stack>
 
                 {/* 두 번째 영역 */}
-                <Stack direction="column" spacing={2} sx={{ flex: 1.4 }}>
+                <Stack direction="column" spacing={2} sx={{ flex: 1.5, position: 'relative' }}>
                     <Box
-                        sx={{ margin: '20px', border: '2px solid grey', padding: '20px', minHeight: '400px', height: '100%' }}>
+                        sx={{ margin: '20px', padding: '20px', minHeight: '400px', height: '100%' }}>
                         <Stack sx={{
-                            backgroundColor: "rgb(120, 120, 120)",
-                            height: '30px',
-                            color: 'white',
-                            padding: '8px',
-                            fontSize: '20px'
-                        }}>
-                            OOO과의 대화
+                           fontSize: 'xx-large',
+                           fontWeight:'bold'
+                        }}><div style={{color: 'rgb(88, 67, 135)'}}>
+                            James
+                            <hr style={{opacity: '0.4'}}/>
+                            </div>
                         </Stack>
                         <Stack direction='row' justifyContent='flex-end' alignItems='flex-end'>
-                            <div className="message">가나다라가나다라가나다라가나다라가나다라가나다라가나다라가나다라가나다라가나다라가나다라가나다라가나다라가나다라가나다라가나다라</div>
+                            <div className="message">안녕하세요 반갑습니다</div>
                         </Stack>
                         <Stack direction='row' justifyContent='flex-start' alignItems='flex-end'>
                             <Avatar sx={{ width: '50px', height: '50px' }}>R</Avatar>
-                            <div className="othermessage">가나다라<br />마바사<br />아자차카</div>
+                            <div className="othermessage">네<br />안녕하세요<br />반갑습니다</div>
                         </Stack>
                         <Stack direction='row' justifyContent='flex-start' alignItems='flex-end'>
                             <Avatar sx={{ width: '50px', height: '50px' }}>P</Avatar>
-                            <div className="othermessage">가나다라<br />마바사<br />아자차카</div>
+                            <div className="othermessage">일정확인 부탁드립니다<br />오늘 저녁까지 부탁드립니다.<br />감사합니다.</div>
                         </Stack>
-                        <AppBar position="fixed" sx={{ top: 'auto', bottom: 0, backgroundColor: 'rgb(192, 119, 241)' }}>
+                        <Stack position="fixed" sx={{ top: 'auto', bottom: '5px', backgroundColor: 'rgb(75, 52, 145)', width: '80%', borderRadius: '10px' }}>
                             <Toolbar>
-                                <TextField fullWidth placeholder="입력" sx={{ backgroundColor: "white" }}></TextField>
-                                <Button variant="contained" sx={{ height: '54px', backgroundColor: 'rgb(130, 80, 200)' }}>
+                                <TextField fullWidth placeholder="메시지를 입력하세요." variant="filled" sx={{ backgroundColor: "white", margin: '10px', border: 0 }}></TextField>
+
+                                <button className="msg_button">
                                     <EastIcon></EastIcon>
-                                </Button>
+                                </button>
                             </Toolbar>
-                        </AppBar>
+                        </Stack>
                     </Box>
                 </Stack>
             </Stack>

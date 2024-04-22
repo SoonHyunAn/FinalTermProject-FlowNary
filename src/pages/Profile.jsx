@@ -23,14 +23,14 @@ export default function Profile() {
             <SnsBar />
             <Stack direction="row" spacing={0} sx={{ height: "100vh" }}>
                 {/* 첫 번째 영역 */}
-                <Stack direction="column" spacing={2} sx={{ flex: 0.4, boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)' }}>
+                <Stack direction="column" spacing={2} sx={{ flex: 0.3, boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)' }}>
 
                     {/* 영역 1의 컨텐츠 */}
                     <Aside />
                 </Stack>
 
                 {/* 두 번째 영역 */}
-                <Stack direction="column" spacing={2} sx={{ flex: 1.4 }}>
+                <Stack direction="column" spacing={2} sx={{ flex: 1.5 }}>
                     <Box sx={{ width: '100%' }}>
                         {/* 전체 화면을 그리드로 분할 */}
                         <Grid container sx={{ padding: '20px' }}>

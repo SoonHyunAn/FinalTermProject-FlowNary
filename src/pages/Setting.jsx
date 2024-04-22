@@ -43,14 +43,14 @@ export default function Setting() {
             <SnsBar />
 
             <Stack direction="row" spacing={0} sx={{ height: "100vh" }}>
-                <Stack direction="column" spacing={2} sx={{ flex: 0.2 }}>
+                <Stack direction="column" spacing={2} sx={{ flex: 0.3 }}>
 
                     <Stack just sx={{ flexGrow: 1 }}>
                         <Aside />
                     </Stack>
                 </Stack>
                 {/* 첫 번째 영역 */}
-                <Stack direction="column" spacing={2} sx={{ flex: 0.8, boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)' }}>
+                <Stack direction="column" spacing={2} sx={{ flex: 1.5, boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)' }}>
 
 
                     {/* 전체 스타일 */}

@@ -11,23 +11,18 @@ export default function Home() {
         <>
             <SnsBar />
             <Stack direction="row" spacing={0} sx={{ height: "100vh" }}>
-                {/* 첫 번째 영역 */}
-                <Stack direction="column" spacing={2} sx={{ flex: 0.4, boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)' }}>
-
-                    {/* 영역 1의 컨텐츠 */}
+                <Stack direction="column" spacing={2} sx={{ flex: 0.3, boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)' }}>
                     <Aside />
                 </Stack>
-
-                {/* 두 번째 영역 */}
-                <Stack direction="column" spacing={2} sx={{ flex: 1.4 }}>
+                <Stack direction="column" spacing={2} sx={{ flex: 1 }}>
 
                     <Stack alignItems="center" just sx={{ flexGrow: 1 }}>
                         <Board />
                     </Stack>
                 </Stack>
-
-                {/* 세 번째 영역 */}
-                <Stack direction="column" spacing={2} sx={{ flex: 0.6 }}>
+                <Stack direction="column" spacing={2} sx={{ flex: 0.1 }}>
+                </Stack>
+                <Stack direction="column" spacing={2} sx={{ flex: 0.4 }}>
                     <RecommendList />
                 </Stack>
             </Stack>
