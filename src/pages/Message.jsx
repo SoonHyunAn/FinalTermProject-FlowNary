@@ -3,8 +3,8 @@ import { Avatar, Box, Stack, TextField, Toolbar } from "@mui/material";
 
 import EastIcon from '@mui/icons-material/East';
 
-import SnsBar from '../components/SnsBar';
-import Aside from "../components/Aside";
+import SnsBar from '../components/Important/SnsBar';
+import Aside from "../components/Important/Aside";
 import '../css/message.css';
 
 export default function Message() {

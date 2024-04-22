@@ -4,7 +4,7 @@ import { Box, Modal, List, ListItem, Divider, ListItemText, ListItemAvatar, Avat
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 
-import '../css/notice.css';
+import '../../css/notice.css';
 
 export default function AlertModal() {
   const [open, setOpen] = React.useState(false);

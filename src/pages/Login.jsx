@@ -27,9 +27,9 @@ export default function Login() {
             <Card id='cardMain' className="cardMain">
                 <div id='login-box' className="loginBox">
                     <div className={`welcome-message`}>
-                        <img src={HelloLogo} style={{ maxWidth: '10%' }} />
+                        <img src={HelloLogo} alt='Hello' style={{ maxWidth: '10%' }} />
                     </div>
-                    <img src={logoImage} style={{ maxWidth: '20%' }} />
+                    <img src={logoImage} alt='LOGO' style={{ maxWidth: '20%' }} />
 
                     <br />
                     <input id="id" placeholder="닉네임 혹은 이메일" className="commonInputStyle" />

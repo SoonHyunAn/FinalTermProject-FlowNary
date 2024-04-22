@@ -4,8 +4,8 @@ import { Avatar, Button, Container, FormControl, Input, InputAdornment, Stack } 
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import SearchIcon from '@mui/icons-material/Search';
 
-import SnsBar from '../components/SnsBar';
-import Aside from "../components/Aside";
+import SnsBar from '../components/Important/SnsBar';
+import Aside from "../components/Important/Aside";
 
 export default function Follower() {
     // const [followers, setFollowers] = useState(1);

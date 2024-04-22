@@ -2,10 +2,10 @@ import React from "react";
 
 import { Stack } from "@mui/material";
 
-import Board from "../components/Board";
-import RecommendList from "../components/RecommendList";
-import SnsBar from '../components/SnsBar';
-import Aside from "../components/Aside";
+import Board from "../components/Home/Board";
+import RecommendList from "../components/Home/RecommendList";
+import SnsBar from '../components/Important/SnsBar';
+import Aside from "../components/Important/Aside";
 
 export default function Home() {
 

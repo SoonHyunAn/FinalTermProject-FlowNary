@@ -4,8 +4,8 @@ import { Avatar, Box, Chip, Divider, Grid, Paper, Stack, Typography } from "@mui
 import ImageIcon from '@mui/icons-material/Image';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 
-import Aside from "../components/Aside";
-import SnsBar from "../components/SnsBar";
+import SnsBar from '../components/Important/SnsBar';
+import Aside from "../components/Important/Aside";
 import '../css/Search_Profile_Mypage.css';
 
 export default function Search() {

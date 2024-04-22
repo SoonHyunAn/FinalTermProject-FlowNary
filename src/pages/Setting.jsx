@@ -6,8 +6,8 @@ import { Box, Button, Card, TextField, Modal, InputAdornment, FormControlLabel,
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
-import SnsBar from "../components/SnsBar";
-import Aside from "../components/Aside";
+import SnsBar from "../components/Important/SnsBar.jsx";
+import Aside from "../components/Important/Aside.jsx";
 import '../css/setting.css'; // CSS 파일 임포트
 import { MaterialUISwitch, AntSwitch } from '../css/SwitchStyles.jsx'; // 토글 버튼 style
 
@@ -37,10 +37,10 @@ export default function Setting() {
         setShowPassword(!showPassword);
     };
 
-    const handlePasswordChange = () => {
-        // 변경 확인 버튼 클릭 시 실행될 로직
-        console.log('비밀번호 변경 확인');
-    };
+    // const handlePasswordChange = () => {
+    //     // 변경 확인 버튼 클릭 시 실행될 로직
+    //     console.log('비밀번호 변경 확인');
+    // };
 
     return (
         <>

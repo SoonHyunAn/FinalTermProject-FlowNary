@@ -11,7 +11,7 @@ import { Card, CardHeader, CardMedia, CardActions, CardContent, Avatar, Typograp
   import ShareIcon from '@mui/icons-material/Share';
   import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
   
-  import '../css/board.css';
+  import '../../css/board.css';
 
   export default function Board() {
   const [open, setOpen] = React.useState(false);

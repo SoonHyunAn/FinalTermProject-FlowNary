@@ -1,5 +1,6 @@
 import React from "react";
-import SnsBar from '../components/SnsBar';
+
+import SnsBar from '../components/Important/SnsBar';
 
 export default function NotFound() {
   return (

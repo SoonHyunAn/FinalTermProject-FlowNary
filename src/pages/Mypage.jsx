@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import SnsBar from '../components/SnsBar';
-import Aside from "../components/Aside";
-import Chart from 'chart.js/auto';
 import { Line } from "react-chartjs-2";
 import 'chartjs-adapter-date-fns';
 import '../css/Search_Profile_Mypage.css'
+
+// eslint-disable-next-line
+import Chart from 'chart.js/auto';
 
 import { Box, Button, ButtonGroup, Grid, Stack, Table, TableBody, TableCell, TableContainer, 
     TableHead, TableRow, Toolbar, Typography } from "@mui/material";
@@ -12,11 +12,14 @@ import { Box, Button, ButtonGroup, Grid, Stack, Table, TableBody, TableCell, Tab
 import FmdBadIcon from '@mui/icons-material/FmdBad';
 import GroupsIcon from '@mui/icons-material/Groups';
 import MarkChatReadIcon from '@mui/icons-material/MarkChatRead';
-import ProfileMenu from '../components/ProfileMenu';
 import DeleteIcon from '@mui/icons-material/Delete';
 
+import SnsBar from '../components/Important/SnsBar';
+import Aside from "../components/Important/Aside";
+import ProfileMenu from '../components/UserInterface/ProfileMenu';
+
 export default function Mypage() {
-    const [data, setData] = useState([{ x: '2024-01-01', y: '1' }, { x: '2024-01-02', y: '2' }, { x: '2024-01-03', y: '3' }]);
+    const data = useState([{ x: '2024-01-01', y: '1' }, { x: '2024-01-02', y: '2' }, { x: '2024-01-03', y: '3' }]);
 
     const options = {
         responsive: true,

@@ -53,7 +53,7 @@ export default function SnsBar() {
         <Toolbar sx={{ padding: 1 }}>
           <Grid container spacing={2}>
             <Grid item xs={2} sx={{ placeItems: 'center', display: 'grid' }}>
-                <img src={logoImage} style={{ maxWidth: '70%', display: 'flex', alignItems: 'center'  }} />
+                <img src={logoImage} alt='LOGO' style={{ maxWidth: '70%', display: 'flex', alignItems: 'center'  }} />
             </Grid>
             <Grid item xs={1}>
             </Grid>

@@ -1,11 +1,12 @@
 import React from "react";
-import { Avatar, Box, Button, Chip, Divider, Grid, Paper, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Chip, Divider, Grid, Paper, Stack, Typography } from "@mui/material";
 
 import SubjectIcon from '@mui/icons-material/Subject';
 import AssignmentReturnedIcon from '@mui/icons-material/AssignmentReturned';
 
-import SnsBar from '../components/SnsBar';
-import Aside from "../components/Aside";
+import SnsBar from '../components/Important/SnsBar';
+import Aside from "../components/Important/Aside";
+
 import '../css/Search_Profile_Mypage.css';
 
 export default function Profile() {
