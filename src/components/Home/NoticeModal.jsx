@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Modal, List, ListItem, Divider, ListItemText, ListItemAvatar, Avatar, Typography, Badge } from '@mui/material';
+import { Box, Modal, List, ListItem, Divider, ListItemText, ListItemAvatar, Avatar, Typography, Badge, Grid } from '@mui/material';
 
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
@@ -12,11 +12,18 @@ export default function AlertModal() {
   const handleClose = () => setOpen(false);
   return (
     <div>
+
       <button onClick={handleOpen} className='asideStyle'>
-        <Badge badgeContent={4} color="primary" sx={{ marginRight: '28px'}}>
-          <NotificationsNoneIcon sx={{ marginRight: '4px'}}/>
-        </Badge>
-        알림
+        <Grid container>
+          <Grid item xs={12} lg={6} sx={{ display: { xs: 'flex', lg: 'flex' }, pl: 3 }}>
+            <Badge badgeContent={4} color="primary" sx={{ mr: 2.3 }}>
+              <NotificationsNoneIcon sx={{ mr: '4px' }} />
+            </Badge>
+          </Grid>
+          <Grid item xs={0} lg={6} sx={{ display: { xs: 'none', lg: 'flex' }, pr: 3, justifyContent: 'flex-end' }}>
+            알림
+          </Grid>
+        </Grid>
       </button>
       <Modal
         open={open}
@@ -28,7 +35,7 @@ export default function AlertModal() {
           <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ margin: 3 }}>
             알림 목록
             <Badge badgeContent={4} color="primary" sx={{ marginLeft: 5, marginRight: 10 }}>
-              <NotificationsActiveIcon color="action" sx={{ marginRight: '8px'}}/>
+              <NotificationsActiveIcon color="action" sx={{ marginRight: '8px' }} />
             </Badge>
           </Typography>
           <hr />

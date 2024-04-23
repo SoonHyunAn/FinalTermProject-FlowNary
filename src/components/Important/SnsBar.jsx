@@ -1,7 +1,8 @@
-import { React } from 'react';
-import { styled, alpha, AppBar, Box, Toolbar, InputBase, Grid, Button } from '@mui/material';
+import { React, useState } from 'react';
+import { styled, alpha, AppBar, Box, Toolbar, InputBase, Grid, Button, Modal, TextField } from '@mui/material';
 
 import SearchIcon from '@mui/icons-material/Search';
+import CloseIcon from '@mui/icons-material/Close';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -46,31 +47,80 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SnsBar() {
-  const logoImage = '/img/LightLogo.png';
+  const logoImageLarge = '/img/LightLogo.png';
+  const logoImageXs = '/img/LightLogoXs.png';
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const handleSearch = () => {
+    return null;
+  }
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ background: 'linear-gradient(to right, #7B68EE, rgb(28, 0, 53))', boxShadow: 'none' }}>
         <Toolbar sx={{ padding: 1 }}>
           <Grid container spacing={2}>
-            <Grid item xs={2} sx={{ placeItems: 'center', display: 'grid' }}>
-                <img src={logoImage} alt='LOGO' style={{ maxWidth: '70%', display: 'flex', alignItems: 'center'  }} />
+            <Grid item xs={1} lg={0}>
             </Grid>
-            <Grid item xs={1}>
+            <Grid item xs={3} lg={1} sx={{ placeItems: 'center', display: { xs: 'none', lg: 'flex' }, }}>
+              <img src={logoImageLarge} alt='LOGO' style={{ width: '100%', alignItems: 'center' }} />
             </Grid>
-            <Grid item xs={6} sx={{ placeItems: 'center', display: 'grid' }}>
-              <Search sx={{borderRadius:50}}>
+            <Grid item xs={3} lg={1} sx={{ placeItems: 'center', display: { xs: 'flex', lg: 'none' }, }}>
+              <img src={logoImageXs} alt='LOGO' style={{ width: '15%', alignItems: 'center' }} />
+            </Grid>
+            <Grid item xs={1} lg={1}>
+            </Grid>
+
+            <Grid item xs={2} lg={6} sx={{ placeItems: 'center', display: 'flex' }}>
+              <Search sx={{ borderRadius: 50, display: { xs: 'flex', lg: 'none' } }}  >
+                <Button sx={{ cursor: 'pointer' }} onClick={handleOpen}><SearchIcon sx={{ color: 'white' }} /></Button>
+                <Modal
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Box className='search_modal' sx={{ display: 'flex' }}>
+                    <Grid container>
+                      <Grid item xs={8}>
+                        <TextField
+                          id="outlined-multiline-flexible"
+                          label="검색"
+                          variant="standard"
+                        />
+                      </Grid>
+                      <Grid item xs={2}>
+                        <span style={{ color: 'purple', fontSize: '20px', fontWeight: 'bold' }}>검색</span><Button sx={{ cursor: 'pointer' }} onClick={handleSearch}><SearchIcon sx={{ color: 'purple', fontSize: '35px' }} /></Button>
+                      </Grid>
+                      <Grid item xs={2}>
+                        <span style={{ color: 'purple', fontSize: '20px', fontWeight: 'bold' }}>취소</span><Button sx={{ cursor: 'pointer' }} onClick={handleClose}><CloseIcon sx={{ color: 'purple', fontSize: '35px' }} /></Button>
+                      </Grid>
+                    </Grid>
+                  </Box>
+                </Modal>
+              </Search>
+              <Search sx={{ borderRadius: 50, display: { xs: 'none', lg: 'flex' } }}  >
                 <SearchIconWrapper>
                   <SearchIcon />
                 </SearchIconWrapper>
                 <StyledInputBase
-                  placeholder="Search…"
+                  placeholder="검색"
                   inputProps={{ 'aria-label': 'search' }}
                 />
+                <Button sx={{ cursor: 'pointer' }} onClick={handleClose}><CloseIcon sx={{ color: 'white'}} /></Button>
               </Search>
             </Grid>
-            <Grid item xs={1}>
+
+            <Grid item xs={1} lg={1}>
             </Grid>
-            <Grid item xs={1} sx={{ placeItems: 'center', display: 'grid' }}>
+            <Grid item xs={4} lg={1} sx={{ placeItems: 'center', display: 'flex' }}>
               <Button style={{ color: 'white', opacity: 0.7 }}>로그아웃</Button>
             </Grid>
           </Grid>

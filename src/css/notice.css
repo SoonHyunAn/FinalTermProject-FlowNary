@@ -14,20 +14,26 @@
 }
 
 .iconStyle {
-  margin-right: 32px;
+  margin-right: 1em;
 }
 
 .asideStyle {
+  display: flex;
+  justify-content: space-around;
   border: none;
   cursor: pointer;
-  display: flex;
-  align-items: center;
+  text-align: center;
   padding: 3px;
   margin-bottom: 55px;
   margin-left: 20px;
-
   background: none;
   font: inherit;
-  line-height: 1;
   transition: 0.25s;
+}
+
+.aside_name{
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
