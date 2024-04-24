@@ -27,7 +27,7 @@ const router = createBrowserRouter([
       { path: 'register', element: <Register /> },
       { path: 'chatting', element: <Chatting /> },
       { path: 'follower', element: <Follower /> },
-      { path: 'mypage', element: <Mypage /> },
+      { path: 'profile/mypage', element: <Mypage /> },
       { path: 'profile', element: <Profile /> },
       { path: 'setting', element: <Setting /> },
       { path: 'search', element: <Search /> },

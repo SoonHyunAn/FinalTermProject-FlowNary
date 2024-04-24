@@ -1,19 +1,21 @@
 import React, { useState } from 'react'
-import { Card, CardHeader, CardMedia, CardActions, CardContent, Avatar, Typography, 
-  ListItemAvatar, ListItem, List,  Button, Box, Modal} from '@mui/material';
-  import InputEmoji from 'react-input-emoji'
-  import { red } from '@mui/material/colors';
-  import { Stack } from '@mui/system';
-  
-  import BookmarkIcon from '@mui/icons-material/Bookmark';
-  import ClearIcon from '@mui/icons-material/Clear';
-  import FavoriteIcon from '@mui/icons-material/Favorite';
-  import ShareIcon from '@mui/icons-material/Share';
-  import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-  
-  import '../../css/board.css';
+import {
+  Card, CardHeader, CardMedia, CardActions, CardContent, Avatar, Typography,
+  ListItemAvatar, ListItem, List, Button, Box, Modal
+} from '@mui/material';
+import InputEmoji from 'react-input-emoji'
+import { red } from '@mui/material/colors';
+import { Stack } from '@mui/system';
 
-  export default function Board() {
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+import ClearIcon from '@mui/icons-material/Clear';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ShareIcon from '@mui/icons-material/Share';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+
+import '../../css/board.css';
+
+export default function Board() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -121,7 +123,7 @@ import { Card, CardHeader, CardMedia, CardActions, CardContent, Avatar, Typograp
               </Stack>
               <Stack direction="column" sx={{ flex: 0.7, height: "100%", padding: "32px 4px 32px 20px ", justifyContent: "space-between" }}>
                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', overflowY: 'auto', paddingRight: 3 }}>
-                  <ListItem alignItems="flex" sx={{ display: 'flex', alignItems: 'center' }}>
+                  <ListItem alignItems="center" sx={{ display: 'flex', alignItems: 'center' }}> {/* alignItem 값을 수정 */}
                     <ListItemAvatar>
                       <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
                     </ListItemAvatar>
