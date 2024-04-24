@@ -168,7 +168,7 @@ export default function SnsBar() {
               {isLoggedIn ? ( // 로그인 상태인 경우
                 <Button style={{ color: 'white', opacity: 0.7 }} onClick={handleLogout}>로그아웃</Button>
               ) : ( // 로그아웃 상태인 경우
-                <Link to="/login" style={{ color: 'white', opacity: 0.7 }} >로그인</Link>
+                <Button to="/login" style={{ color: 'white', opacity: 0.7 }} onClick={'/login'}>로그인</Button>
               )}
             </Grid>
           </Grid>
