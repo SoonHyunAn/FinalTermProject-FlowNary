@@ -1,56 +1,37 @@
 .message {
-    display: flex;
-    position: relative;
-    margin: 10px;
-    min-width: 100px;
-    max-width: 600px;
-    min-height: 30px;
-    background: rgb(138, 255, 123);
-    padding: 15px;
-    align-items: center;
-
-}
-
-.message:after {
-    border-top: 0px solid transparent;
-    border-left: 0px solid transparent;
-    border-right: 20px solid transparent;
-    border-bottom: 20px solid rgb(138, 255, 123);
-    content: "";
-    position: absolute;
-    bottom: 0px;
-    right: -20px;
+    background-color: rgb(153, 95, 180);
+    /* 배경색 설정 */
+    border-radius: 50px;
+    /* 테두리를 둥글게 만듭니다. */
+    padding: 2dvh;
+    /* 내용과 테두리 사이의 간격 설정 */
+    margin: 10px 0;
+    /* 채팅 버블 간의 간격 설정 */
+    max-width: 70%;
+    /* 채팅 버블의 최대 너비 설정 */
+    color: rgb(255, 255, 255);
 }
 
 .othermessage {
-    display: flex;
-    position: relative;
-    margin: 10px;
-    min-width: 100px;
-    max-width: 600px;
-    min-height: 30px;
-    background: rgb(170, 185, 255);
-    padding: 15px;
-    align-items: center;
-    margin-left: 30px;
+    background-color: rgb(191, 169, 219);
+    /* 배경색 설정 */
+    border-radius: 50px;
+    /* 테두리를 둥글게 만듭니다. */
+    padding: 2dvh;
+    /* 내용과 테두리 사이의 간격 설정 */
+    margin: 0 0 10px 5px;
+    /* 채팅 버블 간의 간격 설정 */
+    max-width: 70%;
+    /* 채팅 버블의 최대 너비 설정 */
+    color: rgb(255, 255, 255);
 }
 
-.othermessage:after {
-    border-top: 0px solid transparent;
-    border-left: 20px solid transparent;
-    border-right: 0px solid transparent;
-    border-bottom: 20px solid rgb(170, 185, 255);
-    content: "";
-    position: absolute;
-    bottom: 0px;
-    left: -20px;
-}
 
 .msg_button {
     height: '15%';
     color: rgb(212, 199, 238);
     background-color: rgb(88, 67, 135);
-    border: 1px solid  rgb(162, 152, 182);
+    border: 1px solid rgb(162, 152, 182);
     cursor: pointer;
     border-radius: 35px;
     font: inherit;

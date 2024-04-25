@@ -1,5 +1,6 @@
 import { React, useEffect, useState } from 'react';
-import { styled, alpha, AppBar, Box, Toolbar, InputBase, Grid, Button, Modal, TextField, Link } from '@mui/material';
+import { useNavigate } from "react-router-dom";
+import { styled, alpha, AppBar, Box, Toolbar, InputBase, Grid, Button, Modal, TextField } from '@mui/material';
 import { signOut, getAuth, onAuthStateChanged } from 'firebase/auth';
 import { initializeApp } from "firebase/app";
 
@@ -47,29 +48,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
+
+const StyledToolbar = (props) => (
+  <Toolbar {...props} sx={{ padding: 0 }} />
+);
+
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
   projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
 };
 
-// eslint-disable-next-line
-const app = initializeApp(firebaseConfig);
 
-// Firebase Auth 객체 생성
-const auth = getAuth();
-
-const handleLogout = () => {
-  signOut(auth) // 현재 사용자의 로그인 세션을 종료
-    .then(() => {
-      console.log('로그아웃 성공');
-      // 로그아웃 성공 시 필요한 추가적인 작업을 수행할 수 있습니다.
-    })
-    .catch((error) => {
-      console.error('로그아웃 오류:', error);
-      // 로그아웃 중 에러가 발생한 경우 적절히 처리합니다.
-    });
-};
 
 export default function SnsBar() {
   const logoImageLarge = '/img/LightLogo.png';
@@ -78,6 +68,14 @@ export default function SnsBar() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const HomeButton = () => {
+    navigate('/');
+  };
+  // eslint-disable-next-line
+  const app = initializeApp(firebaseConfig);
+
+  // Firebase Auth 객체 생성
+  const auth = getAuth();
 
   // 로그인 상태를 나타내는 상태 변수
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -97,21 +95,38 @@ export default function SnsBar() {
     return () => unsubscribe();
   }, []);
 
+  const handleLogout = () => {
+    signOut(auth) // 현재 사용자의 로그인 세션을 종료
+      .then(() => {
+        console.log('로그아웃 성공');
+        // 로그아웃 성공 시 필요한 추가적인 작업을 수행할 수 있습니다.
+      })
+      .catch((error) => {
+        console.error('로그아웃 오류:', error);
+        // 로그아웃 중 에러가 발생한 경우 적절히 처리합니다.
+      });
+  };
+
   const handleSearch = () => {
     return null;
+  }
+
+  const navigate = useNavigate();
+  const handleLinkToLogin = () => {
+    navigate('/login');
   }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ background: 'linear-gradient(to right, #7B68EE, rgb(28, 0, 53))', boxShadow: 'none' }}>
-        <Toolbar sx={{ padding: 1 }}>
+        <StyledToolbar>
           <Grid container spacing={2}>
-            <Grid item xs={1} lg={0.1}>
+            <Grid item xs={0.5} lg={0.1}>
             </Grid>
-            <Grid item xs={3} lg={1.4} sx={{ placeItems: 'center', display: { xs: 'none', lg: 'flex' }, }}>
-              <img src={logoImageLarge} alt='LOGO' style={{ width: '100%', alignItems: 'center' }} />
+            <Grid item xs={3.5} lg={1.4} sx={{ placeItems: 'center', display: { xs: 'none', lg: 'flex' }, }}>
+              <img src={logoImageLarge} alt='LOGO' style={{ width: '100%', alignItems: 'center', cursor: 'pointer' }} onClick={HomeButton} />
             </Grid>
-            <Grid item xs={3} lg={1} sx={{ placeItems: 'center', display: { xs: 'flex', lg: 'none' }, }}>
+            <Grid item xs={3} lg={1} sx={{ placeItems: 'center', display: { xs: 'flex', lg: 'none', cursor: 'pointer' }, justifyContent: 'start' }} onClick={HomeButton}>
               <img src={logoImageXs} alt='LOGO' style={{ width: '15%', alignItems: 'center' }} />
             </Grid>
             <Grid item xs={1} lg={1.8}>
@@ -168,11 +183,11 @@ export default function SnsBar() {
               {isLoggedIn ? ( // 로그인 상태인 경우
                 <Button style={{ color: 'white', opacity: 0.7 }} onClick={handleLogout}>로그아웃</Button>
               ) : ( // 로그아웃 상태인 경우
-                <Button to="/login" style={{ color: 'white', opacity: 0.7 }} onClick={'/login'}>로그인</Button>
+                <Button style={{ color: 'white', opacity: 0.7 }} onClick={handleLinkToLogin}>로그인</Button>
               )}
             </Grid>
           </Grid>
-        </Toolbar>
+        </StyledToolbar>
       </AppBar>
     </Box >
   );

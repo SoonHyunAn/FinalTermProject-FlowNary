@@ -17,7 +17,7 @@ export default function Home() {
                     <Aside />
                 </Stack>
                 <Stack direction="column" spacing={2} sx={{ flex: 1.1 }}>
-                    <Stack alignItems="center" just sx={{ flexGrow: 1 }}>
+                    <Stack alignItems="center" sx={{ flexGrow: 1 }}>
                         <Board />
                     </Stack>
                 </Stack>

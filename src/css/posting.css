@@ -1,0 +1,33 @@
+.main-container {
+    display: flex;    
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: auto;
+}
+
+.main-card {    
+    height: 80vh;    
+    width: 85%;
+    box-sizing: border-box;
+}
+
+.card-new-content {
+    width: 100%;    
+    text-align: center;
+    margin-bottom: 5%;
+}
+
+.photo-field {
+    flex: 1;   
+    width: 50%;
+    height: 50vh;
+}
+
+.posting-stack {    
+    flex: 1;
+    padding: 1.5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

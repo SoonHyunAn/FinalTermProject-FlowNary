@@ -31,8 +31,8 @@ export default function Login() {
 
         try {
             // 이메일이 빈칸인 경우
-            if (!userInfo.email) {
-                alert("이메일을 입력해주세요.");
+            if (!userInfo.email || !userInfo.password) {
+                alert("이메일과 비밀번호를 입력해주세요.");
                 return;
             }
 

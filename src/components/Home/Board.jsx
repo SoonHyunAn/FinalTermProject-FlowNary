@@ -123,7 +123,7 @@ export default function Board() {
               </Stack>
               <Stack direction="column" sx={{ flex: 0.7, height: "100%", padding: "32px 4px 32px 20px ", justifyContent: "space-between" }}>
                 <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', overflowY: 'auto', paddingRight: 3 }}>
-                  <ListItem alignItems="center" sx={{ display: 'flex', alignItems: 'center' }}> {/* alignItem 값을 수정 */}
+                  <ListItem sx={{ display: 'flex', alignItems: 'center' }}> {/* alignItem 값을 수정 */}
                     <ListItemAvatar>
                       <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
                     </ListItemAvatar>
@@ -133,7 +133,7 @@ export default function Board() {
                   </ListItem>
                   <h4 style={{ flexWrap: 'wrap' }}>내용입니다안녕하세요감사합니다내용입니다안녕하세요감사합니다내용입니다안녕하세요감사합니다내용입니다안녕하세요감사합니다내용입니다안녕하세요감사합니다내용입니다안녕하세요감사합니다내용입니다안녕하세요감사합니다</h4>
 
-                  <ListItem alignItems="flex" sx={{ display: 'flex', alignItems: 'center' }}>
+                  <ListItem  sx={{ display: 'flex', alignItems: 'center' }}>
                     <ListItemAvatar>
                       <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
                     </ListItemAvatar>
@@ -143,7 +143,7 @@ export default function Board() {
                   </ListItem>
                   <h4 style={{ flexWrap: 'wrap' }}>내용입니다안녕하세요감사합니다내용입니다안녕하세요감사합니다내용입니다안녕하세요감사합니다내용입니다안녕하세요감사합니다내용입니다안녕하세요감사합니다내용입니다안녕하세요감사합니다내용입니다안녕하세요감사합니다</h4>
 
-                  <ListItem alignItems="flex" sx={{ display: 'flex', alignItems: 'center' }}>
+                  <ListItem sx={{ display: 'flex', alignItems: 'center' }}>
                     <ListItemAvatar>
                       <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
                     </ListItemAvatar>
@@ -153,7 +153,7 @@ export default function Board() {
                   </ListItem>
                   <h4 style={{ flexWrap: 'wrap' }}>내용입니다안녕하세요감사합니다내용입니다안녕하세요감사합니다내용입니다안녕하세요감사합니다내용입니다안녕하세요감사합니다내용입니다안녕하세요감사합니다내용입니다안녕하세요감사합니다내용입니다안녕하세요감사합니다</h4>
 
-                  <ListItem alignItems="flex" sx={{ display: 'flex', alignItems: 'center' }}>
+                  <ListItem sx={{ display: 'flex', alignItems: 'center' }}>
                     <ListItemAvatar>
                       <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
                     </ListItemAvatar>
@@ -178,11 +178,12 @@ export default function Board() {
                     cleanOnEnter
                     onEnter={handleOnEnter}
                     placeholder="입력.."
+                    shouldReturn
                     fontSize={15}
                     language='kr'
-                    className='styled-input-emoji'
                   >
                   </InputEmoji>
+                    <Button sx={{position:'absolute' , right:35, zIndex:2}}>게시</Button>
                 </Stack>
               </Stack>
               <div className='board_div_style_2'>

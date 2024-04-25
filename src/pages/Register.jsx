@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { Card } from "@mui/material";
 
 import '../css/theme.css';
-import { initializeApp } from 'firebase/app';
-import { GoogleAuthProvider, getAuth, signInWithPopup, createUserWithEmailAndPassword, fetchSignInMethodsForEmail } from 'firebase/auth';
+import { initializeApp, } from 'firebase/app';
+import { GoogleAuthProvider, getAuth, signInWithPopup, createUserWithEmailAndPassword } from 'firebase/auth';
 
 export default function Register() {
     // 테마설정
@@ -33,50 +33,18 @@ export default function Register() {
     }, []);
     const auth = getAuth();
 
-    // 구글 회원가입 진행
     const loginWithGoogle = async () => {
-        const provider = new GoogleAuthProvider();
-        await signInWithPopup(auth, provider)
-            .then((result) => {
-                // 로그인이 성공한 후에 페이지를 이동합니다.
-                console.log("구글 로그인 성공", result.user.email);
-                // Firebase에서 회원가입 여부를 확인하고 로그인 또는 회원가입 완료 메시지를 출력합니다.
-                checkIfRegistered(result.user.email).then((isRegistered) => {
-                    if (!isRegistered) {
-                        // 회원가입된 정보가 없으면 구글 회원가입 완료 메시지 출력
-                        alert('구글 회원가입 완료');
-                    } else {
-                        // 이미 회원가입된 정보가 있으면 구글 로그인 완료 메시지 출력
-                        alert('구글 로그인 완료');
-                    }
-                    navigate('/');
-                }).catch((error) => {
-                    console.error("회원가입 여부 확인 오류:", error);
-                });
-            })
-            .catch((error) => {
-                // 로그인에 실패한 경우 에러를 콘솔에 출력합니다.
-                console.error("로그인 오류:", error);
-            });
-    }
-
-
-    // Firebase에서 이메일을 기준으로 회원가입 여부를 확인하는 함수
-    const checkIfRegistered = async (email) => {
         try {
-            // 이메일을 통해 로그인 방법을 가져옵니다.
-            const signInMethods = await fetchSignInMethodsForEmail(auth, email);
-
-            // 로그인 방법이 존재한다면 이미 등록된 사용자이므로 true 반환
-            return signInMethods.length > 0;
+          const auth = getAuth();
+          const provider = new GoogleAuthProvider();
+          await signInWithPopup(auth, provider);
+          alert('구글 로그인 성공!! 환영합니다!!');
+          console.log("구글 로그인 성공!");
+          navigate('/');
         } catch (error) {
-            // 에러 발생 시 false 반환
-            console.error('Error fetching user data:', error);
-            return false;
+          console.error("구글 로그인 오류:", error);
         }
-    }
-
-
+      };
 
     // 회원가입 항목 입력시 값 변경
     const handleChange = e => {
