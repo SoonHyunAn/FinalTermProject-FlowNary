@@ -14,7 +14,6 @@ import Mypage from './pages/Mypage';
 import Profile from './pages/Profile';
 import Setting from './pages/Setting';
 import Search from './pages/Search';
-import Posting from './pages/Posting';
 
 const router = createBrowserRouter([
   {
@@ -32,7 +31,6 @@ const router = createBrowserRouter([
       { path: 'profile', element: <Profile /> },
       { path: 'setting', element: <Setting /> },
       { path: 'search', element: <Search /> },
-      { path: 'posting', element: <Posting /> },
     ]
   }
 ]);

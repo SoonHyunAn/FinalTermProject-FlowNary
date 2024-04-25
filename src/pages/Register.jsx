@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Card } from "@mui/material";
+import axios from 'axios';
 
 import '../css/theme.css';
 import { initializeApp, } from 'firebase/app';
@@ -35,16 +36,16 @@ export default function Register() {
 
     const loginWithGoogle = async () => {
         try {
-          const auth = getAuth();
-          const provider = new GoogleAuthProvider();
-          await signInWithPopup(auth, provider);
-          alert('구글 로그인 성공!! 환영합니다!!');
-          console.log("구글 로그인 성공!");
-          navigate('/');
+            const auth = getAuth();
+            const provider = new GoogleAuthProvider();
+            await signInWithPopup(auth, provider);
+            alert('구글 로그인 성공!! 환영합니다!!');
+            console.log("구글 로그인 성공!");
+            navigate('/');
         } catch (error) {
-          console.error("구글 로그인 오류:", error);
+            console.error("구글 로그인 오류:", error);
         }
-      };
+    };
 
     // 회원가입 항목 입력시 값 변경
     const handleChange = e => {
@@ -79,6 +80,14 @@ export default function Register() {
             .then(() => {
                 console.log("회원가입 성공");
                 alert('회원가입 성공. 환영합니다.');
+                axios.get("/user/register", {
+                    params: {
+                        email: userInfo.email,
+                        pwd: userInfo.password,
+                    }
+                }).catch((error) => {
+                    console.log(error)
+                })
                 setTimeout(() => {
                     navigate('/login');
                 }, 1000); // 1000 밀리초 = 1초 딜레이
