@@ -4,16 +4,19 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import App from './App';
 
-import NotFound from './pages/NotFound';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Chatting from './pages/Chatting';
-import Follower from './pages/Follower';
-import Mypage from './pages/Mypage';
-import Profile from './pages/Profile';
-import Setting from './pages/Setting';
-import Search from './pages/Search';
+import NotFound from './sections/NotFound';
+import Home from './sections/home/Home/Home';
+import Login from './sections/sign/Login';
+import Register from './sections/sign/Register';
+import Follower from './sections/follower/Follow/Follower';
+import Mypage from './sections/profile/Profile/Mypage';
+import Profile from './sections/profile/Profile/Profile';
+import Setting from './sections/setting/Setting/Setting';
+import Search from './sections/search/Search/Search';
+
+// 템플릿
+
+
 
 const router = createBrowserRouter([
   {
@@ -25,7 +28,6 @@ const router = createBrowserRouter([
       { path: 'home', element: <Home /> },
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },
-      { path: 'chatting', element: <Chatting /> },
       { path: 'follower', element: <Follower /> },
       { path: 'profile/mypage', element: <Mypage /> },
       { path: 'profile', element: <Profile /> },
