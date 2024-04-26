@@ -14,7 +14,6 @@ import Profile from './sections/profile/Profile/Profile';
 import Setting from './sections/setting/Setting/Setting';
 import Search from './sections/search/Search/Search';
 
-// 템플릿
 
 
 
