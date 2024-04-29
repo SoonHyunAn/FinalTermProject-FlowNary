@@ -12,14 +12,15 @@ import './theme.css'; // CSS 임포트
 
 // alert 창
 import Swal from "sweetalert2";
+import axios from "axios";
+
+import { useUser } from '../../UserContext';
 
 export default function Login() {
     const [theme, setTheme] = useState('light'); // 초기 테마를 'light'로 설정
 
     // 테마를 토글하는 함수
-    const toggleTheme = () => {
-        setTheme(theme === 'light' ? 'dark' : 'light');
-    };
+    const toggleTheme = () => { setTheme(theme === 'light' ? 'dark' : 'light'); };
 
     const auth = getAuth();
 
@@ -65,6 +66,8 @@ export default function Login() {
         }
     };
 
+    const { setUserData } = useUser();
+
     const handleSubmit = async e => {
         e.preventDefault();
 
@@ -72,8 +75,8 @@ export default function Login() {
             // 이메일이 빈칸인 경우
             if (!userInfo.email) {
                 Swal.fire({
-                    icon:"warning",                    
-                    text:"이메일을 입력해주세요.",
+                    icon: "warning",
+                    text: "이메일을 입력해주세요.",
                 });
                 return;
             }
@@ -81,14 +84,15 @@ export default function Login() {
             // 비밀번호가 빈칸인 경우
             if (!userInfo.password) {
                 Swal.fire({
-                    icon:"warning",                    
-                    text:"비밀번호를 입력해주세요.",
+                    icon: "warning",
+                    text: "비밀번호를 입력해주세요.",
                 });
                 return;
             }
 
             // Firebase Authentication을 통해 사용자를 인증합니다.
-            const user = await signInWithEmailAndPassword(auth, userInfo.email, userInfo.password);
+            const userCredential = await signInWithEmailAndPassword(auth, userInfo.email, userInfo.password);
+            const user = userCredential.user;
 
             // 사용자가 존재하는 경우
             if (user) {
@@ -100,7 +104,27 @@ export default function Login() {
                     showConfirmButton: false,
                     timer: 1200
                 });
-                navigate('/');
+                axios.get('/user/login', {
+                    params: {
+                        uid: userInfo.uid,
+                        email: userInfo.email,
+                        pwd: userInfo.password,
+                        profile: userInfo.profile,
+                        uname: userInfo.uname,
+                        nickname: userInfo.nickname,
+                        statusMessage: userInfo.statusMessage,
+                        snsDomain: userInfo.snsDomain,
+                        tel: userInfo.tel,
+                        hashUid: userInfo.hashUid,
+                        status: userInfo.status,
+                        gender: userInfo.gender,
+                        provider: userInfo.provider,
+                        regDate: userInfo.regDate,
+                        birth: userInfo.birth
+                    }
+                });
+                setUserData(user);
+                navigate('/home');
             }
         } catch (error) {
             // Firebase 오류 처리를 좀 더 일반적인 메시지로 통합

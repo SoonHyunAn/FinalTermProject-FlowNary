@@ -1,4 +1,3 @@
-import React from 'react';
 import { styled, alpha, InputBase} from '@mui/material';
 
 export const Search = styled('div')(({ theme }) => ({

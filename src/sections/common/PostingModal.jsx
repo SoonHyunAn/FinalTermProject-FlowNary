@@ -15,51 +15,83 @@ import CreateIcon from '@mui/icons-material/Create';
 import './posting.css';
 import { AntSwitch } from './postingStyle.jsx';
 
+// 알림창 npm
+import Swal from "sweetalert2"; // 알람 라이브러리
+
 export default function Posting() {
-    // 창열고 닫기
+    // 모달 창 상태 관리
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleClose = () => {
+        setOpen(false); // 모달 닫기
+        setImages([]); // 이미지 초기화
+        setPreviewUrls([]); // 이미지 미리보기 URL 초기화
+        setText(''); // 텍스트 초기화
+    };            
 
-    // 아코디언
+    //포스팅
+    const handlePost = () => {
+        // 새로운 게시물 객체 생성
+        const newPost = {
+            text: text, // 현재 입력된 텍스트
+            images: previewUrls // 선택된 이미지들의 URL                        
+        };
+    
+        // 새로운 게시물을 서버에 업로드하고 데이터베이스에 저장하는 작업
+    
+        // 모달 닫기
+        handleClose();
+        console.log(newPost);
+    };
+
+    //공개 비공개 설정
+    const [isPublic, setIsPublic] = useState(true);
+
+    const togglePublicStatus = () => {
+        setIsPublic(!isPublic);
+        console.log(isPublic);
+    }
+
+    // 아코디언 상태 관리(MUI )
     const [expanded, setExpanded] = React.useState('panel1');
-
     const handleChange = (panel) => (event, newExpanded) => {
         setExpanded(newExpanded ? panel : false);
     };
 
-    // 이미지 파일 불러오기
+    // 이미지 및 미리보기 URL 관리
     const [images, setImages] = useState([]);
     const [previewUrls, setPreviewUrls] = useState([]);
 
-    // 파일이 선택되었을 때 호출되는 함수
-    // 파일이 선택되었을 때 호출되는 함수
+    // 이미지 파일 선택 시 처리 함수
     const handleFileChange = (event) => {
-        // 이미지가 5개를 초과하지 않도록 확인
-        if (event.target.files.length + images.length > 5) {
-            alert('최대 5개의 이미지만 업로드할 수 있습니다.');
+        if (event.target.files.length + images.length > 12) {
+            // 이미지 개수 제한 팝업
+            Swal.fire({
+                title: "파일 갯수 초과",
+                text: "최대 12개의 이미지만 허용됩니다.",
+                icon: "warning"
+            });
             return;
         }
         const selectedFiles = Array.from(event.target.files);
-        setImages(images.concat(selectedFiles)); // 기존 이미지 배열에 추가
+        setImages(images.concat(selectedFiles));
         const newPreviewUrls = selectedFiles.map((file) => URL.createObjectURL(file));
-        setPreviewUrls(previewUrls.concat(newPreviewUrls)); // 미리보기 URL 배열에 추가
+        setPreviewUrls(previewUrls.concat(newPreviewUrls));
     };
 
-    // 이미지 삭제 핸들러
+    // 이미지 삭제 처리 함수
     const handleRemoveImage = (index) => {
-        setImages(images.filter((_, i) => i !== index)); // 이미지 배열에서 삭제
-        setPreviewUrls(previewUrls.filter((_, i) => i !== index)); // 미리보기 URL 배열에서 삭제
+        setImages(images.filter((_, i) => i !== index));
+        setPreviewUrls(previewUrls.filter((_, i) => i !== index));
     };
 
-    // 댓글 입력창 구현 - 이모티콘
+    // 댓글 입력창 처리 - 이모티콘
     const [text, setText] = useState('');
     function handleOnEnter(text) { console.log('enter', text) }
 
-
     return (
         <>
-            {/* 기존의 버튼 및 아이콘 */}
+            {/* 글쓰기 버튼 */}
             <button className='asideStyle' onClick={handleOpen}>
                 <Grid container>
                     <Grid item xs={12} lg={6} sx={{ display: { xs: 'flex', lg: 'flex' }, pl: 3 }}>
@@ -77,13 +109,14 @@ export default function Posting() {
                 onClose={handleClose}
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
+                sx={{ zIndex: '1000' }}
             >
                 <Box className='modalStyle'>
-                    {/* 모달의 상단에 있는 헤더 부분 */}
+                    {/* 모달 헤더 */}
                     <Stack direction="row" justifyContent="space-between" alignItems="center" marginBottom={2}>
                         <Button color="primary" onClick={handleClose}>창 닫기</Button>
                         <Typography variant="h6" component="h2" fontWeight="bold">새 게시물 만들기</Typography>
-                        <Button color="primary">작성</Button>
+                        <Button color="primary" onClick={handlePost}>작성</Button>
                     </Stack>
 
                     {/* 구분선 */}
@@ -116,7 +149,7 @@ export default function Posting() {
                         ))}
                     </Grid>
 
-                    {/* 게시글 작성 부분 */}
+                    {/* 게시글 입력창 */}
                     <Grid item xs={12} sm={6}>
                         <InputEmoji
                             value={text}
@@ -130,7 +163,7 @@ export default function Posting() {
                         />
                     </Grid>
 
-                    {/* 위치 */}
+                    {/* 위치 추가 아코디언 */}
                     <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
                         <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
                             <Typography>위치 추가</Typography>
@@ -142,8 +175,10 @@ export default function Posting() {
                         </AccordionDetails>
                     </Accordion>
 
-                    {/* 게시물 공개 비공개 */}
-                    <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
+                    {/* 게시물 공개 여부 아코디언 */}
+                    <Accordion expanded={expanded === 'panel3'} 
+                    onChange={handleChange('panel3')}
+                    onClick={togglePublicStatus}>
                         <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
                             <Typography>게시글 공개 혹은 비공개 </Typography>
                         </AccordionSummary>

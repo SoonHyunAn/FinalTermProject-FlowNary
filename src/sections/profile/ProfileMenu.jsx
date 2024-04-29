@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Avatar, Menu, MenuItem, Stack, Typography } from "@mui/material";
 
-{/* 유저 세부 정보를 보여주는 공간 - 내용 정렬 필요 */}
+// 유저 세부 정보를 보여주는 공간 - 내용 정렬 필요
 export default function ProfileMenu() {
     const [Ael, setAel] = useState(null);
     const open = Boolean(Ael);

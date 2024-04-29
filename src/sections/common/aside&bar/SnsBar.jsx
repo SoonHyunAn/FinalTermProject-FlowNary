@@ -12,7 +12,9 @@ import { signOut, getAuth, onAuthStateChanged } from 'firebase/auth';
 import { initializeApp } from "firebase/app";
 
 // 스타일 부분 연결
+import '../notice.css';
 import { Search, SearchIconWrapper, StyledInputBase } from '../snsbarStyle.jsx';
+import { useUser } from '../../../UserContext.js';
 
 // firebase Api 연결
 const firebaseConfig = {
@@ -22,6 +24,9 @@ const firebaseConfig = {
 };
 
 export default function SnsBar() {
+
+  const { userData } = useUser();
+
   // 반응형 로고 변환
   const logoImageLarge = '/img/LightLogo.png';
   const logoImageXs = '/img/LightLogoXs.png';
@@ -51,7 +56,7 @@ export default function SnsBar() {
       else { setIsLoggedIn(false); }
     });
     return () => unsubscribe();
-  }, []);
+  }, [auth]);
 
   // firebase 로그아웃
   const handleLogout = () => {
@@ -60,41 +65,35 @@ export default function SnsBar() {
   };
 
   return (
-    <div>
-      <AppBar position="static" sx={{ background: 'linear-gradient(to right, #7B68EE, rgb(28, 0, 53))', boxShadow: 'none' }}>
+    <div style={{ marginBottom: '6%' }} >
+      <AppBar position="absolute" sx={{ background: 'linear-gradient(to right, #7B68EE, rgb(28, 0, 53))', boxShadow: 'none' }}>
         <Toolbar>
 
-          <Grid container spacing={2}>
+          <Grid container spacing={1}>
             <Grid item xs={0.5} lg={0.1}>
             </Grid>
 
             {/* 로고 부분 */}
             <Grid item lg={1.4} sx={{ placeItems: 'center', display: { xs: 'none', lg: 'flex' }, }}>
-              <img src={logoImageLarge} alt='LOGO' style={{ width: '100%', alignItems: 'center', cursor: 'pointer' }} onClick={HomeButton} />
+              <img src={logoImageLarge} alt='LOGO' style={{ width: '100%', maxWidth: '120px', alignItems: 'center', cursor: 'pointer' }} onClick={HomeButton} />
             </Grid>
-            <Grid item xs={3} sx={{ placeItems: 'center', display: { xs: 'flex', lg: 'none' }, justifyContent: 'start' }} >
-              <img src={logoImageXs} alt='LOGO' style={{ width: '15%', alignItems: 'center', cursor: 'pointer' }} onClick={HomeButton} />
+            <Grid item xs={1.4} sx={{ placeItems: 'center', display: { xs: 'flex', lg: 'none' }, justifyContent: 'start' }} >
+              <img src={logoImageXs} alt='LOGO' style={{ width: '20px', alignItems: 'center', cursor: 'pointer' }} onClick={HomeButton} />
             </Grid>
 
-            <Grid item xs={1} lg={1.8}>
+            <Grid item xs={3} lg={1.8}>
             </Grid>
 
             {/* 검색창 부분 */}
-            <Grid item xs={2} lg={5.5} sx={{ placeItems: 'center', display: 'flex' }}>
-              <Search sx={{ borderRadius: 50, display: { xs: 'flex', lg: 'none' } }}  >
-                <Button sx={{ cursor: 'pointer' }} onClick={handleOpen}><SearchIcon sx={{ color: 'white' }} /></Button>
-                <Modal
-                  open={open}
-                  onClose={handleClose}
-                  aria-labelledby="modal-modal-title"
-                  aria-describedby="modal-modal-description"
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
+            <Grid item xs={2} lg={5.5} sx={{ placeItems: 'center', display: 'flex', justifyContent: 'center' }}>
+              <Search sx={{ borderRadius: 50, display: { xs: 'flex', lg: 'none' }, alignItems: 'center', justifyContent: 'center' }}  >
+                <Button sx={{ cursor: 'pointer' }} onClick={handleOpen}>
+                  <SearchIcon sx={{ color: 'white' }} />
+                </Button>
+                <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description"
+                  sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                 >
-                  <Box className='search_modal' sx={{ display: 'flex' }}>
+                  <Box sx={{ display: 'flex' }} className='search_modal'>
                     <Grid container>
                       <Grid item xs={8}>
                         <TextField
@@ -124,14 +123,18 @@ export default function SnsBar() {
                 <Button sx={{ cursor: 'pointer' }} onClick={handleClose}><CloseIcon sx={{ color: 'white' }} /></Button>
               </Search>
             </Grid>
-            <Grid item xs={1} lg={2.1}>
+
+            <Grid item xs={3} lg={2.1}>
             </Grid>
 
             {/* 로그아웃 또는 로그인 버튼 부분*/}
-            <Grid item xs={4.5} lg={1} sx={{ placeItems: 'center', justifyContent: 'flex-end', display: 'flex' }}>
-              {isLoggedIn ? ( // 로그인 상태인 경우
-                <Button style={{ color: 'white', opacity: 0.7 }} onClick={handleLogout}>로그아웃</Button>
-              ) : ( // 로그아웃 상태인 경우
+            <Grid item xs={1.5} lg={1} sx={{ placeItems: 'center', justifyContent: 'flex-end', display: 'flex' }}>
+              {userData && userData.email ? (
+                <>
+                  <span>{userData.email}</span>
+                  <Button style={{ color: 'white', opacity: 0.7 }} onClick={handleLogout}>로그아웃</Button>
+                </>
+              ) : (
                 <Button style={{ color: 'white', opacity: 0.7 }} onClick={handleLinkToLogin}>로그인</Button>
               )}
             </Grid>

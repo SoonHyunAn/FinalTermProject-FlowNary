@@ -18,20 +18,21 @@ export default function Home() {
             <SnsBar />
             <Stack direction="row" spacing={0} sx={{ height: "100vh" }}>
                 {/* 작은 화면에서는 0.4, 큰 화면에서는 0.2의 너비를 가지도록 설정 */}
-                <Stack direction="column" spacing={2} sx={{ flex: isLargeScreen ? '0.3' : '0.3', boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)' }}>
+                <Stack direction="column" spacing={2} sx={{ flex: isLargeScreen ? '0.3' : '0.3' }}>
                     <Aside />
                 </Stack>
                 {/* 작은 화면에서는 1.5, 큰 화면에서는 1.1의 너비를 가지도록 설정 */}
                 <Stack direction="column" spacing={2} sx={{ flex: isLargeScreen ? '1.1' : '1.5' }}>
-                    <Stack alignItems="center" sx={{ flexGrow: 1 }}>
+                    <Stack alignItems="center" sx={{ flexGrow: 1, boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)' }} >
                         <Board />
                     </Stack>
                 </Stack>
                 {/* 작은 화면에서는 0.4, 큰 화면에서는 0.6의 너비를 가지도록 설정 */}
-                <Stack direction="column" spacing={2} sx={{ flex: isLargeScreen ? '0.4' : '0', boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)'  }}>
+                <Stack direction="column" spacing={2} sx={{ flex: isLargeScreen ? '0.4' : '0' }}>
                     <RecommendList />
                 </Stack>
             </Stack>
+
         </>
     );
 }

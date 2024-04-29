@@ -153,6 +153,15 @@ export default function Register() {
                     });
                 }
             });
+
+            axios.post('/user/register', userInfo)
+            .then(response => {
+                console.log("유저 데이터 들어옴", response.data);
+            })
+
+            .catch(error => {
+                console.error("ㄴㄴ다시해", error);
+            }) 
     }
 
     return (
