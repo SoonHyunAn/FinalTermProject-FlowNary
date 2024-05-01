@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import App from './App';
-import { UserProvider } from './UserContext';
 
 import NotFound from './sections/NotFound';
 import Home from './sections/home/Home/Home';
@@ -40,9 +39,7 @@ const root = createRoot(document.getElementById('root'));
 
 root.render(
   <React.StrictMode>
-    <UserProvider>
-      <RouterProvider router={router} />
-    </UserProvider>
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 

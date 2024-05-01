@@ -45,7 +45,18 @@ export default function Register() {
         try {
             const auth = getAuth();
             const provider = new GoogleAuthProvider();
-            await signInWithPopup(auth, provider);
+            const data = await signInWithPopup(auth, provider);
+            console.log(data);
+            axios.get("http://localhost:8090/user/register", {
+                params: {
+                    email: data.user.email,
+                    pwd: 'nn',
+                    hashuid: data.user.uid,
+                    provider: 1,
+                }
+            }).catch((error) => {
+                 console.log(error)
+            });
             Swal.fire({
                 icon: 'success',
                 title: "구글 로그인에 성공했습니다.",
@@ -124,14 +135,16 @@ export default function Register() {
                     text: "OK 버튼을 눌러주세요!",
                     icon: "success"
                 });
-                axios.get("/user/register", {
+                axios.get("http://localhost:8090/user/register", {
                     params: {
                         email: userInfo.email,
                         pwd: userInfo.password,
+                        hashuid: 'nonGoogle',
+                        provider: 0,
                     }
                 }).catch((error) => {
                     console.log(error)
-                })
+                });
                 setTimeout(() => {
                     navigate('/login');
                 }, 1000); // 1000 밀리초 = 1초 딜레이
@@ -153,15 +166,6 @@ export default function Register() {
                     });
                 }
             });
-
-            axios.post('/user/register', userInfo)
-            .then(response => {
-                console.log("유저 데이터 들어옴", response.data);
-            })
-
-            .catch(error => {
-                console.error("ㄴㄴ다시해", error);
-            }) 
     }
 
     return (

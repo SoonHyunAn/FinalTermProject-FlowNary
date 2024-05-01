@@ -11,6 +11,18 @@
   box-shadow: 0 0 24px rgba(0, 0, 0, 0.5);
 }
 
+.search_modal {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  height: 5%;
+  background-color: white;
+  border: 2px solid #000;
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.5);
+  padding: 20px 10px 20px 20px;
+}
 
 /* FlexContainer 스타일 */
 .board_div_style_1 {

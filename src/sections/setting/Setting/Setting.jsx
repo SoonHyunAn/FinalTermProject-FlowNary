@@ -18,7 +18,7 @@ export default function Setting() {
                         <Aside />
                     </Stack>
                 </Stack>
-                <Stack direction="column" spacing={2} sx={{ flex: 1.5, boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)' }}>
+                <Stack direction="column" spacing={2} sx={{ flex: 1.5}}>
                     <SettingDetail />
                 </Stack>
             </Stack>

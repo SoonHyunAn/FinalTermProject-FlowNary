@@ -15,12 +15,12 @@ export default function Follower() {
             <SnsBar />
             <Stack direction="row" spacing={0} sx={{ height: "100vh" }}>
                 <Stack direction="column" spacing={2} sx={{ flex: 0.3, boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)' }}>
-                    <Aside sx={{zIndex:'1'}}/>
+                    <Aside />
                 </Stack>
                 <Stack direction="column" spacing={2} sx={{ flex: 0.2 }}>
                 </Stack>
                 <Stack direction="column" spacing={2} sx={{ flex: 0.8 }}>
-                    <Follow sx={{zIndex:'2'}}/>
+                    <Follow />
                 </Stack>
                 <Stack direction="column" spacing={2} sx={{ flex: 0.5 }}>
                 </Stack>

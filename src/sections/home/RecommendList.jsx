@@ -11,7 +11,7 @@ export default function RecommendList() {
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <ListItem alignItems="center">
             <ListItemAvatar>
-              <Avatar alt="Remy Sharp" src="/img/flowLight.png"  />
+              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
             </ListItemAvatar>
             <Typography>
               안순현
@@ -23,7 +23,7 @@ export default function RecommendList() {
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <ListItem alignItems="center">
             <ListItemAvatar>
-              <Avatar alt="Travis Howard" src="/img/flowLight.png"  />
+              <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
             </ListItemAvatar>
             <Typography>
               윤영준
@@ -35,7 +35,7 @@ export default function RecommendList() {
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <ListItem alignItems="center">
             <ListItemAvatar>
-              <Avatar alt="Cindy Baker" src="/img/flowLight.png"  />
+              <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
             </ListItemAvatar>
             <Typography>
               곽주영

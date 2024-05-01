@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@cloudinary/react": "^1.13.0",
+    "@cloudinary/url-gen": "^1.19.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@fontsource/roboto": "^5.0.12",
@@ -15,6 +17,7 @@
     "axios": "^1.6.8",
     "chart.js": "^4.4.2",
     "chartjs-adapter-date-fns": "^3.0.0",
+    "cloudinary": "^2.2.0",
     "date-fns": "^3.6.0",
     "emoji-picker-element": "^1.21.3",
     "firebase": "^10.11.0",
@@ -28,6 +31,7 @@
     "react-input-emoji": "^5.8.0",
     "react-router-dom": "^6.22.3",
     "react-scripts": "5.0.1",
+    "stream-http": "^3.2.0",
     "styled-components": "^6.1.8",
     "sweetalert2": "^11.10.8",
     "timeago.js": "^4.0.2",
@@ -39,7 +43,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy":"http://localhost:8090",
+  "proxy": "http://localhost:8090",
   "eslintConfig": {
     "extends": [
       "react-app",

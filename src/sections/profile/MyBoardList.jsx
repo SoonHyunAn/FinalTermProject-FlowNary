@@ -1,12 +1,142 @@
 // 기본
-import React from "react";
-import { Avatar, Box, Chip, Divider, Grid, Paper, Stack, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { Avatar, Box, Chip, Divider, Grid, List, ListItem, ListItemAvatar, ListItemText, Modal, Paper, Stack, TextField, Typography } from "@mui/material";
 
 // 아이콘
 import SubjectIcon from '@mui/icons-material/Subject';
 import AssignmentReturnedIcon from '@mui/icons-material/AssignmentReturned';
 
+const searchData = [
+  'Remy Sharp',
+  'Travis Howard',
+  'Summer BBQ',
+];
+
+//Modal 창
+function BasicModal({ open, handleClose, content }) {
+
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredData = searchData.filter((item) =>
+    item.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  return (
+    <Modal
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 300, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
+        <Typography id="modal-modal-title" variant="h6" component="h2">
+          {content.title} <br />
+          <TextField
+            label="Search"
+            variant="outlined"
+            value={searchTerm}
+            onChange={handleSearch}
+          />
+          <hr />
+        </Typography>
+        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          {content.description}
+          <div>
+            <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+              <ListItem alignItems="flex-start">
+                <ListItemAvatar>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                </ListItemAvatar>
+                <ListItemText
+                  primary="아이디 혹은 닉네임"
+                  secondary={
+                    <React.Fragment>
+                      <Typography
+                        sx={{ display: 'inline' }}
+                        component="span"
+                        variant="body2"
+                        color="text.primary"
+                      >
+                        실명 혹은 메일주소
+                      </Typography>
+                    </React.Fragment>
+                  }
+                />
+              </ListItem>
+              <Divider variant="inset" component="li" />
+              <ListItem alignItems="flex-start">
+                <ListItemAvatar>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                </ListItemAvatar>
+                <ListItemText
+                  primary="아이디 혹은 닉네임"
+                  secondary={
+                    <React.Fragment>
+                      <Typography
+                        sx={{ display: 'inline' }}
+                        component="span"
+                        variant="body2"
+                        color="text.primary"
+                      >
+                        실명 혹은 메일주소
+                      </Typography>
+                    </React.Fragment>
+                  }
+                />
+              </ListItem>
+
+
+              <Divider variant="inset" component="li" />
+              <ListItem alignItems="flex-start">
+                <ListItemAvatar>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                </ListItemAvatar>
+                <ListItemText
+                  primary="아이디 혹은 닉네임"
+                  secondary={
+                    <React.Fragment>
+                      <Typography
+                        sx={{ display: 'inline' }}
+                        component="span"
+                        variant="body2"
+                        color="text.primary"
+                      >
+                        실명 혹은 메일주소
+                      </Typography>
+                    </React.Fragment>
+                  }
+                />
+              </ListItem>
+
+            </List>
+          </div>
+        </Typography>
+      </Box>
+    </Modal>
+  );
+}
+
+
 export default function MyBoardList() {
+
+  //모달 관리
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState({ title: '', description: '' });
+
+  const handleOpen = (title, description) => {
+    setModalContent({ title, description });
+    setModalOpen(true);
+  };
+
+  const handleClose = () => {
+    setModalOpen(false);
+  };
+
+
   return (
     <>
       {/* 상단 정보 넣는 Stack 태그 */}
@@ -21,13 +151,13 @@ export default function MyBoardList() {
             O O O
           </Typography>
           <Stack direction={'row'} spacing={2} sx={{ marginTop: '10px', marginBottom: '15px' }}>
-            <Box sx={{ cursor: 'pointer' }}>
+            <Box sx={{ cursor: 'pointer' }} >
               게시물 수
             </Box>
-            <Box sx={{ cursor: 'pointer' }}>
+            <Box sx={{ cursor: 'pointer' }} onClick={() => handleOpen('팔로워', '여기에 팔로워 수에 대한 정보를 표시')}>
               팔로워 수
             </Box>
-            <Box sx={{ cursor: 'pointer' }}>
+            <Box sx={{ cursor: 'pointer' }} onClick={() => handleOpen('팔로잉', '여기에 팔로잉 수에 대한 정보를 표시')}>
               팔로잉 수
             </Box>
           </Stack>
@@ -37,6 +167,7 @@ export default function MyBoardList() {
           </Stack>
         </Stack>
       </Stack>
+      <BasicModal open={modalOpen} handleClose={handleClose} content={modalContent} />
 
       {/* 소개문 넣는 Stack */}
       <Stack sx={{ paddingLeft: '30px', paddingRight: '30px' }}>

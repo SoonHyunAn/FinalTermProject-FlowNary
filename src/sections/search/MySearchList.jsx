@@ -27,6 +27,7 @@ export default function MySearchList() {
     setItems(prevItems => [...prevItems, ...newItems]);
   };
 
+  {/* 아래 무한스크롤로 변환해야 함*/}
   return (
     <>
       <Box sx={{ width: '100%' }}>

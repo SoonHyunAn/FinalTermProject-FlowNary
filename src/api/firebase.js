@@ -1,6 +1,7 @@
-import { initializeApp } from 'firebase/app';
-import { getAuth, signOut, signInWithEmailAndPassword } from "firebase/auth";
-import { getDatabase } from 'firebase/database'; // 이 부분을 추가
+import { initializeApp } from "firebase/app";
+import {
+  getAuth, signOut, signInWithEmailAndPassword,
+} from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -8,23 +9,19 @@ const firebaseConfig = {
   projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
 };
 
+// eslint-disable-next-line
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const database = getDatabase(app); // Firebase Realtime Database 초기화
+const auth = getAuth();
 
 export function login({ email, password }) {
   signInWithEmailAndPassword(auth, email, password)
-    .then(() => console.log('로그인 성공'))
-    .catch((error) => console.error('로그인 실패:', error.message));
+    .catch(console.error);
 }
 
 export function logout() {
-  signOut(auth)
-    .then(() => console.log('로그아웃 성공'))
-    .catch((error) => console.error('로그아웃 실패:', error.message));
+  signOut(auth).catch(console.error);
 }
 
-export { database };
 // export function register({ email, password }) {
 //   console.log('firebase:register():', email, password);
 //   createUserWithEmailAndPassword(auth, email, password)

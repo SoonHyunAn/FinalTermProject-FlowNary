@@ -1,3 +1,4 @@
+import React from 'react';
 import { styled, Switch } from '@mui/material';
 
 // 스위치 스타일링

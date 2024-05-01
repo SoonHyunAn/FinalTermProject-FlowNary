@@ -1,4 +1,5 @@
-import { styled, alpha, InputBase} from '@mui/material';
+import React from 'react';
+import { styled, alpha, Toolbar, InputBase} from '@mui/material';
 
 export const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -11,7 +12,7 @@ export const Search = styled('div')(({ theme }) => ({
   width: '100%',
   [theme.breakpoints.up('sm')]: {
     marginLeft: theme.spacing(3),
-    width: '100%',
+    width: 'auto',
   },
 }));
 

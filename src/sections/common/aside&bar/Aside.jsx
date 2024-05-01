@@ -28,10 +28,10 @@ export default function Aside() {
   return (
     <div style={{ position: 'fixed', top: 0, width: '20%' }}>
       <Grid item lg={1.4} sx={{ placeItems: 'center', display: { xs: 'none', lg: 'flex' }, mb: '20px' }}>
-        <img src={logoImageLarge} alt='LOGO' style={{ width: '13%', marginLeft: '4%', alignItems: 'center', cursor: 'pointer' }} onClick={HomeButton} />
+        <img src={logoImageLarge} alt='LOGO' style={{ width: '35px', marginLeft: '4%', alignItems: 'center', cursor: 'pointer' }} onClick={HomeButton} />
       </Grid>
       <Grid item xs={1.4} sx={{ placeItems: 'center', display: { xs: 'flex', lg: 'none' }, mb: '20px' }} >
-        <img src={logoImageXs} alt='LOGO' style={{ width: '13%', marginLeft: '35%', alignItems: 'center', cursor: 'pointer' }} onClick={HomeButton} />
+        <img src={logoImageXs} alt='LOGO' style={{ width: '20px', marginLeft: '35%', alignItems: 'center', cursor: 'pointer' }} onClick={HomeButton} />
       </Grid>
       {/* 홈 */}
       <button className='asideStyle' onClick={HomeButton}>
