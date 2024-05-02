@@ -1,6 +1,6 @@
 // 기본
 import { React, useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { AppBar, Box, Grid, Button, Modal, TextField, Toolbar } from '@mui/material';
 
 // 아이콘
@@ -27,8 +27,9 @@ const firebaseConfig = {
 
 export default function SnsBar() {
 
-  const uid = parseInt(GetWithExpiry("uid"));
+  // const uid = parseInt(GetWithExpiry("uid"));
   const email = GetWithExpiry("email");
+  const location = useLocation();
 
   // 반응형 로고 변환
   const logoImageLarge = '/img/LightLogo.png';
@@ -36,13 +37,30 @@ export default function SnsBar() {
 
   // Modal 창 열고 끄기
   const [open, setOpen] = useState(false);
+  const [searchtext, setSearchtext] = useState(sessionStorage.getItem("search"));
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   // 버튼 경로 지정
   const navigate = useNavigate();
   const HomeButton = () => { navigate('/'); };
-  const handleSearch = () => { navigate('/search'); }
+  const handleSearch = () => {
+    if (searchtext === '' || searchtext === null)
+    {
+      alert('검색어를 입력하십시오');
+    }
+    else {
+      sessionStorage.setItem("search", searchtext);
+      if (location.pathname !== 'search')
+      {
+        navigate('/search');
+      }
+      else
+      {
+        window.location.replace('/search');
+      }
+    }
+  }
   const handleLinkToLogin = () => { navigate('/login'); }
 
   // firebase 기초 설정
@@ -52,6 +70,7 @@ export default function SnsBar() {
   const auth = getAuth();
 
   // firebase 로그인 구현
+   // eslint-disable-next-line 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -74,6 +93,10 @@ export default function SnsBar() {
         console.error('로그아웃 오류:', error);
       });
   };
+
+  const handleSearchText = (e) => {
+    setSearchtext(e.target.value);
+  }
 
   return (
     <div style={{ marginBottom: '6%' }} >
@@ -99,7 +122,7 @@ export default function SnsBar() {
             <Grid item xs={2} lg={5.5} sx={{ placeItems: 'center', display: 'flex', justifyContent: 'center' }}>
               <Search sx={{ borderRadius: 50, display: { xs: 'flex', lg: 'none' }, alignItems: 'center', justifyContent: 'center' }}  >
                 <Button sx={{ cursor: 'pointer' }} onClick={handleOpen}>
-                  <SearchIcon sx={{ color: 'white' }} />
+                  <SearchIcon sx={{ color: 'white' }}/>
                 </Button>
                 <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description"
                   sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
@@ -111,6 +134,8 @@ export default function SnsBar() {
                           id="outlined-multiline-flexible"
                           label="검색"
                           variant="standard"
+                          onChange={handleSearchText}
+                          defaultValue={searchtext}
                         />
                       </Grid>
                       <Grid item xs={2}>
@@ -124,14 +149,17 @@ export default function SnsBar() {
                 </Modal>
               </Search>
               <Search sx={{ borderRadius: 50, display: { xs: 'none', lg: 'flex' } }}  >
-                <SearchIconWrapper>
-                  <SearchIcon />
+                <SearchIconWrapper sx={{ cursor: 'pointer' }} onClick={handleSearch} >
+                  <SearchIcon  />
                 </SearchIconWrapper>
                 <StyledInputBase
                   placeholder="검색"
                   inputProps={{ 'aria-label': 'search' }}
+                  onChange={handleSearchText}
+                  defaultValue={searchtext}
                 />
                 <Button sx={{ cursor: 'pointer' }} onClick={handleClose}><CloseIcon sx={{ color: 'white' }} /></Button>
+                <Button sx={{ cursor: 'pointer' }} onClick={handleSearch}><SearchIcon sx={{ color: 'white' }} /></Button>
               </Search>
             </Grid>
 

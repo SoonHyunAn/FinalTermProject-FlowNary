@@ -1,5 +1,5 @@
 // 기본
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Card } from "@mui/material";
 import { SetWithExpiry } from "../../api/LocalStorage";  
@@ -62,7 +62,7 @@ export default function Login() {
             });
             console.log("구글 로그인 성공!");
 
-            axios.get('http://localhost:8090/user/getUserEmail', {
+            axios.get('http://localhost:8090/user/getUserByEmail', {
                 params: {
                     email: data.user.email
                 }
@@ -116,7 +116,7 @@ export default function Login() {
                     timer: 1200
                 });
                 
-                axios.get('http://localhost:8090/user/getUserEmail', {
+                axios.get('http://localhost:8090/user/getUserByEmail', {
                     params: {
                         email: userInfo.email
                     }

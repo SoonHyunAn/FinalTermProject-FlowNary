@@ -21,9 +21,9 @@ function BasicModal({ open, handleClose, content }) {
     setSearchTerm(event.target.value);
   };
 
-  const filteredData = searchData.filter((item) =>
-    item.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // const filteredData = searchData.filter((item) =>
+  //   item.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
 
   return (
     <Modal

@@ -1,5 +1,5 @@
 // 기본
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Avatar, Box, Chip, Divider, Grid, Paper, Stack, Typography } from "@mui/material";
 
 // 아이콘
@@ -8,8 +8,56 @@ import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 
 // css 연결
 import './search.css';
+import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 export default function MySearchList() {
+  
+  const query = sessionStorage.getItem("search");
+  // const location = useLocation();
+  
+  const [count, setCount] = useState(12);
+  const [page, setPage] = useState(0);
+  const [boardList, setBoardList] = useState([{
+    bid: -1,
+    uid: -1,
+    title: '',
+    bContents: '',
+    modTime: null,
+    viewCount: 0,
+    likeCount: 0,
+    replyCount: 0,
+    image: '',
+    shareUrl: '',
+    nickname: '',
+    hashTag: '',
+    isDeleted: 0
+  }]);
+  // const [is, setIs] = useState(false);
+
+  useEffect(() => {
+    if (query != null)
+    {
+      axios.get('http://localhost:8090/board/list', {
+        params: {
+          c: count,
+          q: query,
+        }
+      }).then(res => {
+        setBoardList(res.data);
+        if (res.data.length > 0)
+        {
+          setIs(true);
+        }
+      })
+      .catch(error => console.log(error));
+    }
+    else
+    {
+      setIs(false);
+    }
+  }, [query, page]);
+
   // 무한 스크롤
   const [items, setItems] = useState([1, 2, 3, 4]); // Initial items
   useEffect(() => {
@@ -27,6 +75,24 @@ export default function MySearchList() {
     setItems(prevItems => [...prevItems, ...newItems]);
   };
 
+  const target = useRef(null);
+  
+  useEffect(() => {
+    observer.observe(target.current);
+  })
+  
+  const options = {
+    threshold: 1.0,
+  };
+  
+  const callback = () => {
+    setCount(count + 12);
+    setPage(page + 1);
+    console.log('실행!');
+  }
+  const observer = new IntersectionObserver(callback, options);
+ 
+  
   {/* 아래 무한스크롤로 변환해야 함*/}
   return (
     <>
@@ -42,7 +108,7 @@ export default function MySearchList() {
               </Avatar>
               <Stack sx={{ padding: '20px' }} fontWeight={'bold'}>
                 <Typography variant="h4" fontWeight={'bold'}>
-                  # search_info
+                  # {query}
                 </Typography>
                 <Stack direction={'row'} spacing={2} sx={{ marginTop: '10px', marginBottom: '15px' }}>
                   <Box sx={{ cursor: 'pointer' }}>
@@ -73,59 +139,27 @@ export default function MySearchList() {
             
             {/* 목록 */}
             <Grid container>
-              <Grid item xs={2}>
-              </Grid>
-              <Grid item xs={4}>
-                <Paper elevation={2} className="uploadlist">
-                  <Box className="uploaditem">
-                    1
-                  </Box>
-                </Paper>
-              </Grid>
-              <Grid item xs={4}>
-                <Paper elevation={2} className="uploadlist">
-                  <Box className="uploaditem">
-                    2
-                  </Box>
-                </Paper>
-              </Grid>
-              <Grid item xs={2}>
-              </Grid>
-              <Grid item xs={2}>
-              </Grid>
-              <Grid item xs={4}>
-                <Paper elevation={2} className="uploadlist">
-                  <Box className="uploaditem">
-                    3
-                  </Box>
-                </Paper>
-              </Grid>
-              <Grid item xs={4}>
-                <Paper elevation={2} className="uploadlist">
-                  <Box className="uploaditem">
-                    4
-                  </Box>
-                </Paper>
-              </Grid>
-              <Grid item xs={2}>
-              </Grid>
-              <Grid item xs={2}>
-              </Grid>
-              <Grid item xs={4}>
-                <Paper elevation={2} className="uploadlist">
-                  <Box className="uploaditem">
-                    5
-                  </Box>
-                </Paper>
-              </Grid>
-              <Grid item xs={4}>
-                <Paper elevation={2} className="uploadlist">
-                  <Box className="uploaditem">
-                    6
-                  </Box>
-                </Paper>
-              </Grid>
-
+              {
+                boardList.map((board, idx) => {
+                  if (board.bid == -1 || board == null)
+                  {
+                    return <div key={idx}>
+                      검색 결과가 없습니다!
+                    </div>
+                  }
+                  else
+                  {
+                    return <Grid item xs={6} md={4} key={idx}>
+                      <Paper elevation={2} className="uploadlist">
+                        <Box className="uploaditem">
+                          bid: {board.bid} <br />
+                          nickname: {board.nickname}
+                        </Box>
+                      </Paper>
+                    </Grid>
+                  }
+                })
+              }
             </Grid>
           </Grid>
         </Grid>

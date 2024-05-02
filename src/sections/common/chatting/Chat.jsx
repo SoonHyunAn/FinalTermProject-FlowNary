@@ -1,6 +1,6 @@
 // 기본
 import React, { useState } from 'react'
-import { Avatar, Box, Stack, TextField, Toolbar, InputAdornment } from "@mui/material";
+import { Avatar, Box, Stack, TextField, InputAdornment } from "@mui/material";
 
 // 아이콘
 import IconButton from '@mui/material/IconButton';
