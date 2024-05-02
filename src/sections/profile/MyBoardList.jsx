@@ -6,11 +6,11 @@ import { Avatar, Box, Chip, Divider, Grid, List, ListItem, ListItemAvatar, ListI
 import SubjectIcon from '@mui/icons-material/Subject';
 import AssignmentReturnedIcon from '@mui/icons-material/AssignmentReturned';
 
-const searchData = [
-  'Remy Sharp',
-  'Travis Howard',
-  'Summer BBQ',
-];
+// const searchData = [
+//   'Remy Sharp',
+//   'Travis Howard',
+//   'Summer BBQ',
+// ];
 
 //Modal 창
 function BasicModal({ open, handleClose, content }) {

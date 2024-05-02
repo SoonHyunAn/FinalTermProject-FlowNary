@@ -9,7 +9,7 @@ import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 // css 연결
 import './search.css';
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 
 export default function MySearchList() {
   
@@ -33,7 +33,8 @@ export default function MySearchList() {
     hashTag: '',
     isDeleted: 0
   }]);
-  // const [is, setIs] = useState(false);
+  // eslint-disable-next-line
+  const [is, setIs] = useState(false);
 
   useEffect(() => {
     if (query != null)
@@ -56,7 +57,7 @@ export default function MySearchList() {
     {
       setIs(false);
     }
-  }, [query, page]);
+  }, [query, count]);
 
   // 무한 스크롤
   const [items, setItems] = useState([1, 2, 3, 4]); // Initial items
@@ -93,7 +94,7 @@ export default function MySearchList() {
   const observer = new IntersectionObserver(callback, options);
  
   
-  {/* 아래 무한스크롤로 변환해야 함*/}
+  // 아래 무한스크롤로 변환해야 함
   return (
     <>
       <Box sx={{ width: '100%' }}>
@@ -141,7 +142,7 @@ export default function MySearchList() {
             <Grid container>
               {
                 boardList.map((board, idx) => {
-                  if (board.bid == -1 || board == null)
+                  if (board.bid === -1 || board === null)
                   {
                     return <div key={idx}>
                       검색 결과가 없습니다!
