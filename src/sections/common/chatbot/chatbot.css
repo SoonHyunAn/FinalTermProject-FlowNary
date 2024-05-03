@@ -1,3 +1,5 @@
+/* 챗봇 라이브러리 전용 css */
+
 .react-chatbot-kit-user-chat-message-container {
     display: flex;    
     margin: 15px 15px;
@@ -85,8 +87,8 @@
     color: #fff;
     font-weight: medium;
     position: relative;
-    width: 184.5px;
-    margin-left: auto;
+    width: 15rem;
+    margin-left: 0;
     text-align: left;
   }
   
@@ -140,7 +142,7 @@
   
   .react-chatbot-kit-chat-container {
     position: relative;
-    width: 275px;
+    width: 100%;    
   }
   
   .react-chatbot-kit-chat-inner-container {
@@ -235,5 +237,32 @@
     text-decoration: none;
     font-size: 1rem;
   }
+
   
+  /* ==================================================== */
+
+  .help-btn{
+    background-color: #523464;
+    color: white;
+    padding: .5rem 1rem;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    margin-left: .25rem;
+    margin-bottom: .25rem;
+  }
+
+  
+  .board-btn{
+    background-color: #5ab9c5;
+    color: white;
+    display: inline-block;      
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;    
+    margin-left: .5rem;
+    margin-bottom: .5rem;
+  }
+
+    
   

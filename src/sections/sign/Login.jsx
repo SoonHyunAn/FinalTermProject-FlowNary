@@ -1,8 +1,8 @@
 // 기본
-import React, {useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Card } from "@mui/material";
-import { SetWithExpiry } from "../../api/LocalStorage";  
+import { SetWithExpiry } from "../../api/LocalStorage";
 
 // firebase 연결
 import { login } from "../../api/firebase";
@@ -35,6 +35,7 @@ export default function Login() {
     const handleChange = e => {
         setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
     }
+
 
     // 구글로 로그인
     const loginWithGoogle = async () => {
@@ -79,29 +80,35 @@ export default function Login() {
         }
     };
 
-    
-    const handleSubmit = async e => {
-        e.preventDefault();
-        
+    function handleKeyPress(event) {
+        if (event  && event.key === 'Enter') {
+            event.preventDefault(); // 기본 동작 방지
+            handleSubmit();
+        }
+    }
+
+    const handleSubmit = async () => {
+        // e.preventDefault();
+
         try {
             // 이메일이 빈칸인 경우
             if (!userInfo.email) {
                 Swal.fire({
-                    icon:"warning",                    
-                    text:"이메일을 입력해주세요.",
+                    icon: "warning",
+                    text: "이메일을 입력해주세요.",
                 });
                 return;
             }
-            
+
             // 비밀번호가 빈칸인 경우
             if (!userInfo.password) {
                 Swal.fire({
-                    icon:"warning",                    
-                    text:"비밀번호를 입력해주세요.",
+                    icon: "warning",
+                    text: "비밀번호를 입력해주세요.",
                 });
                 return;
             }
-            
+
             // Firebase Authentication을 통해 사용자를 인증합니다.
             const checkuser = await signInWithEmailAndPassword(auth, userInfo.email, userInfo.password);
 
@@ -115,7 +122,7 @@ export default function Login() {
                     showConfirmButton: false,
                     timer: 1200
                 });
-                
+
                 axios.get('http://localhost:8090/user/getUserByEmail', {
                     params: {
                         email: userInfo.email
@@ -125,7 +132,7 @@ export default function Login() {
                     SetWithExpiry("email", res.data.email, 180);
                     SetWithExpiry("profile", res.data.profile, 180);
                 }).catch(error => console.log(error));
-                
+
                 navigate('/');
             }
         } catch (error) {
@@ -139,7 +146,7 @@ export default function Login() {
             console.error(error);
         }
     }
-    
+
     return (
         <div className={`background ${theme}`} style={{
             backgroundImage: `url(${backgroundImage})`,
@@ -155,12 +162,12 @@ export default function Login() {
 
                     <br />
                     <input type="email" name='email' placeholder="닉네임 혹은 이메일" className="commonInputStyle"
-                        onChange={handleChange} />
+                        onChange={handleChange} onKeyUp={handleKeyPress} />
                     <br />
                     <input type="password" name='password' placeholder="비밀번호" className="commonInputStyle"
-                        onChange={handleChange} />
+                        onChange={handleChange} onKeyUp={handleKeyPress} />
                     <br />
-                    <button className="fill" onClick={handleSubmit}>로그인</button>
+                    <button className="fill" onClick={handleSubmit} >로그인</button>
                     <p style={{
                         marginTop: '3px', marginBottom: '10px',
                         color: theme === 'light' ? '#dca3e7' : '#ffffff'

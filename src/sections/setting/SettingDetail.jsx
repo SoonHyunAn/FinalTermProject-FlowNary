@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import {
   Box, Button, Card, TextField, InputAdornment,
   Typography, InputLabel, MenuItem, FormControl, Select, Avatar,
-  IconButton,
-  Grid
+  IconButton, Grid,
+  Stack
 } from "@mui/material";
 // import { Cloudinary } from "@cloudinary/url-gen/index";
 import { FindImage, UploadImage } from "../../api/image.js";
@@ -26,6 +26,13 @@ import Swal from "sweetalert2";
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 
+// 생년월일
+import dayjs from 'dayjs';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
 const LightTooltip = styled(({ className, ...props }) => (
   <Tooltip arrow {...props} classes={{ popper: className }} />
 ))(({ theme }) => ({
@@ -37,7 +44,6 @@ const LightTooltip = styled(({ className, ...props }) => (
 
 export default function SettingDetail() {
   const navigate = useNavigate();
-
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -67,9 +73,9 @@ export default function SettingDetail() {
   const [statusMessage, setStat] = useState('');
   const [profile, setProfile] = useState('');
   const [image, setImage] = useState('');
-  const [birth, setBirth] = useState(new Date());
-  const [tel, setTel] = useState('');
   const [snsDomain, setSnsDomain] = useState('');
+
+  const [birth, setBirth] = useState('');
 
   const [pwd1, setPwd1] = useState('');
   const [pwd2, setPwd2] = useState('');
@@ -80,39 +86,42 @@ export default function SettingDetail() {
   const [status, setStatus] = useState('0');
   const [preview, setPreview] = useState('');
 
-
   const [change, setChange] = useState(0);
   const [myimage, setMyimage] = useState('');
 
-  // 성별
   const [gender, setGender] = useState('');
 
   useEffect(() => {
     if (uid == null) {
-      //alert('로그인이 필요합니다.');
       navigate('/login');
     }
   }, []);
 
   // 핸드폰 번호 입력 시 자동으로 '-' 추가
-  const handleTelChange = (e) => {
-    const input = e.target.value.replace(/[^0-9]/g, '');
-    let formattedTel = '';
+  const [tel, setTel] = useState('');
 
-    if (input.length > 2) {
-      formattedTel += input.substring(0, 3) + '-';
-      if (input.length > 6) {
-        formattedTel += input.substring(3, 7) + '-';
-        formattedTel += input.substring(7, 11);
-      } else {
-        formattedTel += input.substring(3, input.length);
-      }
-    } else {
-      formattedTel = input;
+  const handleInputChange = e => {
+    const { value } = e.target;
+    setTel(value);
+  };
+
+  useEffect(() => {
+    let formattedNumberValue = tel.replace(/[^0-9]/g, ''); // 숫자 이외의 문자 제거
+
+    if (formattedNumberValue.length > 11) {
+      formattedNumberValue = formattedNumberValue.slice(0, 11);
     }
 
-    setTel(formattedTel);
-  };
+
+    if (formattedNumberValue.length === 11) {
+      formattedNumberValue = formattedNumberValue.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+    } else if (formattedNumberValue.length === 13) {
+      formattedNumberValue = formattedNumberValue.replace(/-/g, '').replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+    }
+
+    setTel(formattedNumberValue);
+  }, [tel]);
+
 
   useEffect(() => {
     if (uid != null) {
@@ -121,48 +130,32 @@ export default function SettingDetail() {
           uid: uid,
         }
       }).then(res => {
-        setUser(res.data);
-        setUname(res.data.uname);
-        setNickname(res.data.nickname);
-        setStat(res.data.statusMessage);
         if (res.data.profile != null) {
           setProfile(res.data.profile);
           setMyimage(FindImage(res.data.profile));
         }
+        setUser(res.data);
+        setUname(res.data.uname);
+        setNickname(res.data.nickname);
+        setStat(res.data.statusMessage);
         setBirth(res.data.birth);
         setTel(res.data.tel);
         setSnsDomain(res.data.snsDomain);
       }).catch(error => console.log(error));
     }
-  }, [])
+
+  }
+    , [])
 
 
-  // 비밀번호 숨기기/보이기
-  const [showPassword, setShowPassword] = useState(false);
-  // 비밀번호 숨기기/보이기 토글
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
 
-
-  // const handlePasswordChange = () => {
-  //     // 변경 확인 버튼 클릭 시 실행될 로직
-  //     console.log('비밀번호 변경 확인');
-  // };
-  // 설정 변경
   const handleStat = (e) => { setStat(e.target.value); };
   const handleGender = (event) => { setGender(event.target.value === 'man' ? 0 : (event.target.value === 'woman' ? 1 : 2)); };
 
   const handleUname = (e) => { setUname(e.target.value); };
   const handleNickname = (e) => { setNickname(e.target.value); };
   const handleSnsDomain = (e) => { setSnsDomain(e.target.value); };
-  const handleTel = (e) => { setTel(e.target.value); };
-
-  const handlePwd1 = (e) => { setPwd1(e.target.value); };
-  const handlePwd2 = (e) => { setPwd2(e.target.value); };
-
-  const handleBirthChange = (e) => { setBirth(e.target.value); };
-
+  const handleBirth = (e) => { setBirth(dayjs(e.target.value)); };
 
   const submitProfile = async () => {
     if (checkingNickName === 0) {
@@ -179,13 +172,7 @@ export default function SettingDetail() {
       });
       return;
     }
-    if (checkingPwd === 0) {
-      Swal.fire({
-        title: "비밀번호 확인을 해주세요",
-        icon: "warning"
-      });
-      return;
-    }
+    console.log("asd" + birth)
     if (change !== 1) {
       axios.post('http://localhost:8090/user/update', {
         pwd: pwd1,
@@ -239,60 +226,6 @@ export default function SettingDetail() {
       }
     });
     navigate('/setting');
-  };
-
-
-  
-
-  const chectPwd = async e => {
-    e.preventDefault();
-
-    // 비밀번호 확인 - 일치여부
-    if (pwd1 !== pwd2) {
-      Swal.fire({
-        title: "비밀번호가 일치하지 않습니다.",
-        text: "다시 입력해주세요",
-        icon: "warning"
-      });
-      return;
-    }
-    // 비밀번호 확인 - 일치여부, 형식
-    if (pwd1 < 6) { // 파이어베이스 비밀번호 길이 제한
-      Swal.fire({
-        text: "비밀번호는 6자리 이상이어야 합니다.",
-        icon: "warning"
-      });
-      return;
-    }
-
-    if (!/[0-9]/.test(pwd1) || !/[!@#$%^&*?]/.test(pwd1)) { // 정규식으로 비밀번호 확인
-      Swal.fire({
-        width: '50%',
-        title: '유효성 검사 경고',
-        html: `비밀번호는 숫자와 특수문자(!@#$%^&amp;*?)를 포함해야합니다.`,
-        icon: 'warning'
-      });
-      return;
-    }
-    Swal.fire({
-      icon: 'success',
-      title: "비밀번호가 일치합니다.",
-      showClass: {
-        popup: `
-          animate__animated
-          animate__fadeInUp
-          animate__faster
-        `
-      },
-      hideClass: {
-        popup: `
-          animate__animated
-          animate__fadeOutDown
-          animate__faster
-        `
-      }
-    });
-    setCheckingPwd(1);
   }
 
   const checkNickname = () => {
@@ -484,10 +417,16 @@ export default function SettingDetail() {
                   <MenuItem value={"none"}>설정 안함</MenuItem>
                 </Select>
               </FormControl>
+              <br /><br />
+              {/* 생일 변경 */}
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={['DatePicker']}>
+                  <DatePicker sx={{ mt: 2, width: '100%' }} label="생년월일" onChange={handleBirth} slots={{ textField: TextField }}
+                    value={dayjs(birth)} formatDensity="spacious" />
+                </DemoContainer>
+              </LocalizationProvider>
             </Box>
 
-
-            {/* 기타 폼 요소 */}
             {/* 이름 입력 */}
             <TextField
               required
@@ -502,8 +441,8 @@ export default function SettingDetail() {
             {/* 닉네임 입력 */}
             <Grid container style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
               <Grid item xs={8} md={10} lg={10.8}>
-                <LightTooltip 
-                title="별명을 입력하세요." arrow placement="bottom" >
+                <LightTooltip
+                  title="별명을 입력하세요." arrow placement="bottom" >
                   <TextField
                     required
                     fullWidth
@@ -516,7 +455,7 @@ export default function SettingDetail() {
                 </LightTooltip>
               </Grid>
               <Grid item xs={4} md={2} lg={1.2}>
-                <Button onClick={checkNickname} variant="contained" sx={{ backgroundColor: 'rgb(54, 11, 92)', width:'10%' }} style={{ margin: '20px 0px 0px 5px' }} >확인</Button>
+                <Button onClick={checkNickname} variant="contained" sx={{ backgroundColor: 'rgb(54, 11, 92)', width: '10%' }} style={{ margin: '20px 0px 0px 5px' }} >확인</Button>
               </Grid>
             </Grid>
 
@@ -534,100 +473,29 @@ export default function SettingDetail() {
 
             {/* 전화번호 입력 */}
             <Grid container style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
-            <Grid item xs={8} md={10} lg={10.8}>
+              <Grid item xs={8} md={10} lg={10.8}>
                 <LightTooltip title="' - ' 없이 숫자만 입력하세요." placement='bottom' >
                   <TextField
-                    required
                     fullWidth
                     label="전화번호"
                     variant="standard"
-                    value={tel || ''}
-                    onChange={handleTelChange}
+                    name="tel"
+                    value={tel}
+                    onChange={handleInputChange}
                     sx={{ mt: 2, width: '100%' }}
                   />
                 </LightTooltip>
+
               </Grid>
               <Grid item xs={4} md={2} lg={1.2}>
                 <Button onClick={checkTel} variant="contained" sx={{ backgroundColor: 'rgb(54, 11, 92)' }} style={{ margin: '20px 0px 0px 5px' }} >확인</Button>
               </Grid>
             </Grid>
 
-
-
-            {/* 비밀번호 입력 */}
-            <LightTooltip title="숫자와 글자, 특수문자 포함 6자리 이상" arrow placement="bottom" >
-              <TextField
-                fullWidth
-                label="비밀번호 입력"
-                variant="standard"
-                type={showPassword ? 'text' : 'password'}
-                sx={{ mt: 2, width: '100%' }}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={togglePasswordVisibility}
-                        onMouseDown={(event) => event.preventDefault()}
-                      >
-                        {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                      </IconButton>
-                    </InputAdornment>
-                  )
-                }}
-                onChange={handlePwd1}
-              />
-            </LightTooltip>
-
-            {/* 비밀번호 확인 */}
-            <Grid container style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
-            <Grid item xs={8} md={10} lg={10.8}>
-                <TextField
-                  fullWidth
-                  label="비밀번호 확인"
-                  variant="standard"
-                  type={showPassword ? 'text' : 'password'}
-                  sx={{ mt: 2 }}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={togglePasswordVisibility}
-                          onMouseDown={(event) => event.preventDefault()}
-                        >
-                          {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                        </IconButton>
-                      </InputAdornment>
-                    )
-                  }}
-                  onChange={handlePwd2}
-                />
-              </Grid>
-              <Grid item xs={4} md={2} lg={1.2}>
-                <Button onClick={chectPwd} variant="contained" sx={{ backgroundColor: 'rgb(54, 11, 92)' }} style={{ margin: '20px 0px 0px 5px' }} >확인</Button>
-              </Grid>
-            </Grid>
-            <br /><br />
-
-            {/* 생일 변경 */}
-            <LightTooltip title="생년월일을 직접 입력하실 수 있습니다." placement='bottom'>
-              <TextField
-                id="birth"
-                label="생년월일"
-                type="date"
-                value={birth || ''}
-                onChange={handleBirthChange}
-                InputLabelProps={{ shrink: true }}
-                fullWidth
-                style={{ marginBottom: '20px' }}
-              />
-            </LightTooltip>
-
             {/* 하단 버튼 영역 */}
             <Grid container sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
               <Grid item xs={8} lg={6} sx={{ display: 'flex' }}>
-                <Button 
+                <Button
                   variant="contained"
                   onClick={submitProfile}
                   style={{ margin: '1em', width: '20%', backgroundColor: 'rgb(54, 11, 92)' }}>
@@ -642,29 +510,29 @@ export default function SettingDetail() {
                 </Button>
               </Grid>
 
-              {status == 0 ? 
-              <Grid item xs={4} lg={6} >
-                <Button
-                  variant="contained"
-                  onClick={deactiveAccount}
-                  style={{ margin: '1em', width: '15%', backgroundColor: 'red' }}>
-                  계정<br />잠그기
-                </Button>
+              {status == 0 ?
+                <Grid item xs={4} lg={6} >
+                  <Button
+                    variant="contained"
+                    onClick={deactiveAccount}
+                    style={{ margin: '1em', width: '15%', backgroundColor: 'red' }}>
+                    계정<br />잠그기
+                  </Button>
                 </Grid>
                 :
                 <Grid item xs={4} lg={6} >
-                <Button
-                  variant="contained"
-                  onClick={deactiveAccount}
-                  style={{ margin: '1em', width: '15%', backgroundColor: 'Blue' }}>
-                  활성화
-                </Button>
+                  <Button
+                    variant="contained"
+                    onClick={deactiveAccount}
+                    style={{ margin: '1em', width: '15%', backgroundColor: 'Blue' }}>
+                    활성화
+                  </Button>
                 </Grid>}
             </Grid>
 
           </Box>
 
-        </Card>
+        </Card >
       </Box >
     </>
   );
