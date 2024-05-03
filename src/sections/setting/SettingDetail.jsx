@@ -106,20 +106,16 @@ export default function SettingDetail() {
   };
 
   useEffect(() => {
-    let formattedNumberValue = tel.replace(/[^0-9]/g, ''); // 숫자 이외의 문자 제거
-
-    if (formattedNumberValue.length > 11) {
-      formattedNumberValue = formattedNumberValue.slice(0, 11);
+    let telValue = tel.replace(/[^0-9]/g, ''); // 숫자 이외의 문자 제거
+    if (telValue.length > 11) {
+      telValue = telValue.slice(0, 11);
     }
-
-
-    if (formattedNumberValue.length === 11) {
-      formattedNumberValue = formattedNumberValue.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
-    } else if (formattedNumberValue.length === 13) {
-      formattedNumberValue = formattedNumberValue.replace(/-/g, '').replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+    if (telValue.length === 11) {
+      telValue = telValue.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+    } else if (telValue.length === 13) {
+      telValue = telValue.replace(/-/g, '').replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
     }
-
-    setTel(formattedNumberValue);
+    setTel(telValue);
   }, [tel]);
 
 
@@ -143,11 +139,7 @@ export default function SettingDetail() {
         setSnsDomain(res.data.snsDomain);
       }).catch(error => console.log(error));
     }
-
-  }
-    , [])
-
-
+  }    , [])
 
   const handleStat = (e) => { setStat(e.target.value); };
   const handleGender = (event) => { setGender(event.target.value === 'man' ? 0 : (event.target.value === 'woman' ? 1 : 2)); };
