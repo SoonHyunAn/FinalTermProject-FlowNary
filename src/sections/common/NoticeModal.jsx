@@ -20,11 +20,11 @@ export default function NoticeModal() {
         <Grid container>
           <Grid item xs={12} lg={6} sx={{ display: { xs: 'flex', lg: 'flex' }, pl: 3 }}>
             {/* Bedge로 알림 수 표현 */}
-            <Badge badgeContent={4} color="primary" sx={{ mr: 2.3 }}>
-              <NotificationsNoneIcon sx={{ mr: '4px' }} />
+            <Badge badgeContent={4} color="warning" sx={{ mr: 2.3 }}>
+              <NotificationsNoneIcon className='iconStyle' sx={{ mr: '4px' }} />
             </Badge>
           </Grid>
-          <Grid item xs={0} lg={6} sx={{ display: { xs: 'none', lg: 'flex' }, pr: 3, justifyContent: 'flex-end' }}>
+          <Grid item xs={0} lg={6} sx={{ color:'rgb(58, 0, 85)', display: { xs: 'none', lg: 'flex' }, pr: 3, justifyContent: 'flex-end' }}>
             알림
           </Grid>
         </Grid>

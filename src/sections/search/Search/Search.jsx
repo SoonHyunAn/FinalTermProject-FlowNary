@@ -12,7 +12,7 @@ export default function Search() {
     <>
       <SnsBar />
       <Stack direction="row" spacing={0} sx={{ height: "100vh" }}>
-        <Stack direction="column" spacing={2} sx={{ flex: 0.3, boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)' }}>
+        <Stack direction="column" spacing={2} sx={{ flex: 0.3}}>
           <Aside />
         </Stack>
         <Stack direction="column" spacing={2} sx={{ flex: 1.5 }}>

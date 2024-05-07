@@ -26,7 +26,7 @@ export default function Aside() {
   const BookmarkButton = () => { navigate('/profile/mypage'); };
 
   return (
-    <div style={{ position: 'fixed', top: 0, width: '20%' }}>
+    <div style={{ position: 'fixed', top: 0, width: '20%', height: '10000px',borderRight: '1px solid rgb(0, 0, 0, 0.3)'}}>
       <Grid item lg={1.4} sx={{ placeItems: 'center', display: { xs: 'none', lg: 'flex' }, mb: '20px' }}>
         <img src={logoImageLarge} alt='LOGO' style={{ width: '125px', marginLeft: '12%', alignItems: 'center', cursor: 'pointer' }} onClick={HomeButton} />
       </Grid>
@@ -39,7 +39,7 @@ export default function Aside() {
           <Grid item xs={12} lg={6} sx={{ display: { xs: 'flex', lg: 'flex' }, pl: 3 }}>
             <HomeIcon className='iconStyle' />
           </Grid>
-          <Grid item xs={0} lg={6} sx={{ display: { xs: 'none', lg: 'flex' }, pr: 3, justifyContent: 'flex-end' }}>
+          <Grid item xs={0} lg={6} sx={{ color:'rgb(58, 0, 85)', display: { xs: 'none', lg: 'flex' }, pr: 3, justifyContent: 'flex-end' }}>
             홈
           </Grid>
         </Grid>
@@ -54,7 +54,7 @@ export default function Aside() {
           <Grid item xs={12} lg={6} sx={{ display: { xs: 'flex', lg: 'flex' }, pl: 3 }}>
             <BookmarkIcon className='iconStyle' />
           </Grid>
-          <Grid item xs={0} lg={6} sx={{ display: { xs: 'none', lg: 'flex' }, pr: 3, justifyContent: 'flex-end' }}>
+          <Grid item xs={0} lg={6} sx={{ color:'rgb(58, 0, 85)', display: { xs: 'none', lg: 'flex' }, pr: 3, justifyContent: 'flex-end' }}>
             북마크
           </Grid>
         </Grid>
@@ -72,7 +72,7 @@ export default function Aside() {
           <Grid item xs={12} lg={6} sx={{ display: { xs: 'flex', lg: 'flex' }, pl: 3 }}>
             <SettingsIcon className='iconStyle' />
           </Grid>
-          <Grid item xs={0} lg={6} sx={{ display: { xs: 'none', lg: 'flex' }, pr: 3, justifyContent: 'flex-end' }}>
+          <Grid item xs={0} lg={6} sx={{ color:'rgb(58, 0, 85)', display: { xs: 'none', lg: 'flex' }, pr: 3, justifyContent: 'flex-end' }}>
             설정
           </Grid>
         </Grid>
@@ -84,7 +84,7 @@ export default function Aside() {
           <Grid item xs={12} lg={6} sx={{ display: { xs: 'flex', lg: 'flex' }, pl: 3 }}>
             <AccountCircleIcon className='iconStyle' />
           </Grid>
-          <Grid item xs={0} lg={6} sx={{ display: { xs: 'none', lg: 'flex' }, pr: 3, justifyContent: 'flex-end' }}>
+          <Grid item xs={0} lg={6} sx={{ color:'rgb(58, 0, 85)', display: { xs: 'none', lg: 'flex' }, pr: 3, justifyContent: 'flex-end' }}>
             프로필
           </Grid>
         </Grid>

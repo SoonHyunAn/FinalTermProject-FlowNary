@@ -9,7 +9,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <Outlet />
+        <Outlet/>
       </LocalizationProvider>
     </QueryClientProvider>
   );

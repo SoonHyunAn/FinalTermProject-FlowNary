@@ -5,7 +5,7 @@ import { Stack } from "@mui/material";
 // components 연결
 import SnsBar from '../../common/aside&bar/SnsBar';
 import Aside from "../../common/aside&bar/Aside";
-import SettingDetail from '../SettingDetail'
+import SettingDetail from '../Setting'
 
 export default function Setting() {
     return (

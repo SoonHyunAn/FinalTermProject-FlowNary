@@ -140,7 +140,7 @@ export default function Posting() {
                     <Grid item xs={12} lg={6} sx={{ display: { xs: 'flex', lg: 'flex' }, pl: 3 }}>
                         <CreateIcon className='iconStyle' />
                     </Grid>
-                    <Grid item xs={0} lg={6} sx={{ display: { xs: 'none', lg: 'flex' }, pr: 3, justifyContent: 'flex-end' }}>
+                    <Grid item xs={0} lg={6} sx={{ color:'rgb(58, 0, 85)', display: { xs: 'none', lg: 'flex' }, pr: 3, justifyContent: 'flex-end' }}>
                         글쓰기
                     </Grid>
                 </Grid>

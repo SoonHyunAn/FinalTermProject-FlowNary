@@ -258,7 +258,7 @@ function SettingModal({ open, handleClose }) {
 
 
 export default function MyBoardList() {
-
+  const navigate = useNavigate();
   //모달 관리
   const [followerModalOpen, setFollowerModalOpen] = useState(false);
   const [SettingModalOpen, setSettingModalOpen] = useState(false);
@@ -278,6 +278,10 @@ export default function MyBoardList() {
     setSettingModalOpen(true);
   }
 
+  const handlePwd=()=>{
+    navigate('/profile/changePwd');
+  }
+
 
   return (
     <>
@@ -289,10 +293,11 @@ export default function MyBoardList() {
         </Avatar>
         {/* 프사 옆 정보와 팔로우 버튼 만드는 Stack 공간 */}
         <Stack sx={{ padding: '20px' }} fontWeight={'bold'}>
-          <Stack direction={'row'} spacing={2} sx={{ marginTop: '10px', marginBottom: '15px' }}>
+          <Stack direction={'row'} spacing={2} sx={{ marginTop: '10px', marginBottom: '15px', display: 'flex', justifyContent: 'space-between' }}>
             <Typography variant="h4" fontWeight={'bold'}>
               O O O
             </Typography>
+            <Button onClick={handleCheckingPwd}><SettingsIcon sx={{ fontSize: '50px', color: 'darkgray' }} /></Button>
           </Stack>
           <Stack direction={'row'} spacing={2} sx={{ marginTop: '10px', marginBottom: '15px' }}>
             <Box sx={{ cursor: 'pointer' }} >
@@ -306,12 +311,12 @@ export default function MyBoardList() {
             </Box>
           </Stack>
           <Stack direction={'row'} spacing={2}>
-            <button variant="outlined" color="secondary" className='msg_button' sx={{ width: '80px' }}>팔로우</button>
-            <button variant="outlined" color="secondary" className='msg_button' sx={{ width: '140px' }}>메시지 보내기</button>
+            <Button variant="outlined" color="secondary" className='msg_button' sx={{ width: '80px' }}>팔로우</Button>
+            <Button variant="outlined" color="secondary" className='msg_button' sx={{ width: '130px' }}>메시지 보내기</Button>
+            <Button variant="outlined" color="secondary" className='msg_button' sx={{ width: '130px' }} onClick={handlePwd}>비밀번호 변경</Button>
           </Stack>
         </Stack>
         <Stack direction={'column'} spacing={2} sx={{ marginTop: '10px', marginBottom: '15px' }}>
-          <Button onClick={handleCheckingPwd}><SettingsIcon sx={{ fontSize: '50px', color: 'darkgray' }} /></Button>
         </Stack>
       </Stack>
       <FollowerModal open={followerModalOpen} handleClose={handleClose} content={modalContent} />

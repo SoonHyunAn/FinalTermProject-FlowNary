@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import {
   Card, CardHeader, CardMedia, CardActions, CardContent, Avatar, Typography,
-  ListItemAvatar, ListItem, List, Button, Box, Modal
+  ListItemAvatar, ListItem, List, Button, Box, Modal, Grid
 } from '@mui/material';
 import { red } from '@mui/material/colors';
 import { Stack } from '@mui/system';
@@ -20,8 +20,6 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import { GetWithExpiry } from "../../api/LocalStorage.js";
 import axios from 'axios';
 
-import { Carousel } from "react-responsive-carousel";
-
 // css 연결
 import './board.css';
 
@@ -31,10 +29,10 @@ export default function Board() {
   const navigate = useNavigate();
 
   const uid = parseInt(GetWithExpiry("uid"));
-  const [bid, setBid] = useState([null]);
-  const [BoardList, setBoardList] = useState([]);
-  const [replyList, setReplyList] = useState([]);
-  
+  const [bid, setBid] = useState(0);
+  const [text, setText] = useState('');
+
+
   // uid가 로컬스토리지에 없으면 로그인 창으로 이동
   if (!uid) {
     navigate("/login");
@@ -42,7 +40,7 @@ export default function Board() {
   const [nickname, setNickname] = useState('');
 
   useEffect(() => {
-    if (uid != null) {
+    if (uid != null && !isNaN(uid)) {
       axios.get('http://localhost:8090/user/getUser', {
         params: {
           uid: uid,
@@ -54,9 +52,10 @@ export default function Board() {
         else {
           setNickname(res.data.email);
         }
-      })
+      }).catch(error => console.log(error));
     }
   }, []);
+
   // 창 열고 닫기
   const [open, setOpen] = useState(false);
   const handleOpen = (bid) => {
@@ -65,47 +64,26 @@ export default function Board() {
   }
   const handleClose = () => {
     setOpen(false);
-    setBid(null);
+    setBid(-1);
   };
+  const [dataList, setDataList] = useState([]);
+  const [replyList, setRelpyList] = useState([]);
 
   useEffect(() => {
     axios.get('http://localhost:8090/board/list', {
       params: {
-        c: 0,
-        f: '',
-        q: '',
-      }
-    })
-      .then(res => {
-        setBoardList(res.data.map(item =>({
-          ...item,
-          images:item.images.split(',')
-        })));
-        // if ((res.data.image).length > 0)
-        // {
-        //   const images = res.data.image.split(',');
-          
-        // }
-      })
-      .catch(err => {
-        console.log(err);
-      });
-
-  }, []);
-  useEffect(() => {
-    axios.get('http://localhost:8090/board/replyList', {
-      params: {
-        bid: bid,
-        uid: uid,
+        c: 10,
       }
     })
       .then(res => {
         const formData = res.data.map(item => ({
-          rContents: item.rContents,
+          title: item.title,
+          bContents: item.bContents,
+          image: item.image.split(','),
           modTime: item.modTime,
-          nickname: item.nickname
+          bid: item.bid,
         }));
-        setReplyList(formData);
+        setDataList(formData);
       })
       .catch(err => {
         console.log(err);
@@ -113,39 +91,66 @@ export default function Board() {
 
   }, []);
 
-  // const handleFormSubmit = () => {
-  //   var sendData = JSON.stringify({
-  //     bid: bid,
-  //     uid: uid,
-  //     rContents: text.toString(),
-  //     nickname: nickname,
-  //   })
+  useEffect(() => {
+    if (open == true)
+    {
+      axios.get('http://localhost:8090/board/replyList', {
+        params: {
+          bid: bid,
+          offset: 0,
+          limit: 10
+        }
+      })
+        .then(res => {
+          const formData = res.data.map(item => ({
+            rContents: item.rContents,
+            modTime: item.modTime,
+            likeCount: item.likeCount,
+            nickname: item.nickname,
+          }));
+          setRelpyList(formData);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  }, [open]);
 
-  //   axios({
-  //     method: "POST",
-  //     url: 'http://localhost:8090/board/reply',
-  //     data: sendData,
-  //     headers: { 'Content-Type': 'application/json' }
-  //   }).catch(error => console.log(error));
-  // };
-  const handleFormSubmit = () => { console.log(text);
-    axios.post('http://localhost:8090/board/reply', {
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    
+    var sendData = JSON.stringify({
       bid: bid,
       uid: uid,
       rContents: text,
       nickname: nickname,
+    })
+
+    axios({
+      method: "POST",
+      url: 'http://localhost:8090/board/reply',
+      data: sendData,
+      headers: { 'Content-Type': 'application/json' }
     }).catch(error => console.log(error));
-  }
-  // 댓글 입력창 구현 - 이모티콘
-  const [text, setText] = useState("");
-  function handleOnEnter(text) {
-    setText(text);
     console.log(text);
-  }
+  };
+
+  // 댓글 입력창 구현 - 이모티콘
+  function handleOnEnter(text) { console.log('enter', text); }
+
+  // 더보기
+  const [expandedContents, setExpandedContents] = useState({});
+  const toggleExpand = (index) => {
+    setExpandedContents((prev) => ({
+      ...prev,
+      [index]: !prev[index],
+    }));
+  };
+
   return (
     <>
       {/* boardList */}
-      {BoardList.map((data) => (
+      {dataList.map((data) => (
         <Card key={data.bid} sx={{ width: "70%", marginTop: '30px', border: '1px solid lightgrey' }}>
           {/* Home 부분에서 게시글이 보이는 모습 */}
           <CardHeader
@@ -157,9 +162,7 @@ export default function Board() {
             title={data.title}
             subheader={data.modTime}
           />
-          {data.images.map((image, index) => (
-            <CardMedia key={index} component="img" height="194" image={`https://res.cloudinary.com/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload/${image}`} alt="Paella dish" />
-          ))}
+          <CardMedia component="img" height="194" image={`https://res.cloudinary.com/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload/${data.image[0]}`} alt="Paella dish" />
           <CardContent>
             <Typography variant="body2" color="text.secondary">
               {data.bContents}
@@ -170,8 +173,7 @@ export default function Board() {
             <Button>
               <FavoriteIcon />
             </Button>
-            <Button onClick={() => { handleOpen(data.bid) }}>
-
+            <Button onClick={() => handleOpen(data.bid)}>
               <ChatBubbleOutlineIcon />
             </Button>
             <Button >
@@ -187,8 +189,8 @@ export default function Board() {
       {/* 게시글 모달 */}
       <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
         <Box className='board_modal'>
-          <Stack direction="row" sx={{ height: "100%" }}>
-            <Stack direction="column" sx={{ flex: 1.3, height: "100%", }} >
+          <Stack direction="row" justifyContent="space-between" sx={{ height: "100%" }}>
+            <Stack direction="column" sx={{ flex: '1.4', height: "100%", }} >
               {/* 게시글 내용 */}
               <Card sx={{ height: "100vh", padding: 3 }}>
                 <CardHeader
@@ -242,48 +244,58 @@ export default function Board() {
               </Card>
             </Stack>
 
-            {/*  ReplyList */}
-            <form onSubmit={handleFormSubmit}>
-              <Stack direction="column" sx={{ flex: 0.7, height: "100%", padding: "32px 4px 32px 20px ", justifyContent: "space-between" }}>
-                {replyList.map((data) => (
-                  <List key={data} sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', overflowY: 'auto', paddingRight: 3 }}>
+
+            {/* 댓글 내용 List */}
+            <Stack direction="column" sx={{ flex: '1.4', height: "100%", padding: 1 }}>
+              {/* padding: "32px 4px 32px 20px " */}
+              <Stack direction="column" alignItems="center" sx={{ width: "100%", overflowX: 'hidden', overflowY: 'auto' }}>
+                {replyList.map((data, index) => (
+                  <List key={data} sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', paddingRight: 3, }}>
+
                     <ListItem sx={{ display: 'flex', alignItems: 'center' }}> {/* alignItem 값을 수정 */}
                       <ListItemAvatar>
                         <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
                       </ListItemAvatar>
                       <Typography>
-                        안순현
+                        {data.nickname}
                       </Typography>
                     </ListItem>
-                    <Typography variant="body2" color="text.secondary">
-                      {data.nickname}
+                    <Typography variant="body2" color="text.secondary" sx={{ padding: 2, overflowWrap: 'break-word', }}>
+                      {expandedContents[index] ? data.rContents : data.rContents.slice(0, 30)}
+                      {data.rContents.length > 100 && !expandedContents[index] && (
+                        <button onClick={() => toggleExpand(index)}>더보기</button>
+                      )}
                     </Typography>
+                    <hr />
+
                   </List>
                 ))}
+              </Stack>
 
-                {/* 댓글 입력란 */}
-                <Stack className='board_div_style_1' direction="row" alignItems="center" spacing={2}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                  <Typography>
-                    {nickname}
-                  </Typography>
-                </Stack>
-                <Stack direction="row" alignItems="center" spacing={2} sx={{ marginBottom: 6 }}>
-                  {/* 이모티콘 */}
+              {/* 댓글 입력란 */}
+              <Stack className='board_div_style_1' direction="column" alignItems="center" >
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                <Typography>
+                  {nickname}
+                </Typography>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                   <InputEmoji
                     value={text}
-                    onChange={handleOnEnter}
-                    // onEnter={handleOnEnter}
+                    onChange={setText}
+                    onEnter={handleOnEnter}
                     placeholder="입력.."
                     shouldReturn
                     fontSize={15}
                     language='kr'
-                  >
-                  </InputEmoji>
-                  <Button type='submit' sx={{ position: 'absolute', right: 35, zIndex: 2 }}>게시</Button>
-                </Stack>
+                    sx={{ flex: 1 }} // InputEmoji의 크기를 조절
+                  />
+                  <Button onClick={handleFormSubmit} sx={{ alignItems: 'end' }}>게시</Button>
+                </Box>
               </Stack>
-            </form>
+
+              {/* <Stack direction="row" alignItems="center" spacing={2} sx={{ marginBottom: 6 }}>
+                  {/* 이모티콘 */}
+            </Stack>
 
             {/* 닫기 버튼 */}
             <div className='board_div_style_2'>
@@ -291,8 +303,9 @@ export default function Board() {
             </div>
           </Stack>
         </Box>
-      </Modal>
+      </Modal >
 
     </>
   );
+
 }

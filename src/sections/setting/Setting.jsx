@@ -1,49 +1,175 @@
 // 기본
 import React, { useEffect, useState } from "react";
-import {
-  Box, Button, Card, TextField, InputAdornment,
-  Typography, InputLabel, MenuItem, FormControl, Select, Avatar,
-  IconButton, Grid,
-  Stack
-} from "@mui/material";
-// import { Cloudinary } from "@cloudinary/url-gen/index";
-import { FindImage, UploadImage } from "../../api/image.js";
+import { Box, Button, Card, TextField, Typography, InputLabel, MenuItem, FormControl, Select, Avatar, Grid } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-// 아이콘
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+// 이미지 - Cloudinary
+// import { Cloudinary } from "@cloudinary/url-gen/index";
+// import { AdvancedImage } from "@cloudinary/react";
+import { FindImage, UploadImage } from "../../api/image.js";
 
 // css 연결
 import './setting.css';
 import { GetWithExpiry } from "../../api/LocalStorage.js";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-// import { AdvancedImage } from "@cloudinary/react";
-// import { bool } from "prop-types";
 
 // alert 창
 import Swal from "sweetalert2";
-import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
-import { styled } from '@mui/material/styles';
 
-// 생년월일
-import dayjs from 'dayjs';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-
-const LightTooltip = styled(({ className, ...props }) => (
-  <Tooltip arrow {...props} classes={{ popper: className }} />
-))(({ theme }) => ({
-  [`& .${tooltipClasses.tooltip}`]: {
-    boxShadow: theme.shadows[1],
-    fontSize: 16,
-  },
-}));
+// components 연결
+import SettingBirth from "./SettingBirth.jsx";
+import SettingTel from "./SettingTel.jsx";
+import SettingNickname from "./SettingNickname.jsx";
 
 export default function SettingDetail() {
   const navigate = useNavigate();
+
+  // localStorage를 이용해서 user 받아오기
+  const uid = parseInt(GetWithExpiry("uid"));
+  const email = GetWithExpiry("email");
+
+  // user 정보 초기화, 비밀번호 확인
+  // eslint-disable-next-line
+  const [uname, setUname] = useState('');
+  const [nickname, setNickname] = useState('');
+  const [statusMessage, setStat] = useState('');
+  const [image, setImage] = useState('');
+  const [snsDomain, setSnsDomain] = useState('');
+  const [status, setStatus] = useState('0');
+  const [birth, setBirth] = useState('');
+  const [tel, setTel] = useState('');
+  const [gender, setGender] = useState('');
+
+  // 이미지 업로드
+  // eslint-disable-next-line
+  const [profile, setProfile] = useState('');
+  // eslint-disable-next-line
+  const [preview, setPreview] = useState('');
+  // eslint-disable-next-line
+  const [change, setChange] = useState(0);
+  // eslint-disable-next-line
+  const [myimage, setMyimage] = useState('');
+
+  // 설정 변경 조건 확인
+  const [checkingNickname, setCheckingNickname] = useState(0);
+  const [checkingTel, setCheckingTel] = useState(0);
+
+  // 로그인 여부 확인
+  useEffect(() => { if (uid == null) { navigate('/login'); } }, [uid, navigate]);
+
+  // user 정보 axio로 가져와서 저장
+  useEffect(() => {
+    if (uid != null) {
+      axios.get('http://localhost:8090/user/getUser', {
+        params: {
+          uid: uid,
+        }
+      }).then(res => {
+        if (res.data.profile != null) {
+          setProfile(res.data.profile); setMyimage(FindImage(res.data.profile));
+        }
+        setUname(res.data.uname); setNickname(res.data.nickname);
+        setStat(res.data.statusMessage); setTel(res.data.tel);
+        setBirth(res.data.birth); setSnsDomain(res.data.snsDomain);
+      }).catch(error => console.log(error));
+    }
+  }, [uid])
+
+  // 설정창에서 값이 바뀔 때마다 저장하는 함수
+  const handleUname = (e) => { setUname(e.target.value); };
+  const handleNickname = (e) => { setNickname(e.target.value); };
+  const handleStat = (e) => { setStat(e.target.value); };
+  const handleGender = (event) => { setGender(event.target.value === 'man' ? 0 : (event.target.value === 'woman' ? 1 : 2)); };
+  const handleSnsDomain = (e) => { setSnsDomain(e.target.value); };
+  const handleTel = (e) => { setTel(e) };
+  const handleBirthChange = (e) => { setBirth(e.target.value) }
+
+  const handleCheckingTel = (e) => { setCheckingTel(e) };
+  const handleCheckingNickname = (e) => { setCheckingNickname(e) };
+
+  // 제출
+  const submitProfile = async () => {
+    if (checkingNickname === 0) {
+      Swal.fire({
+        title: "닉네임 중복 확인을 해주세요",
+        icon: "warning"
+      });
+      return;
+    }
+    if (checkingTel === 0) {
+      Swal.fire({
+        title: "전화번호 중복 확인을 해주세요",
+        icon: "warning"
+      });
+      return;
+    }
+    console.log("asd" + birth)
+    if (change !== 1) {
+      axios.post('http://localhost:8090/user/update', {
+        uname: uname,
+        nickname: nickname,
+        profile: null,
+        statusMessage: statusMessage,
+        snsDomain: snsDomain,
+        uid: uid,
+        gender: gender,
+        birth: birth,
+        tel: tel,
+      }).catch(error => console.log(error));
+    } else {
+      console.log(image);
+      const url = UploadImage(image);
+      // const url2 = url.then((e) => {
+
+      // });
+      console.log(url);
+      axios.post('http://localhost:8090/user/update', {
+        uname: uname,
+        nickname: nickname,
+        profile: url,
+        statusMessage: statusMessage,
+        snsDomain: snsDomain,
+        uid: uid,
+        gender: gender,
+        birth: birth,
+        tel: tel,
+      }).catch(error => console.log(error));
+    }
+
+    Swal.fire({
+      icon: 'success',
+      title: "설정 변경에 성공했습니다.",
+      showClass: {
+        popup: `
+        animate__animated
+        animate__fadeInUp
+        animate__faster
+        `
+      },
+      hideClass: {
+        popup: `
+        animate__animated
+        animate__fadeOutDown
+        animate__faster
+        `
+      }
+    });
+    navigate('/setting');
+  }
+
+  // const handleResetClick = () => {
+  //   setPreview(null);
+  //   setImage(null);
+  // };
+
+  const goBack = () => { navigate('/'); }
+
+  const deactiveAccount = () => { setStatus(status === 0 ? 1 : 0) }
+
+  const handleImageEdit = () => {
+    // "사진수정" 버튼 클릭 시 input[type='file'] 트리거
+    document.getElementById('hidden-input').click();
+  };
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -62,248 +188,6 @@ export default function SettingDetail() {
       };
     }
   };
-
-  // localStorage를 이용해서 user 받아오기
-  const uid = parseInt(GetWithExpiry("uid"));
-  const email = GetWithExpiry("email");
-  const [user, setUser] = useState({});
-
-  const [uname, setUname] = useState('');
-  const [nickname, setNickname] = useState('');
-  const [statusMessage, setStat] = useState('');
-  const [profile, setProfile] = useState('');
-  const [image, setImage] = useState('');
-  const [snsDomain, setSnsDomain] = useState('');
-
-  const [birth, setBirth] = useState('');
-
-  const [pwd1, setPwd1] = useState('');
-  const [pwd2, setPwd2] = useState('');
-  const [checkingPwd, setCheckingPwd] = useState(0);
-  const [checkingNickName, setCheckingNickname] = useState(0);
-  const [checkingTel, setCheckingTel] = useState(0);
-
-  const [status, setStatus] = useState('0');
-  const [preview, setPreview] = useState('');
-
-  const [change, setChange] = useState(0);
-  const [myimage, setMyimage] = useState('');
-
-  const [gender, setGender] = useState('');
-
-  useEffect(() => {
-    if (uid == null) {
-      navigate('/login');
-    }
-  }, []);
-
-  // 핸드폰 번호 입력 시 자동으로 '-' 추가
-  const [tel, setTel] = useState('');
-
-  const handleInputChange = e => {
-    const { value } = e.target;
-    setTel(value);
-  };
-
-  useEffect(() => {
-    let telValue = tel.replace(/[^0-9]/g, ''); // 숫자 이외의 문자 제거
-    if (telValue.length > 11) {
-      telValue = telValue.slice(0, 11);
-    }
-    if (telValue.length === 11) {
-      telValue = telValue.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
-    } else if (telValue.length === 13) {
-      telValue = telValue.replace(/-/g, '').replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
-    }
-    setTel(telValue);
-  }, [tel]);
-
-
-  useEffect(() => {
-    if (uid != null) {
-      axios.get('http://localhost:8090/user/getUser', {
-        params: {
-          uid: uid,
-        }
-      }).then(res => {
-        if (res.data.profile != null) {
-          setProfile(res.data.profile);
-          setMyimage(FindImage(res.data.profile));
-        }
-        setUser(res.data);
-        setUname(res.data.uname);
-        setNickname(res.data.nickname);
-        setStat(res.data.statusMessage);
-        setBirth(res.data.birth);
-        setTel(res.data.tel);
-        setSnsDomain(res.data.snsDomain);
-      }).catch(error => console.log(error));
-    }
-  }    , [])
-
-  const handleStat = (e) => { setStat(e.target.value); };
-  const handleGender = (event) => { setGender(event.target.value === 'man' ? 0 : (event.target.value === 'woman' ? 1 : 2)); };
-
-  const handleUname = (e) => { setUname(e.target.value); };
-  const handleNickname = (e) => { setNickname(e.target.value); };
-  const handleSnsDomain = (e) => { setSnsDomain(e.target.value); };
-  const handleBirth = (e) => { setBirth(dayjs(e.target.value)); };
-
-  const submitProfile = async () => {
-    if (checkingNickName === 0) {
-      Swal.fire({
-        title: "닉네임 중복 확인을 해주세요",
-        icon: "warning"
-      });
-      return;
-    }
-    if (checkingTel === 0) {
-      Swal.fire({
-        title: "전화번호 중복 확인을 해주세요",
-        icon: "warning"
-      });
-      return;
-    }
-    console.log("asd" + birth)
-    if (change !== 1) {
-      axios.post('http://localhost:8090/user/update', {
-        pwd: pwd1,
-        uname: uname,
-        nickname: nickname,
-        profile: null,
-        statusMessage: statusMessage,
-        snsDomain: snsDomain,
-        uid: uid,
-        gender: gender,
-        birth: birth,
-        tel: tel,
-      }).catch(error => console.log(error));
-    } else {
-      console.log(image);
-      const url = UploadImage(image);
-      const url2 = url.then((e) => {
-
-      });
-      console.log(url);
-      axios.post('http://localhost:8090/user/update', {
-        pwd: pwd1,
-        uname: uname,
-        nickname: nickname,
-        profile: url,
-        statusMessage: statusMessage,
-        snsDomain: snsDomain,
-        uid: uid,
-        gender: gender,
-        birth: birth,
-        tel: tel,
-      }).catch(error => console.log(error));
-    }
-
-    Swal.fire({
-      icon: 'success',
-      title: "설정 변경에 성공했습니다.",
-      showClass: {
-        popup: `
-          animate__animated
-          animate__fadeInUp
-          animate__faster
-        `
-      },
-      hideClass: {
-        popup: `
-          animate__animated
-          animate__fadeOutDown
-          animate__faster
-        `
-      }
-    });
-    navigate('/setting');
-  }
-
-  const checkNickname = () => {
-    axios.get('http://localhost:8090/user/nickname',
-      {
-        params: {
-          email: email
-        }
-      })
-      .then(response => {
-        const userList = response.data; // 응답 데이터 전체를 가져옵니다.
-        if (!userList) {
-          console.error('User list is undefined or null');
-          return;
-        }
-
-        const nicknames = userList.map(user => user.nickname);
-        if (nicknames.includes(nickname)) {
-          Swal.fire({
-            text: "닉네임이 중복됩니다.",
-            icon: "warning"
-          });
-          return;
-        }
-        Swal.fire({
-          icon: "success",
-          text: "닉네임 사용 가능합니다!",
-        });
-        setCheckingNickname(1);
-        return;
-      }).catch(error => {
-        console.error('Error fetching nicknames:', error);
-      });
-  }
-  const checkTel = () => {
-    axios.get('http://localhost:8090/user/tel', {
-      params: {
-        email: email
-      }
-    })
-      .then(response => {
-        const userList = response.data; // 응답 데이터 전체를 가져옵니다.
-        if (!userList) {
-          console.error('User list is undefined or null');
-          return;
-        }
-
-        const tels = userList.map(user => user.tel);
-        if (tels.includes(tel)) {
-          Swal.fire({
-            text: "전화번호가 중복됩니다.",
-            icon: "warning"
-          });
-          return;
-        }
-        Swal.fire({
-          icon: "success",
-          text: "전화번호 사용 가능합니다!",
-        });
-        setCheckingTel(1);
-        return;
-      }).catch(error => {
-        console.error('Error fetching tels:', error);
-      });
-  }
-
-
-  const handleResetClick = () => {
-    setPreview(null);
-    setImage(null);
-  };
-
-
-  const goBack = () => {
-    navigate('/');
-  }
-
-  const deactiveAccount = () => {
-    setStatus(status === 0 ? 1 : 0)
-  }
-
-  const handleImageEdit = () => {
-    // "사진수정" 버튼 클릭 시 input[type='file'] 트리거
-    document.getElementById('hidden-input').click();
-  };
-
 
   return (
     <>
@@ -410,13 +294,10 @@ export default function SettingDetail() {
                 </Select>
               </FormControl>
               <br /><br />
+
               {/* 생일 변경 */}
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={['DatePicker']}>
-                  <DatePicker sx={{ mt: 2, width: '100%' }} label="생년월일" onChange={handleBirth} slots={{ textField: TextField }}
-                    value={dayjs(birth)} formatDensity="spacious" />
-                </DemoContainer>
-              </LocalizationProvider>
+              <SettingBirth birth={birth} onBirthChange={handleBirthChange} />
+
             </Box>
 
             {/* 이름 입력 */}
@@ -431,25 +312,7 @@ export default function SettingDetail() {
             />
 
             {/* 닉네임 입력 */}
-            <Grid container style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
-              <Grid item xs={8} md={10} lg={10.8}>
-                <LightTooltip
-                  title="별명을 입력하세요." arrow placement="bottom" >
-                  <TextField
-                    required
-                    fullWidth
-                    label="닉네임"
-                    variant="standard"
-                    value={nickname || ''}
-                    onChange={handleNickname}
-                    sx={{ mt: 2, width: '100%' }}
-                  />
-                </LightTooltip>
-              </Grid>
-              <Grid item xs={4} md={2} lg={1.2}>
-                <Button onClick={checkNickname} variant="contained" sx={{ backgroundColor: 'rgb(54, 11, 92)', width: '10%' }} style={{ margin: '20px 0px 0px 5px' }} >확인</Button>
-              </Grid>
-            </Grid>
+            <SettingNickname nickname={nickname} email={email} checkingNickname={checkingNickname} onNicknameChange={handleNickname} changeCheckingNickname={handleCheckingNickname} />
 
 
             {/* 도메인 입력 */}
@@ -462,27 +325,8 @@ export default function SettingDetail() {
               sx={{ mt: 2, width: '100%' }}
             />
 
-
             {/* 전화번호 입력 */}
-            <Grid container style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
-              <Grid item xs={8} md={10} lg={10.8}>
-                <LightTooltip title="' - ' 없이 숫자만 입력하세요." placement='bottom' >
-                  <TextField
-                    fullWidth
-                    label="전화번호"
-                    variant="standard"
-                    name="tel"
-                    value={tel}
-                    onChange={handleInputChange}
-                    sx={{ mt: 2, width: '100%' }}
-                  />
-                </LightTooltip>
-
-              </Grid>
-              <Grid item xs={4} md={2} lg={1.2}>
-                <Button onClick={checkTel} variant="contained" sx={{ backgroundColor: 'rgb(54, 11, 92)' }} style={{ margin: '20px 0px 0px 5px' }} >확인</Button>
-              </Grid>
-            </Grid>
+            <SettingTel tel={tel} email={email} checkingTel={checkingTel} onTelChange={handleTel} changeChenckingTel={handleCheckingTel} />
 
             {/* 하단 버튼 영역 */}
             <Grid container sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
@@ -502,7 +346,7 @@ export default function SettingDetail() {
                 </Button>
               </Grid>
 
-              {status == 0 ?
+              {status === 0 ?
                 <Grid item xs={4} lg={6} >
                   <Button
                     variant="contained"
