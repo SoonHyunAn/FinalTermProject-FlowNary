@@ -33,6 +33,7 @@ const router = createBrowserRouter([
       { path: 'setting', element: <Setting /> },
       { path: 'search', element: <Search /> },
       { path: 'profile/changePwd', element: <ChangePwd /> },
+      { path: 'board/:url', element: <Home /> },
       
     ]
   }

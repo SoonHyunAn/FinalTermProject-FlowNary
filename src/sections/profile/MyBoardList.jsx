@@ -24,7 +24,7 @@ import Swal from "sweetalert2";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 import { GetWithExpiry } from "../../api/LocalStorage";
-
+import { FindImage, UploadImage } from "../../api/image.js";
 // const searchData = [
 //   'Remy Sharp',
 //   'Travis Howard',
@@ -160,6 +160,46 @@ function SettingModal({ open, handleClose }) {
 
   const handlePwd = (e) => { setVeriPwd(e.target.value); };
 
+  // user 정보 초기화, 비밀번호 확인
+  // eslint-disable-next-line
+  const [uname, setUname] = useState('');
+  const [nickname, setNickname] = useState('');
+  const [statusMessage, setStat] = useState('');
+  const [image, setImage] = useState('');
+  const [snsDomain, setSnsDomain] = useState('');
+  const [status, setStatus] = useState('0');
+  const [birth, setBirth] = useState('');
+  const [tel, setTel] = useState('');
+  const [gender, setGender] = useState('');
+  const [provider, setProvider] = useState('')
+
+  // 이미지 업로드
+  // eslint-disable-next-line
+  const [profile, setProfile] = useState('');
+  // eslint-disable-next-line
+  const [preview, setPreview] = useState('');
+  // eslint-disable-next-line
+  const [change, setChange] = useState(0);
+  // eslint-disable-next-line
+  const [myimage, setMyimage] = useState('');
+
+  useEffect(() => {
+    if (uid != null) {
+      axios.get('http://localhost:8090/user/getUser', {
+        params: {
+          uid: uid,
+        }
+      }).then(res => {
+        if (res.data.profile != null) {
+          setProfile(res.data.profile); setMyimage(FindImage(res.data.profile));
+        }
+        setUname(res.data.uname); setNickname(res.data.nickname);
+        setStat(res.data.statusMessage); setTel(res.data.tel);
+        setBirth(res.data.birth); setSnsDomain(res.data.snsDomain); setProvider(res.data.provider);
+      }).catch(error => console.log(error));
+    }
+  }, [uid])
+
   const confirmPWd = async e => {
     e.preventDefault();
     const auth = getAuth();
@@ -205,51 +245,97 @@ function SettingModal({ open, handleClose }) {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
         sx={{ zIndex: 1 }}>
-        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 300, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
-          {/* 비밀번호 입력 */}
-          <TextField
-            fullWidth
-            label="비밀번호 입력"
-            variant="standard"
-            type={showPassword ? 'text' : 'password'}
-            sx={{ mt: 2, width: '100%' }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={togglePasswordVisibility}
-                    onMouseDown={(event) => event.preventDefault()}
-                  >
-                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                  </IconButton>
-                </InputAdornment>
-              )
-            }}
-            onChange={handlePwd}
-          />
+        {provider === 0 ?
+          <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 300, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
+            {/* 비밀번호 입력 */}
+            <TextField
+              fullWidth
+              label="비밀번호 입력"
+              variant="standard"
+              type={showPassword ? 'text' : 'password'}
+              sx={{ mt: 2, width: '100%' }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={togglePasswordVisibility}
+                      onMouseDown={(event) => event.preventDefault()}
+                    >
+                      {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
+              onChange={handlePwd}
+            />
 
-          {/* 하단 버튼 영역 */}
-          <Grid container sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-            <Grid item xs={8} lg={6} sx={{ display: 'flex' }}>
-              <Button
-                variant="contained"
-                onClick={confirmPWd}
-                style={{ margin: '1em', width: '20%', backgroundColor: 'rgb(54, 11, 92)' }}>
-                완료
-              </Button>
+            {/* 하단 버튼 영역 */}
+            <Grid container sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+              <Grid item xs={8} lg={6} sx={{ display: 'flex' }}>
+                <Button
+                  variant="contained"
+                  onClick={confirmPWd}
+                  style={{ margin: '1em', width: '20%', backgroundColor: 'rgb(54, 11, 92)' }}>
+                  완료
+                </Button>
 
-              <Button
-                variant="contained"
-                onClick={handleClose}
-                style={{ margin: '1em', width: '20%', backgroundColor: '#bbbbbb' }}>
-                취소
-              </Button>
+                <Button
+                  variant="contained"
+                  onClick={handleClose}
+                  style={{ margin: '1em', width: '20%', backgroundColor: '#bbbbbb' }}>
+                  취소
+                </Button>
+              </Grid>
+
             </Grid>
 
-          </Grid>
+          </Box>
+          : <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 300, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
+            {/* 비밀번호 입력 */}
+            <TextField
+              fullWidth
+              label="비밀번호 입력"
+              variant="standard"
+              type={showPassword ? 'text' : 'password'}
+              sx={{ mt: 2, width: '100%' }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={togglePasswordVisibility}
+                      onMouseDown={(event) => event.preventDefault()}
+                    >
+                      {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
+              onChange={handlePwd}
+            />
 
-        </Box>
+            {/* 하단 버튼 영역 */}
+            <Grid container sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+              <Grid item xs={8} lg={6} sx={{ display: 'flex' }}>
+                <Button
+                  variant="contained"
+                  onClick={confirmPWd}
+                  style={{ margin: '1em', width: '20%', backgroundColor: 'rgb(54, 11, 92)' }}>
+                  완료
+                </Button>
+
+                <Button
+                  variant="contained"
+                  onClick={handleClose}
+                  style={{ margin: '1em', width: '20%', backgroundColor: '#bbbbbb' }}>
+                  취소
+                </Button>
+              </Grid>
+
+            </Grid>
+
+          </Box>}
       </Modal>
     </>
   );
@@ -278,7 +364,7 @@ export default function MyBoardList() {
     setSettingModalOpen(true);
   }
 
-  const handlePwd=()=>{
+  const handlePwd = () => {
     navigate('/profile/changePwd');
   }
 

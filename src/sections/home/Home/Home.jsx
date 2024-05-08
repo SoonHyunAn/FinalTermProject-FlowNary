@@ -1,6 +1,6 @@
 // 기본
 import React, { useState } from "react";
-import { Stack, Button, Dialog, DialogContent, useMediaQuery } from "@mui/material";
+import { Stack, useMediaQuery } from "@mui/material";
 
 // components 연결
 import SnsBar from '../../common/aside&bar/SnsBar';
@@ -11,6 +11,7 @@ import RecommendList from "../RecommendList";
 export default function Home() {
     // useMediaQuery 훅을 사용하여 현재 화면 크기를 가져옵니다.
     const isLargeScreen = useMediaQuery('(min-width: 1280px)');
+
     const [openChatbot, setOpenChatbot] = useState(false); // 모달 상태 관리
 
     // 모달 토글 함수

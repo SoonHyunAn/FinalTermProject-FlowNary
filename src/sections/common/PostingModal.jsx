@@ -1,6 +1,8 @@
 // 기본
 import React, { useEffect, useState } from "react";
 import { Card, Stack, Button, Grid, Modal, Typography, Box } from "@mui/material";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 // 아코디언
 import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
@@ -18,8 +20,6 @@ import { UploadImage } from "../../api/image.js";
 // import { FindImage, UploadImage2 } from "../../api/image.js";
 import { GetWithExpiry } from "../../api/LocalStorage.js";
 
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 export default function Posting() {
     const navigate = useNavigate();
@@ -131,7 +131,7 @@ export default function Posting() {
     };
 
     function handleOnEnter(text) { console.log('enter', text) }
-
+ 
     return (
         <>
             {/* 기존의 버튼 및 아이콘 */}

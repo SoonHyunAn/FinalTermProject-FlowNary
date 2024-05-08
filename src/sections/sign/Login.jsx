@@ -36,52 +36,82 @@ export default function Login() {
         setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
     }
 
-
     // 구글로 로그인
     const loginWithGoogle = async () => {
         try {
             const auth = getAuth();
             const provider = new GoogleAuthProvider();
             const data = await signInWithPopup(auth, provider);
-            Swal.fire({
-                icon: 'success',
-                title: "구글 로그인에 성공했습니다.",
-                showClass: {
-                    popup: `
-                    animate__animated
-                    animate__fadeInUp
-                    animate__faster
-                  `
-                },
-                hideClass: {
-                    popup: `
-                    animate__animated
-                    animate__fadeOutDown
-                    animate__faster
-                  `
-                }
-            });
-            console.log("구글 로그인 성공!");
 
-            axios.get('http://localhost:8090/user/getUserByEmail', {
+            // 이메일로 사용자 조회
+            const response = await axios.get('http://localhost:8090/user/getUserByEmail', {
                 params: {
                     email: data.user.email
                 }
-            }).then(res => {
-                SetWithExpiry("uid", res.data.id, 180);
-                SetWithExpiry("email", res.data.email, 180);
-                SetWithExpiry("profile", res.data.profile, 180);
-            }).catch(error => console.log(error));
+            });
 
-
+            // 사용자가 존재하지 않으면 회원가입 진행
+            if (Object.keys(response.data).length === 0) {
+                await axios.get("http://localhost:8090/user/register", {
+                    params: {
+                        email: data.user.email,
+                        pwd: 'nn',
+                        hashuid: data.user.uid,
+                        provider: 1,
+                    }
+                });
+                // 회원가입 성공 시 로컬 스토리지 설정 및 리다이렉트
+                SetWithExpiry("email", data.user.email, 180);
+                Swal.fire({
+                    icon: 'success',
+                    title: "구글 회원가입에 성공했습니다.",
+                    showClass: {
+                        popup: `
+                                animate__animated
+                                animate__fadeInUp
+                                animate__faster
+                            `
+                    },
+                    hideClass: {
+                        popup: `
+                                animate__animated
+                                animate__fadeOutDown
+                                animate__faster
+                            `
+                    }
+                });
+                console.log("구글 회원가입 성공!" + response);
+            } else {
+                Swal.fire({
+                    icon: 'success',
+                    title: "구글 로그인에 성공했습니다.",
+                    showClass: {
+                        popup: `
+                                animate__animated
+                                animate__fadeInUp
+                                animate__faster
+                            `
+                    },
+                    hideClass: {
+                        popup: `
+                                animate__animated
+                                animate__fadeOutDown
+                                animate__faster
+                            `
+                    }
+                });
+                console.log("구글 로그인 성공!" + response);
+            }
             navigate('/');
         } catch (error) {
             console.error("구글 로그인 오류:", error);
         }
     };
 
+
+
     function handleKeyPress(event) {
-        if (event  && event.key === 'Enter') {
+        if (event && event.key === 'Enter') {
             event.preventDefault(); // 기본 동작 방지
             handleSubmit();
         }

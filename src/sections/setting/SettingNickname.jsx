@@ -1,9 +1,6 @@
 // 기본
 import React, { useEffect, useState } from "react";
-import {
-  Box, Button, Card, TextField, InputAdornment, Typography, InputLabel, MenuItem, FormControl, Select, Avatar,
-  IconButton, Grid, Stack
-} from "@mui/material";
+import { Button, TextField, Grid } from "@mui/material";
 import axios from "axios";
 
 // css 연결
@@ -25,7 +22,6 @@ const LightTooltip = styled(({ className, ...props }) => (
 
 export default function SettingNickname(props) {
   const [nickname, setNickname] = useState('');
-  const [checkingNickname, setCheckingNickname] = useState(props.checkingNickname);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -35,7 +31,7 @@ export default function SettingNickname(props) {
       }
     }, 500);
     return () => clearInterval(interval);
-  }, [props.nickname]);
+  }, [props.nickname, nickname]);
 
   const checkNickname = () => {
     axios.get('http://localhost:8090/user/nickname',
@@ -70,7 +66,7 @@ export default function SettingNickname(props) {
         console.error('Error fetching nicknames:', error);
       });
   }
-  const handleNickname = (e) => { setNickname(e.target.value); props.onNicknameChange(e);};
+  const handleNickname = (e) => { setNickname(e.target.value); props.changeCheckingNickname(0); props.onNicknameChange(e); };
 
   return (
     <>

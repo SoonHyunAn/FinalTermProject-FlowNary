@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Card } from "@mui/material";
 import axios from 'axios';
+import { SetWithExpiry } from "../../api/LocalStorage";
 
 // firebase 연결
 import { initializeApp, } from 'firebase/app';
@@ -41,46 +42,82 @@ export default function Register() {
     }, []);
     const auth = getAuth();
 
-    const loginWithGoogle = async () => {
+    // 구글로 회원가입
+    const RegisterWithGoogle = async () => {
         try {
             const auth = getAuth();
             const provider = new GoogleAuthProvider();
             const data = await signInWithPopup(auth, provider);
-            console.log(data);
-            axios.get("http://localhost:8090/user/register", {
+
+            // 이메일로 사용자 조회
+            const response = await axios.get('http://localhost:8090/user/getUserByEmail', {
                 params: {
-                    email: data.user.email,
-                    pwd: 'nn',
-                    hashuid: data.user.uid,
-                    provider: 1,
-                }
-            }).catch((error) => {
-                 console.log(error)
-            });
-            Swal.fire({
-                icon: 'success',
-                title: "구글 로그인에 성공했습니다.",
-                showClass: {
-                    popup: `
-                    animate__animated
-                    animate__fadeInUp
-                    animate__faster
-                  `
-                },
-                hideClass: {
-                    popup: `
-                    animate__animated
-                    animate__fadeOutDown
-                    animate__faster
-                  `
+                    email: data.user.email
                 }
             });
-            console.log("구글 로그인 성공!");
+
+            // 사용자가 존재하지 않으면 회원가입 진행
+            if (Object.keys(response.data).length === 0) {
+                await axios.get("http://localhost:8090/user/register", {
+                    params: {
+                        email: data.user.email,
+                        pwd: 'nn',
+                        hashuid: data.user.uid,
+                        provider: 1,
+                    }
+                });
+                // 회원가입 성공 시 로컬 스토리지 설정 및 리다이렉트
+                SetWithExpiry("uid", data.user.uid, 180);
+                SetWithExpiry("email", data.user.email, 180);
+                Swal.fire({
+                    icon: 'success',
+                    title: "구글 회원가입에 성공했습니다.",
+                    showClass: {
+                        popup: `
+                                animate__animated
+                                animate__fadeInUp
+                                animate__faster
+                            `
+                    },
+                    hideClass: {
+                        popup: `
+                                animate__animated
+                                animate__fadeOutDown
+                                animate__faster
+                            `
+                    }
+                });
+                console.log("구글 회원가입 성공!" + response.data);
+            } else {
+                SetWithExpiry("email", data.user.email, 180);
+                Swal.fire({
+                    icon: 'success',
+                    title: "구글 로그인에 성공했습니다.",
+                    showClass: {
+                        popup: `
+                                animate__animated
+                                animate__fadeInUp
+                                animate__faster
+                            `
+                    },
+                    hideClass: {
+                        popup: `
+                                animate__animated
+                                animate__fadeOutDown
+                                animate__faster
+                            `
+                    }
+                });
+                console.log("구글 로그인 성공!" + response.data);
+            }
             navigate('/');
         } catch (error) {
             console.error("구글 로그인 오류:", error);
         }
     };
+    
+
+
 
     // 회원가입 항목 입력시 값 변경
     const handleChange = e => {
@@ -194,7 +231,7 @@ export default function Register() {
                         marginTop: '10px', marginBottom: '10px',
                         color: theme === 'light' ? '#dca3e7' : '#ffffff'
                     }}>혹은</p>
-                    <Link to="#" onClick={loginWithGoogle} className={`custom-button ${theme}`}>
+                    <Link to="#" onClick={RegisterWithGoogle} className={`custom-button ${theme}`}>
                         <img style={{ paddingRight: '10px', margin: '-6px', width: '35px' }} src="/img/icon/Google.png" alt="Google" />
                         <span>로그인</span>
                     </Link>

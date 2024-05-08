@@ -3,14 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Box, Button, Card, TextField, Typography, InputLabel, MenuItem, FormControl, Select, Avatar, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-// 이미지 - Cloudinary
-// import { Cloudinary } from "@cloudinary/url-gen/index";
-// import { AdvancedImage } from "@cloudinary/react";
-import { FindImage, UploadImage } from "../../api/image.js";
-
 // css 연결
 import './setting.css';
-import { GetWithExpiry } from "../../api/LocalStorage.js";
 import axios from "axios";
 
 // alert 창
@@ -20,6 +14,8 @@ import Swal from "sweetalert2";
 import SettingBirth from "./SettingBirth.jsx";
 import SettingTel from "./SettingTel.jsx";
 import SettingNickname from "./SettingNickname.jsx";
+import { GetWithExpiry } from "../../api/LocalStorage.js";
+import { FindImage, UploadImage } from "../../api/image.js";
 
 export default function SettingDetail() {
   const navigate = useNavigate();
@@ -51,8 +47,8 @@ export default function SettingDetail() {
   const [myimage, setMyimage] = useState('');
 
   // 설정 변경 조건 확인
-  const [checkingNickname, setCheckingNickname] = useState(0);
-  const [checkingTel, setCheckingTel] = useState(0);
+  const [checkingNickname, setCheckingNickname] = useState(1);
+  const [checkingTel, setCheckingTel] = useState(1);
 
   // 로그인 여부 확인
   useEffect(() => { if (uid == null) { navigate('/login'); } }, [uid, navigate]);
@@ -66,7 +62,8 @@ export default function SettingDetail() {
         }
       }).then(res => {
         if (res.data.profile != null) {
-          setProfile(res.data.profile); setMyimage(FindImage(res.data.profile));
+          setProfile(res.data.profile);
+          setMyimage(FindImage(res.data.profile));
         }
         setUname(res.data.uname); setNickname(res.data.nickname);
         setStat(res.data.statusMessage); setTel(res.data.tel);
@@ -96,6 +93,7 @@ export default function SettingDetail() {
       });
       return;
     }
+
     if (checkingTel === 0) {
       Swal.fire({
         title: "전화번호 중복 확인을 해주세요",
@@ -104,6 +102,7 @@ export default function SettingDetail() {
       return;
     }
     console.log("asd" + birth)
+
     if (change !== 1) {
       axios.post('http://localhost:8090/user/update', {
         uname: uname,
@@ -117,25 +116,26 @@ export default function SettingDetail() {
         tel: tel,
       }).catch(error => console.log(error));
     } else {
-      console.log(image);
-      const url = UploadImage(image);
-      // const url2 = url.then((e) => {
-
-      // });
-      console.log(url);
-      axios.post('http://localhost:8090/user/update', {
-        uname: uname,
-        nickname: nickname,
-        profile: url,
-        statusMessage: statusMessage,
-        snsDomain: snsDomain,
-        uid: uid,
-        gender: gender,
-        birth: birth,
-        tel: tel,
-      }).catch(error => console.log(error));
+      console.log("이미지", image);
+      const url = await UploadImage(image); // 이 줄이 비동기 작업을 기다리고 URL을 반환합니다.
+      console.log("url:", url);
+      if (url) { // URL이 성공적으로 반환되었는지 확인
+        setProfile(url.public_id);
+        await axios.post('http://localhost:8090/user/update', {
+          uname: uname,
+          nickname: nickname,
+          profile: url.public_id, // URL을 직접 사용하여 요청을 보냅니다.
+          statusMessage: statusMessage,
+          snsDomain: snsDomain,
+          uid: uid,
+          gender: gender,
+          birth: birth,
+          tel: tel,
+        }).catch(error => console.log(error));
+      } else {
+        console.log("이미지 업로드 실패: URL이 없습니다.");
+      }
     }
-
     Swal.fire({
       icon: 'success',
       title: "설정 변경에 성공했습니다.",
@@ -154,13 +154,9 @@ export default function SettingDetail() {
         `
       }
     });
-    navigate('/setting');
+    navigate(-1);
   }
 
-  // const handleResetClick = () => {
-  //   setPreview(null);
-  //   setImage(null);
-  // };
 
   const goBack = () => { navigate('/'); }
 
@@ -188,6 +184,8 @@ export default function SettingDetail() {
       };
     }
   };
+
+
 
   return (
     <>
@@ -221,8 +219,8 @@ export default function SettingDetail() {
               }}>
 
               <Avatar
-                alt="H"
-                src="/img/profile/profile1.jpg"
+                alt="이미지를 추가하세요"
+                src={preview || `https://res.cloudinary.com/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload/${profile}`}
                 sx={{
                   width: 80, height: 80, ml: 3, mr: 2, cursor: 'pointer'
                 }}
@@ -254,9 +252,7 @@ export default function SettingDetail() {
                   backgroundColor: 'rgb(54, 11, 92)',
 
                 }}>사진수정</Button>
-
             </Box>
-
             <br />
 
             {/* 프로필 편집 폼 */}
@@ -326,7 +322,7 @@ export default function SettingDetail() {
             />
 
             {/* 전화번호 입력 */}
-            <SettingTel tel={tel} email={email} checkingTel={checkingTel} onTelChange={handleTel} changeChenckingTel={handleCheckingTel} />
+            <SettingTel tel={tel} email={email} checkingTel={checkingTel} onTelChange={handleTel} changeCheckingTel={handleCheckingTel} />
 
             {/* 하단 버튼 영역 */}
             <Grid container sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
@@ -372,5 +368,4 @@ export default function SettingDetail() {
       </Box >
     </>
   );
-
 }

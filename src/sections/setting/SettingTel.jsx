@@ -38,16 +38,18 @@ export default function SettingTel(props) {
   }, [props.tel]);
 
   useEffect(() => {
-    let telValue = tel.replace(/[^0-9]/g, '').toString(); // 숫자 이외의 문자 제거
-    if (telValue.length > 11) { telValue = telValue.slice(0, 11); }
-    if (telValue.length === 11) {
-      telValue = telValue.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
-    } else if (telValue.length === 13) {
-      telValue = telValue.replace(/-/g, '').replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+    if (tel) {
+      let telValue = tel.replace(/[^0-9]/g, '').toString(); // 숫자 이외의 문자 제거
+      if (telValue.length > 11) { telValue = telValue.slice(0, 11); }
+      if (telValue.length === 11) {
+        telValue = telValue.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+      } else if (telValue.length === 13) {
+        telValue = telValue.replace(/-/g, '').replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+      }
+      setTel(telValue);
     }
-    setTel(telValue);
   }, [tel]);
-
+  
   const checkTel = () => {
     axios.get('http://localhost:8090/user/tel', {
       params: {
@@ -82,7 +84,7 @@ export default function SettingTel(props) {
   }
 
   const handleTel = (e) => {
-    setTel(e.target.value);
+    setTel(e.target.value); props.changeCheckingTel(0);
   };
 
   return (

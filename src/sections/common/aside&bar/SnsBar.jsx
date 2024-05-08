@@ -1,7 +1,7 @@
 // 기본
 import { React, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
-import { AppBar, Box, Grid, Button, Modal, TextField, Toolbar } from '@mui/material';
+import { AppBar, Box, Grid, Button, Modal, TextField, Toolbar, Avatar } from '@mui/material';
 
 // 아이콘
 import SearchIcon from '@mui/icons-material/Search';
@@ -29,6 +29,7 @@ export default function SnsBar() {
 
   // const uid = parseInt(GetWithExpiry("uid"));
   const email = GetWithExpiry("email");
+  const profile = GetWithExpiry("profile");
   const location = useLocation();
 
   // 반응형 로고 변환
@@ -167,6 +168,10 @@ export default function SnsBar() {
             <Grid item xs={2.5} lg={2} sx={{ placeItems: 'center', justifyContent: 'flex-end', display: 'flex' }}>
               {email ? (
                 <>
+                    <Avatar
+                      sx={{backgroundColor:'white', marginRight:'.5rem'}}
+                      src={`https://res.cloudinary.com/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload/${profile}`}
+                     />                                          
                   <span>{email.split('@')[0]}</span>
                   <Button style={{ color: 'white', opacity: 0.7 }} onClick={handleLogout}>로그아웃</Button>
                 </>
