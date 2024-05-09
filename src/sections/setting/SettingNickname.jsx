@@ -50,8 +50,8 @@ export default function SettingNickname(props) {
         const nicknames = userList.map(user => user.nickname);
         if (nicknames.includes(nickname)) {
           Swal.fire({
+            icon: "warning",
             text: "닉네임이 중복됩니다.",
-            icon: "warning"
           });
           props.changeCheckingNickname(0);
           return;
