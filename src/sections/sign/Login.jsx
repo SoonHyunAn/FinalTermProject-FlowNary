@@ -62,51 +62,55 @@ export default function Login() {
                 });
                 // 회원가입 성공 시 로컬 스토리지 설정 및 리다이렉트
                 SetWithExpiry("email", data.user.email, 180);
+                SetWithExpiry("profile", response.data.profile, 180);
                 Swal.fire({
                     icon: 'success',
                     title: "구글 회원가입에 성공했습니다.",
                     showClass: {
                         popup: `
-                                animate__animated
-                                animate__fadeInUp
-                                animate__faster
-                            `
+                                    animate__animated
+                                    animate__fadeInUp
+                                    animate__faster
+                                `
                     },
                     hideClass: {
                         popup: `
-                                animate__animated
-                                animate__fadeOutDown
-                                animate__faster
-                            `
+                                    animate__animated
+                                    animate__fadeOutDown
+                                    animate__faster
+                                `
                     }
                 });
-                console.log("구글 회원가입 성공!" + response);
+                console.log("구글 회원가입 성공!" + response.data);
             } else {
+                SetWithExpiry("email", data.user.email, 180);
+                SetWithExpiry("profile", response.data.profile, 180);
                 Swal.fire({
                     icon: 'success',
                     title: "구글 로그인에 성공했습니다.",
                     showClass: {
                         popup: `
-                                animate__animated
-                                animate__fadeInUp
-                                animate__faster
-                            `
+                                    animate__animated
+                                    animate__fadeInUp
+                                    animate__faster
+                                `
                     },
                     hideClass: {
                         popup: `
-                                animate__animated
-                                animate__fadeOutDown
-                                animate__faster
-                            `
+                                    animate__animated
+                                    animate__fadeOutDown
+                                    animate__faster
+                                `
                     }
                 });
-                console.log("구글 로그인 성공!" + response);
+                console.log("구글 로그인 성공!" + response.data);
             }
             navigate('/');
         } catch (error) {
             console.error("구글 로그인 오류:", error);
         }
     };
+
 
 
 

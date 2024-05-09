@@ -14,6 +14,8 @@ import Profile from './sections/profile/Profile/Profile';
 import Setting from './sections/setting/Setting/Setting';
 import Search from './sections/search/Search/Search';
 import ChangePwd from './sections/setting/ChangePassword';
+// import Chat from '.sections/test/Chat';
+// import Join from '.sections/test/Join';
 
 
 // Create browser router
@@ -34,6 +36,8 @@ const router = createBrowserRouter([
       { path: 'search', element: <Search /> },
       { path: 'profile/changePwd', element: <ChangePwd /> },
       { path: 'board/:url', element: <Home /> },
+      // { path: 'chat', element: <Chat /> },
+      // { path: 'join', element: <Join /> },
       
     ]
   }

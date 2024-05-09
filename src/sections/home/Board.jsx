@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import {
   Card, CardHeader, CardMedia, CardActions, CardContent, Avatar, Typography,
-  ListItemAvatar, ListItem, List, Button, Box, Modal
+  ListItemAvatar, ListItem, List, Button, Box, Modal, Paper
 } from '@mui/material';
 import { red } from '@mui/material/colors';
 import { Stack } from '@mui/system';
@@ -16,8 +16,9 @@ import ClearIcon from '@mui/icons-material/Clear';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
-import { GetWithExpiry } from "../../api/LocalStorage.js";
+import { GetWithExpiry, SetWithExpiry } from "../../api/LocalStorage.js";
 import axios from 'axios';
 
 // css 연결
@@ -31,7 +32,8 @@ import { useGetBoard, useGetBoardByUrl, useGetBoardList, useGetReplyList } from 
 export default function Board() {
   const navigate = useNavigate();
 
-  const uid = parseInt(GetWithExpiry("uid"));
+  let uid = parseInt(GetWithExpiry("uid"));
+  const email = GetWithExpiry("email");
   const [bid, setBid] = useState(0);
   const [text, setText] = useState('');
   const [open, setOpen] = useState(false);
@@ -41,8 +43,20 @@ export default function Board() {
 
   // uid가 로컬스토리지에 없으면 로그인 창으로 이동
   if (!uid) {
-    navigate("/login");
+    console.log("email" + email);
+    axios.get('http://localhost:8090/user/getUserByEmail', {
+      params: {
+        email: email
+      }
+    }).then(res => {
+      const uidFromResponse = res.data.id; // 응답 객체에서 uid를 가져옵니다.
+      SetWithExpiry("uid", uidFromResponse, 180);
+      console.log(res.data);
+    }).catch(error => {
+      console.error("사용자 조회 중 오류 발생:", error);
+    });
   }
+  
   const nickname = useGetUserNicknameLS();
 
   // 창 열고 닫기
@@ -116,7 +130,7 @@ export default function Board() {
       [index]: !prev[index],
     }));
   };
-  
+
   return (
     <>
       {!urlBoard.image && path2 && <div>
@@ -210,7 +224,7 @@ export default function Board() {
                   title={board.title}
                   subheader={board.modTime}
                 />
-                 <Carousel>
+                <Carousel>
                   {board.image && board.image.map((image, index) => (
                     <CardMedia
                       key={index}
@@ -219,7 +233,7 @@ export default function Board() {
                       image={`https://res.cloudinary.com/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload/${image}`}
                       alt={`Image ${index + 1}`}
                     />
-                ))}
+                  ))}
                 </Carousel>
                 <CardContent sx={{ display: 'flex', flexDirection: 'column', height: '62%', overflowY: 'auto' }}>
                   <Stack direction="row" spacing={1} padding={'10px 0 25px 0'}>

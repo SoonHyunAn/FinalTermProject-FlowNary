@@ -17,6 +17,7 @@ import { Search, SearchIconWrapper, StyledInputBase } from '../snsbarStyle.jsx';
 
 // 세션 연결
 import { GetWithExpiry } from "../../../api/LocalStorage.js";
+import { useGetUserNicknameLS } from '../../../api/customHook';
 
 // firebase Api 연결
 const firebaseConfig = {
@@ -30,6 +31,7 @@ export default function SnsBar() {
   // const uid = parseInt(GetWithExpiry("uid"));
   const email = GetWithExpiry("email");
   const profile = GetWithExpiry("profile");
+  const nickname = useGetUserNicknameLS();
   const location = useLocation();
 
   // 반응형 로고 변환
@@ -166,13 +168,13 @@ export default function SnsBar() {
 
             {/* 로그아웃 또는 로그인 버튼 부분*/}
             <Grid item xs={2.5} lg={2} sx={{ placeItems: 'center', justifyContent: 'flex-end', display: 'flex' }}>
-              {email ? (
+              {nickname ? (
                 <>
                     <Avatar
                       sx={{backgroundColor:'white', marginRight:'.5rem'}}
                       src={`https://res.cloudinary.com/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload/${profile}`}
                      />                                          
-                  <span>{email.split('@')[0]}</span>
+                  <span>{nickname}</span>
                   <Button style={{ color: 'white', opacity: 0.7 }} onClick={handleLogout}>로그아웃</Button>
                 </>
               ) : (

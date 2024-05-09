@@ -11,6 +11,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 // components 연결
+import dayjs from 'dayjs';
 import SettingBirth from "./SettingBirth.jsx";
 import SettingTel from "./SettingTel.jsx";
 import SettingNickname from "./SettingNickname.jsx";
@@ -31,11 +32,11 @@ export default function SettingDetail() {
   const [statusMessage, setStat] = useState('');
   const [image, setImage] = useState('');
   const [snsDomain, setSnsDomain] = useState('');
-  const [status, setStatus] = useState('0');
   const [birth, setBirth] = useState('');
   const [tel, setTel] = useState('');
   const [gender, setGender] = useState('');
-
+  // 활성화/비활성화
+  // const [status, setStatus] = useState('0');
   // 이미지 업로드
   // eslint-disable-next-line
   const [profile, setProfile] = useState('');
@@ -49,6 +50,7 @@ export default function SettingDetail() {
   // 설정 변경 조건 확인
   const [checkingNickname, setCheckingNickname] = useState(1);
   const [checkingTel, setCheckingTel] = useState(1);
+  const [checkingBirth, setCheckingBirth] = useState(1);
 
   // 로그인 여부 확인
   useEffect(() => { if (uid == null) { navigate('/login'); } }, [uid, navigate]);
@@ -61,13 +63,14 @@ export default function SettingDetail() {
           uid: uid,
         }
       }).then(res => {
+        setProfile(res.data.profile);
         if (res.data.profile != null) {
-          setProfile(res.data.profile);
           setMyimage(FindImage(res.data.profile));
+          setChange(1);
         }
         setUname(res.data.uname); setNickname(res.data.nickname);
         setStat(res.data.statusMessage); setTel(res.data.tel);
-        setBirth(res.data.birth); setSnsDomain(res.data.snsDomain);
+        setBirth(res.data.birth); setSnsDomain(res.data.snsDomain); setGender(res.data.gender);
       }).catch(error => console.log(error));
     }
   }, [uid])
@@ -76,16 +79,36 @@ export default function SettingDetail() {
   const handleUname = (e) => { setUname(e.target.value); };
   const handleNickname = (e) => { setNickname(e.target.value); };
   const handleStat = (e) => { setStat(e.target.value); };
-  const handleGender = (event) => { setGender(event.target.value === 'man' ? 0 : (event.target.value === 'woman' ? 1 : 2)); };
+  const handleGender = (e) => { setGender(e.target.value === 'man' ? 0 : (e.target.value === 'woman' ? 1 : 2)); };
   const handleSnsDomain = (e) => { setSnsDomain(e.target.value); };
   const handleTel = (e) => { setTel(e) };
-  const handleBirthChange = (e) => { setBirth(e.target.value) }
+  const handleBirthChange = (e) => {
+    const formattedDate = dayjs(e).format('YYYY-MM-DD');
+    setBirth(formattedDate);
+  }
 
   const handleCheckingTel = (e) => { setCheckingTel(e) };
   const handleCheckingNickname = (e) => { setCheckingNickname(e) };
+  const handleCheckingBirth = (e) => { setCheckingBirth(e) };
 
   // 제출
   const submitProfile = async () => {
+    if (checkingBirth === 0) {
+      Swal.fire({
+        title: "생년월일 확인을 해주세요.",
+        icon: "warning"
+      });
+      return;
+    }
+
+    if (uname === '') {
+      Swal.fire({
+        title: "이름을 입력하세요",
+        icon: "warning"
+      });
+      return;
+    }
+
     if (checkingNickname === 0) {
       Swal.fire({
         title: "닉네임 중복 확인을 해주세요",
@@ -101,41 +124,37 @@ export default function SettingDetail() {
       });
       return;
     }
-    console.log("asd" + birth)
 
-    if (change !== 1) {
-      axios.post('http://localhost:8090/user/update', {
+
+    console.log("이미지", image);
+    const url = await UploadImage(image); // 이 줄이 비동기 작업을 기다리고 URL을 반환합니다.
+    console.log("url:", url);
+    if (!url) {
+      await axios.post('http://localhost:8090/user/update', {
+        uid: uid,
         uname: uname,
         nickname: nickname,
-        profile: null,
+        profile: profile, // URL을 직접 사용하여 요청을 보냅니다.
         statusMessage: statusMessage,
-        snsDomain: snsDomain,
-        uid: uid,
-        gender: gender,
         birth: birth,
+        snsDomain: snsDomain,
+        gender: gender,
         tel: tel,
       }).catch(error => console.log(error));
     } else {
-      console.log("이미지", image);
-      const url = await UploadImage(image); // 이 줄이 비동기 작업을 기다리고 URL을 반환합니다.
-      console.log("url:", url);
-      if (url) { // URL이 성공적으로 반환되었는지 확인
-        setProfile(url.public_id);
-        await axios.post('http://localhost:8090/user/update', {
-          uname: uname,
-          nickname: nickname,
-          profile: url.public_id, // URL을 직접 사용하여 요청을 보냅니다.
-          statusMessage: statusMessage,
-          snsDomain: snsDomain,
-          uid: uid,
-          gender: gender,
-          birth: birth,
-          tel: tel,
-        }).catch(error => console.log(error));
-      } else {
-        console.log("이미지 업로드 실패: URL이 없습니다.");
-      }
+      await axios.post('http://localhost:8090/user/update', {
+        uid: uid,
+        uname: uname,
+        nickname: nickname,
+        profile: url.public_id, // URL을 직접 사용하여 요청을 보냅니다.
+        statusMessage: statusMessage,
+        birth: birth,
+        snsDomain: snsDomain,
+        gender: gender,
+        tel: tel,
+      }).catch(error => console.log(error));
     }
+
     Swal.fire({
       icon: 'success',
       title: "설정 변경에 성공했습니다.",
@@ -157,10 +176,9 @@ export default function SettingDetail() {
     navigate(-1);
   }
 
-
   const goBack = () => { navigate('/'); }
 
-  const deactiveAccount = () => { setStatus(status === 0 ? 1 : 0) }
+  // const deactiveAccount = () => { setStatus(status === 0 ? 1 : 0) } // 활성화 비활성화
 
   const handleImageEdit = () => {
     // "사진수정" 버튼 클릭 시 input[type='file'] 트리거
@@ -169,13 +187,12 @@ export default function SettingDetail() {
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
+    setChange(1);
     if (event.target.files.length === 0) {
       return;
     }
     else {
       setImage(file);
-      setChange(1);
-
       const reader = new FileReader();
       reader.readAsDataURL(file);
 
@@ -183,6 +200,12 @@ export default function SettingDetail() {
         setPreview(reader.result);
       };
     }
+  };
+
+  const handleImageDelete = () => {
+    setPreview('');
+    setProfile('');
+    setChange(0);
   };
 
 
@@ -219,13 +242,12 @@ export default function SettingDetail() {
               }}>
 
               <Avatar
-                alt="이미지를 추가하세요"
-                src={preview || `https://res.cloudinary.com/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload/${profile}`}
+                alt="+"
+                src={preview || `https://res.cloudinary.com/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload/${profile}` || ''}
                 sx={{
                   width: 80, height: 80, ml: 3, mr: 2, cursor: 'pointer'
                 }}
                 onClick={handleImageEdit}
-
               />
               <input
                 type="file"
@@ -252,6 +274,14 @@ export default function SettingDetail() {
                   backgroundColor: 'rgb(54, 11, 92)',
 
                 }}>사진수정</Button>
+              <Button
+                variant='contained'
+                onClick={handleImageDelete}
+                style={{
+                  marginRight: '2.5em',
+                  backgroundColor: 'rgb(99, 11, 92)',
+
+                }}>사진삭제</Button>
             </Box>
             <br />
 
@@ -280,7 +310,7 @@ export default function SettingDetail() {
               <FormControl fullWidth>
                 <InputLabel>성별</InputLabel>
                 <Select
-                  value={gender === 0 ? 'man' : (gender === 1 ? 'woman' : 'none')}
+                  value={(gender === 0 ? 'man' : (gender === 1 ? 'woman' : 'none')) || 'none'}
                   label="성별"
                   onChange={handleGender}
                 >
@@ -292,7 +322,7 @@ export default function SettingDetail() {
               <br /><br />
 
               {/* 생일 변경 */}
-              <SettingBirth birth={birth} onBirthChange={handleBirthChange} />
+              <SettingBirth birth={birth} checkingBirth={checkingBirth} onBirthChange={handleBirthChange} changeCheckingBirth={handleCheckingBirth}/>
 
             </Box>
 
@@ -342,7 +372,7 @@ export default function SettingDetail() {
                 </Button>
               </Grid>
 
-              {status === 0 ?
+              {/* {status === 0 ?
                 <Grid item xs={4} lg={6} >
                   <Button
                     variant="contained"
@@ -359,7 +389,7 @@ export default function SettingDetail() {
                     style={{ margin: '1em', width: '15%', backgroundColor: 'Blue' }}>
                     활성화
                   </Button>
-                </Grid>}
+                </Grid>} */}
             </Grid>
 
           </Box>

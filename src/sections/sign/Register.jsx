@@ -67,8 +67,8 @@ export default function Register() {
                     }
                 });
                 // 회원가입 성공 시 로컬 스토리지 설정 및 리다이렉트
-                SetWithExpiry("uid", data.user.uid, 180);
                 SetWithExpiry("email", data.user.email, 180);
+                SetWithExpiry("profile", response.data.profile, 180);
                 Swal.fire({
                     icon: 'success',
                     title: "구글 회원가입에 성공했습니다.",
@@ -90,6 +90,7 @@ export default function Register() {
                 console.log("구글 회원가입 성공!" + response.data);
             } else {
                 SetWithExpiry("email", data.user.email, 180);
+                SetWithExpiry("profile", response.data.profile, 180);
                 Swal.fire({
                     icon: 'success',
                     title: "구글 로그인에 성공했습니다.",

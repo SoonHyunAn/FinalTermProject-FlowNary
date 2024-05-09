@@ -319,6 +319,16 @@
   text-decoration: underline;
 }
 
+.customHeartBtn{
+  color: rgba(216, 191, 216, 1)
+}
+.customHeartBtn:hover{
+  color:red
+}
+
+.customBtn{
+  color: rgba(216, 191, 216, 1)
+}
 /* 
 node_modules에서 react-input-emoji 폴더 들어가서
 index.es.js(5~31)와 index.js(12~28) styleInject함수 주석처리 진행

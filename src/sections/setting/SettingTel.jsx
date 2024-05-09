@@ -23,9 +23,7 @@ const LightTooltip = styled(({ className, ...props }) => (
 }));
 
 export default function SettingTel(props) {
-  console.log(props);
   const [tel, setTel] = useState('');
-  const [checkingTel, setCheckingTel] = useState(props.checkingTel);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -35,7 +33,7 @@ export default function SettingTel(props) {
       }
     }, 500);
     return () => clearInterval(interval);
-  }, [props.tel]);
+  }, [props.tel, tel]);
 
   useEffect(() => {
     if (tel) {
@@ -46,9 +44,9 @@ export default function SettingTel(props) {
       } else if (telValue.length === 13) {
         telValue = telValue.replace(/-/g, '').replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
       }
-      setTel(telValue);
+      props.onTelChange(telValue)
     }
-  }, [tel]);
+  }, [props, tel]);
   
   const checkTel = () => {
     axios.get('http://localhost:8090/user/tel', {
@@ -83,7 +81,7 @@ export default function SettingTel(props) {
   }
 
   const handleTel = (e) => {
-    setTel(e.target.value); props.changeCheckingTel(0); props.onTelChange(e);
+    setTel(e.target.value); props.changeCheckingTel(0); ;
   };
 
   return (
@@ -93,10 +91,11 @@ export default function SettingTel(props) {
           <LightTooltip title="' - ' 없이 숫자만 입력하세요." placement='bottom' >
             <TextField
               fullWidth
+              required
               label="전화번호"
               variant="standard"
               name="tel"
-              value={tel}
+              value={tel || ''}
               onChange={handleTel}
               sx={{ mt: 2, width: '100%' }}
             />

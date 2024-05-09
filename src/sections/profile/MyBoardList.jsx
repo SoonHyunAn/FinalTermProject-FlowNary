@@ -2,11 +2,9 @@
 import React, { useState, useEffect } from "react";
 import {
   Avatar, Box, Button, Chip, Divider, Grid, List, ListItem, ListItemAvatar,
-  ListItemText, Modal, Paper, Stack, TextField, Typography, Card, InputAdornment,
-  InputLabel, MenuItem, FormControl, Select,
-  IconButton,
+  ListItemText, Modal, Paper, Stack, TextField, Typography, InputAdornment,
+  IconButton, Link
 } from "@mui/material";
-
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -17,19 +15,14 @@ import SubjectIcon from '@mui/icons-material/Subject';
 import AssignmentReturnedIcon from '@mui/icons-material/AssignmentReturned';
 import SettingsIcon from '@mui/icons-material/Settings';
 
+// firebase
+import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+
 // alert 창
 import Swal from "sweetalert2";
 
-// 비밀번호 확인 - 재로그인
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-
 import { GetWithExpiry } from "../../api/LocalStorage";
-import { FindImage, UploadImage } from "../../api/image.js";
-// const searchData = [
-//   'Remy Sharp',
-//   'Travis Howard',
-//   'Summer BBQ',
-// ];
+// import { FindImage, UploadImage } from "../../api/image.js";
 
 //Follower Modal 창
 function FollowerModal({ open, handleClose, content }) {
@@ -144,14 +137,13 @@ function SettingModal({ open, handleClose }) {
   const navigate = useNavigate();
   // localStorage를 이용해서 user 받아오기
   const uid = parseInt(GetWithExpiry("uid"));
-  const [pwd, setPwd] = useState('');
   const [veriPwd, setVeriPwd] = useState('');
 
   useEffect(() => {
     if (uid == null) {
       navigate('/login');
     }
-  }, []);
+  }, [uid, navigate]);
 
   // 비밀번호 숨기기/보이기
   const [showPassword, setShowPassword] = useState(false);
@@ -160,28 +152,7 @@ function SettingModal({ open, handleClose }) {
 
   const handlePwd = (e) => { setVeriPwd(e.target.value); };
 
-  // user 정보 초기화, 비밀번호 확인
-  // eslint-disable-next-line
-  const [uname, setUname] = useState('');
-  const [nickname, setNickname] = useState('');
-  const [statusMessage, setStat] = useState('');
-  const [image, setImage] = useState('');
-  const [snsDomain, setSnsDomain] = useState('');
-  const [status, setStatus] = useState('0');
-  const [birth, setBirth] = useState('');
-  const [tel, setTel] = useState('');
-  const [gender, setGender] = useState('');
   const [provider, setProvider] = useState('')
-
-  // 이미지 업로드
-  // eslint-disable-next-line
-  const [profile, setProfile] = useState('');
-  // eslint-disable-next-line
-  const [preview, setPreview] = useState('');
-  // eslint-disable-next-line
-  const [change, setChange] = useState(0);
-  // eslint-disable-next-line
-  const [myimage, setMyimage] = useState('');
 
   useEffect(() => {
     if (uid != null) {
@@ -190,19 +161,14 @@ function SettingModal({ open, handleClose }) {
           uid: uid,
         }
       }).then(res => {
-        if (res.data.profile != null) {
-          setProfile(res.data.profile); setMyimage(FindImage(res.data.profile));
-        }
-        setUname(res.data.uname); setNickname(res.data.nickname);
-        setStat(res.data.statusMessage); setTel(res.data.tel);
-        setBirth(res.data.birth); setSnsDomain(res.data.snsDomain); setProvider(res.data.provider);
+        setProvider(res.data.provider);
       }).catch(error => console.log(error));
     }
   }, [uid])
+  const auth = getAuth();
 
   const confirmPWd = async e => {
     e.preventDefault();
-    const auth = getAuth();
 
     // Firebase Authentication을 통해 사용자를 인증합니다.
     try {
@@ -236,6 +202,52 @@ function SettingModal({ open, handleClose }) {
     }
   }
 
+
+  const loginWithGoogle = async () => {
+    try {
+      const auth = getAuth();
+      const provider = new GoogleAuthProvider();
+      const data = await signInWithPopup(auth, provider);
+
+      // 이메일로 사용자 조회
+      const response = await axios.get('http://localhost:8090/user/getUserByEmail', {
+        params: {
+          email: data.user.email
+        }
+      });
+
+      // 사용자가 존재하지 않으면 회원가입 진행
+      if (Object.keys(response.data).length === 0) {
+        Swal.fire({
+          title: "등록된 사용자가 아닙니다.",
+          text: "다시 입력해주세요",
+          icon: "warning"
+        });
+      } else {
+        Swal.fire({
+          icon: 'success',
+          title: "구글 인증에 성공했습니다.",
+          showClass: {
+            popup: `
+                                animate__animated
+                                animate__fadeInUp
+                                animate__faster
+                            `
+          },
+          hideClass: {
+            popup: `
+                                animate__animated
+                                animate__fadeOutDown
+                                animate__faster
+                            `
+          }
+        });
+      }
+      navigate('/setting');
+    } catch (error) {
+      console.error("구글 로그인 오류:", error);
+    }
+  };
 
   return (
     <>
@@ -291,56 +303,20 @@ function SettingModal({ open, handleClose }) {
             </Grid>
 
           </Box>
-          : <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 300, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
-            {/* 비밀번호 입력 */}
-            <TextField
-              fullWidth
-              label="비밀번호 입력"
-              variant="standard"
-              type={showPassword ? 'text' : 'password'}
-              sx={{ mt: 2, width: '100%' }}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={togglePasswordVisibility}
-                      onMouseDown={(event) => event.preventDefault()}
-                    >
-                      {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                    </IconButton>
-                  </InputAdornment>
-                )
-              }}
-              onChange={handlePwd}
-            />
-
-            {/* 하단 버튼 영역 */}
-            <Grid container sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-              <Grid item xs={8} lg={6} sx={{ display: 'flex' }}>
-                <Button
-                  variant="contained"
-                  onClick={confirmPWd}
-                  style={{ margin: '1em', width: '20%', backgroundColor: 'rgb(54, 11, 92)' }}>
-                  완료
-                </Button>
-
-                <Button
-                  variant="contained"
-                  onClick={handleClose}
-                  style={{ margin: '1em', width: '20%', backgroundColor: '#bbbbbb' }}>
-                  취소
-                </Button>
-              </Grid>
-
-            </Grid>
-
-          </Box>}
+          :
+          <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 300, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
+            <Link to="#" onClick={loginWithGoogle}>
+              <img style={{ paddingRight: '5px', margin: '-5px', width: '1.55em' }} src="/img/icon/Google.png" alt="Google" />
+              <span>       로그인</span>
+            </Link>
+          </Box>
+        }
       </Modal>
     </>
   );
 
 }
+
 
 
 export default function MyBoardList() {
